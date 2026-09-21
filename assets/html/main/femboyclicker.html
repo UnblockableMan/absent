@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classroomspot Femboy Clicker</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;user-select:none}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 25%,#f093fb 50%,#ff9ff3 75%,#feca57 100%);background-size:400% 400%;min-height:100vh;color:white;overflow-x:hidden;animation:bgShift 20s infinite}
+@keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.container{max-width:1600px;margin:0 auto;padding:20px;display:grid;grid-template-columns:280px 1fr 280px;gap:20px}
+h1{text-align:center;font-size:3.5em;grid-column:1/-1;background:linear-gradient(45deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3,#a29bfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:pulse 2s infinite;text-shadow:none}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+
+.top-bar{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:20px;padding:15px 25px;border:2px solid rgba(255,255,255,.2);flex-wrap:wrap;gap:15px}
+.score-main{text-align:center;flex:1}
+.score{font-size:3.5em;font-weight:bold;text-shadow:0 0 30px rgba(255,255,255,.4);background:linear-gradient(45deg,#fff,#feca57);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.per-sec{font-size:1.1em;opacity:.9;color:#feca57}
+.prestige-btn{padding:10px 20px;background:linear-gradient(135deg,#ff6b6b,#feca57);border:none;border-radius:15px;color:white;font-weight:bold;cursor:pointer;transition:all .3s;font-family:inherit;font-size:1em}
+.prestige-btn:hover{transform:scale(1.05);box-shadow:0 5px 20px rgba(255,107,107,.4)}
+.prestige-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+
+.click-area{grid-column:2;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:20px;padding:30px;border:2px solid rgba(255,255,255,.2);position:relative;overflow:hidden;min-height:600px}
+.femboy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;width:100%;justify-items:center;margin-top:20px}
+.femboy-wrapper{position:relative;display:flex;flex-direction:column;align-items:center;animation:slideIn .6s ease-out;cursor:pointer}
+@keyframes slideIn{from{opacity:0;transform:translateY(50px) scale(0.3) rotate(-10deg)}to{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}}
+.femboy-image{width:170px;height:170px;border-radius:50%;transition:all .15s;box-shadow:0 10px 30px rgba(0,0,0,.3);border:4px solid rgba(255,255,255,.3);object-fit:cover;animation:bounce 3s infinite}
+.femboy-image:nth-child(2n){animation-delay:.5s}
+.femboy-image:nth-child(3n){animation-delay:1s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.femboy-image:active{transform:scale(.8) rotate(5deg)!important}
+.femboy-image:hover{filter:brightness(1.2) drop-shadow(0 0 15px rgba(255,255,255,.5));transform:scale(1.05)}
+.femboy-label{position:absolute;bottom:-25px;background:rgba(0,0,0,.5);padding:4px 12px;border-radius:20px;font-size:.75em;font-weight:bold;white-space:nowrap;border:1px solid rgba(255,255,255,.2)}
+.multiplier-badge{position:absolute;top:5px;right:5px;background:linear-gradient(135deg,#ff6b6b,#feca57);padding:4px 10px;border-radius:12px;font-weight:bold;font-size:.85em;box-shadow:0 4px 15px rgba(0,0,0,.3);z-index:10}
+.lock-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5}
+.lock-overlay svg{width:40px;height:40px;opacity:.6}
+.lock-text{font-size:.7em;margin-top:5px;opacity:.8}
+
+.floating-text{position:absolute;font-size:1.4em;font-weight:bold;pointer-events:none;animation:floatUp 1.2s ease-out forwards;z-index:1000;text-shadow:0 0 10px rgba(0,0,0,.5)}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}30%{transform:translateY(-30px) scale(1.4)}100%{opacity:0;transform:translateY(-120px) scale(.8)}}
+.combo-text{position:absolute;font-size:2.2em;font-weight:bold;pointer-events:none;animation:comboAnim 1s ease-out forwards;color:#feca57;z-index:1001;text-shadow:0 0 20px rgba(254,202,87,.8)}
+@keyframes comboAnim{0%{opacity:1;transform:translateY(0) scale(0.3) rotate(-5deg)}40%{transform:translateY(-50px) scale(1.6) rotate(5deg)}100%{opacity:0;transform:translateY(-100px) scale(1) rotate(0deg)}}
+.crit-text{position:absolute;font-size:2.5em;font-weight:bold;pointer-events:none;animation:critAnim .8s ease-out forwards;color:#ff6b6b;z-index:1002;text-shadow:0 0 25px rgba(255,107,107,.9)}
+@keyframes critAnim{0%{opacity:1;transform:translateY(0) scale(.5)}50%{transform:translateY(-60px) scale(2) rotate(10deg)}100%{opacity:0;transform:translateY(-100px) scale(1)}}
+
+.panel{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:20px;padding:20px;border:2px solid rgba(255,255,255,.2);max-height:750px;overflow-y:auto}
+.panel h2{text-align:center;margin-bottom:15px;border-bottom:2px solid rgba(255,255,255,.3);padding-bottom:10px;font-size:1.3em}
+.upgrade-item{background:rgba(255,255,255,.08);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .3s;border-left:4px solid transparent;position:relative;overflow:hidden}
+.upgrade-item:hover:not(.disabled){background:rgba(255,255,255,.18);transform:translateX(8px);border-left-color:#feca57;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+.upgrade-item.disabled{opacity:.35;cursor:not-allowed;filter:grayscale(.9)}
+.upgrade-item.maxed{background:rgba(72,219,251,.15);border-left-color:#48dbfb}
+.upgrade-item.maxed:hover{background:rgba(72,219,251,.25)}
+.upgrade-name{font-weight:bold;font-size:1.05em;display:flex;justify-content:space-between}
+.upgrade-desc{font-size:.82em;opacity:.8;margin-top:3px}
+.upgrade-cost{color:#feca57;font-weight:bold;margin-top:6px;font-size:.95em}
+.upgrade-owned{position:absolute;top:5px;right:10px;background:rgba(72,219,251,.3);padding:2px 8px;border-radius:10px;font-size:.75em}
+.max-badge{position:absolute;top:5px;right:10px;background:rgba(255,107,107,.5);padding:2px 8px;border-radius:10px;font-size:.75em}
+
+.stat-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:.95em}
+.stat-label{opacity:.75}
+.stat-value{font-weight:bold;color:#feca57}
+.stat-value.blue{color:#48dbfb}
+.stat-value.pink{color:#ff9ff3}
+
+.btn{width:100%;padding:12px;margin-top:10px;border-radius:12px;cursor:pointer;font-weight:bold;transition:all .3s;font-family:inherit;font-size:.95em;border:2px solid}
+.save-btn{background:rgba(72,219,251,.2);border-color:#48dbfb;color:#48dbfb}
+.save-btn:hover{background:rgba(72,219,251,.4);transform:translateY(-2px)}
+.reset-btn{background:rgba(255,107,107,.2);border-color:#ff6b6b;color:#ff6b6b;margin-top:8px}
+.reset-btn:hover{background:rgba(255,107,107,.4);transform:translateY(-2px)}
+.export-btn{background:rgba(254,202,87,.2);border-color:#feca57;color:#feca57;margin-top:8px}
+.export-btn:hover{background:rgba(254,202,87,.4)}
+
+.mod-btn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#ff6b6b,#feca57);border:3px solid white;color:white;font-size:24px;cursor:pointer;z-index:99999;box-shadow:0 5px 20px rgba(0,0,0,.4);transition:all .3s;display:flex;align-items:center;justify-content:center}
+.mod-btn:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(255,107,107,.6)}
+.mod-btn.active{background:linear-gradient(135deg,#ff4757,#ff6348)}
+
+.mod-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(5px);z-index:99998;display:none;align-items:center;justify-content:center}
+.mod-overlay.active{display:flex}
+
+.mod-panel{background:linear-gradient(135deg,#2d3436,#636e72);border-radius:20px;padding:25px;border:3px solid #feca57;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.mod-panel h2{text-align:center;color:#feca57;margin-bottom:20px;font-size:1.8em;border-bottom:2px solid rgba(254,202,87,.3);padding-bottom:10px}
+.mod-section{margin-bottom:20px;padding:15px;background:rgba(255,255,255,.05);border-radius:12px;border:1px solid rgba(255,255,255,.1)}
+.mod-section h3{color:#ff9ff3;margin-bottom:10px;font-size:1.1em}
+.mod-input{width:100%;padding:10px;border-radius:8px;border:2px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);color:white;font-family:inherit;margin-bottom:8px;font-size:.9em}
+.mod-input:focus{outline:none;border-color:#feca57}
+.mod-cheat-btn{width:100%;padding:10px;margin-top:5px;border-radius:8px;cursor:pointer;font-weight:bold;transition:all .3s;font-family:inherit;border:2px solid;color:white;font-size:.9em}
+.mod-cheat-btn:hover{transform:translateY(-2px)}
+.cheat-add{background:rgba(46,213,115,.3);border-color:#2ed573}
+.cheat-add:hover{background:rgba(46,213,115,.5)}
+.cheat-set{background:rgba(54,162,235,.3);border-color:#36a2eb}
+.cheat-set:hover{background:rgba(54,162,235,.5)}
+.cheat-max{background:rgba(255,159,67,.3);border-color:#ff9f43}
+.cheat-max:hover{background:rgba(255,159,67,.5)}
+.cheat-danger{background:rgba(255,71,87,.3);border-color:#ff4757}
+.cheat-danger:hover{background:rgba(255,71,87,.5)}
+
+.save-editor-area{width:100%;min-height:120px;padding:10px;border-radius:8px;border:2px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);color:#a29bfe;font-family:'Courier New',monospace;font-size:.8em;resize:vertical;margin-bottom:10px}
+.save-editor-area:focus{outline:none;border-color:#feca57}
+
+.mod-close{position:absolute;top:15px;right:15px;width:35px;height:35px;border-radius:50%;background:rgba(255,71,87,.3);border:2px solid #ff4757;color:white;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.mod-close:hover{background:rgba(255,71,87,.6);transform:rotate(90deg)}
+
+.mod-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:8px;background:rgba(255,255,255,.05);border-radius:8px}
+.mod-toggle-label{font-size:.9em}
+.mod-toggle{position:relative;width:50px;height:26px;background:rgba(255,255,255,.2);border-radius:13px;cursor:pointer;transition:all .3s}
+.mod-toggle.active{background:#2ed573}
+.mod-toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:white;border-radius:50%;transition:all .3s}
+.mod-toggle.active::after{left:27px}
+
+.toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px}
+.toast{background:linear-gradient(135deg,rgba(102,126,234,.9),rgba(118,75,162,.9));padding:15px 20px;border-radius:15px;border:2px solid rgba(255,255,255,.3);box-shadow:0 10px 40px rgba(0,0,0,.4);animation:toastIn .4s ease-out;max-width:320px;backdrop-filter:blur(10px)}
+.toast.out{animation:toastOut .4s ease-in forwards}
+@keyframes toastIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes toastOut{from{transform:translateX(0);opacity:1}to{transform:translateX(400px);opacity:0}}
+.toast h4{margin-bottom:6px;color:#feca57;font-size:1.1em}
+.toast p{font-size:.9em;opacity:.9}
+
+.streak-display{position:fixed;top:20px;left:20px;background:rgba(255,107,107,.25);padding:12px 20px;border-radius:15px;border:2px solid rgba(255,255,255,.2);font-weight:bold;opacity:0;transition:opacity .3s;backdrop-filter:blur(10px);z-index:100}
+.streak-display.active{opacity:1}
+.streak-bar{width:100%;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin-top:8px;overflow:hidden}
+.streak-fill{height:100%;background:linear-gradient(90deg,#ff6b6b,#feca57);width:100%;transition:width .1s linear}
+
+.particles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.particle{position:absolute;width:8px;height:8px;border-radius:50%;animation:particleFloat 4s infinite;opacity:.6}
+@keyframes particleFloat{0%{transform:translateY(100vh) rotate(0deg);opacity:0}15%{opacity:.8}85%{opacity:.8}100%{transform:translateY(-100vh) rotate(720deg);opacity:0}}
+
+.golden-femboy{position:fixed;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,#ffd700,#ff8c00);box-shadow:0 0 30px #ffd700;cursor:pointer;z-index:9999;animation:goldenFloat 3s ease-in-out infinite;transition:transform .2s;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:30px}
+.golden-femboy:hover{transform:scale(1.3)}
+.golden-femboy:active{transform:scale(.9)}
+@keyframes goldenFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+
+.progress-container{width:100%;height:8px;background:rgba(255,255,255,.1);border-radius:4px;margin-top:15px;overflow:hidden;max-width:400px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb);border-radius:4px;transition:width .5s ease}
+
+.skill-bar{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}
+.skill-btn{padding:8px 14px;border-radius:10px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);color:white;cursor:pointer;font-family:inherit;font-size:.85em;transition:all .3s;position:relative}
+.skill-btn:hover:not(.cooldown){background:rgba(255,255,255,.2);transform:translateY(-2px)}
+.skill-btn.cooldown{opacity:.4;cursor:not-allowed}
+.skill-btn .cd-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:bold}
+
+.prestige-points{color:#ff9ff3;font-weight:bold;text-align:center;margin-bottom:10px;font-size:1.1em}
+
+.buff-tag{background:rgba(255,255,255,.15);padding:6px 14px;border-radius:20px;font-size:.85em;border:1px solid rgba(255,255,255,.3);display:inline-block;margin:2px}
+
+.file-input-wrapper{position:relative;overflow:hidden;display:inline-block;width:100%;margin-bottom:10px}
+.file-input-wrapper input[type=file]{position:absolute;left:0;top:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.file-input-btn{width:100%;padding:10px;border-radius:8px;background:rgba(72,219,251,.2);border:2px solid #48dbfb;color:#48dbfb;text-align:center;cursor:pointer;font-weight:bold;transition:all .3s}
+.file-input-btn:hover{background:rgba(72,219,251,.4)}
+
+.music-btn{position:fixed;bottom:20px;left:20px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#a29bfe,#6c5ce7);border:3px solid white;color:white;font-size:22px;cursor:pointer;z-index:99999;box-shadow:0 5px 20px rgba(0,0,0,.4);transition:all .3s;display:flex;align-items:center;justify-content:center}
+.music-btn:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(108,92,231,.6)}
+.music-btn.muted{background:linear-gradient(135deg,#636e72,#b2bec3)}
+
+@media(max-width:1200px){.container{grid-template-columns:1fr}.click-area{grid-column:1}.panel{max-height:none}}
+@media(max-width:600px){.femboy-image{width:130px;height:130px}.score{font-size:2.5em}.container{padding:10px}}
+</style>
+<base target="_blank">
+</head>
+<body>
+<div class="particles" id="particles"></div>
+
+<div class="container">
+<h1>✨ Femboy Clicker by Classroomspot ✨</h1>
+
+<div class="top-bar">
+  <div class="score-main">
+    <div class="score" id="score">0</div>
+    <div class="per-sec"><span id="fps">0</span> per second</div>
+  </div>
+  <button class="prestige-btn" id="prestigeBtn" onclick="doPrestige()" disabled>
+    Prestige<br><small id="prestigeGain">+0 PP</small>
+  </button>
+</div>
+
+<div class="panel">
+  <h2>🛒 Upgrades</h2>
+  <div id="upgrade-list"></div>
+  <div class="skill-bar" id="skills"></div>
+</div>
+
+<div class="click-area" id="clickArea">
+  <div style="text-align:center;margin-bottom:10px">
+    <div style="font-size:1.1em;opacity:.9">Total Clicks: <span id="totalClicks" style="color:#feca57;font-weight:bold">0</span></div>
+    <div style="font-size:.9em;opacity:.7;margin-top:4px">Multiplier: <span id="multiplier" style="color:#ff9ff3;font-weight:bold">x1</span> | Crit: <span id="critChance">5</span>%</div>
+  </div>
+
+  <div class="femboy-grid" id="femboyGrid"></div>
+
+  <div class="progress-container">
+    <div class="progress-fill" id="unlockProgress" style="width:0%"></div>
+  </div>
+  <div style="font-size:.85em;opacity:.7;margin-top:8px;text-align:center" id="nextUnlock">Click to unlock femboys!</div>
+
+  <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center" id="buffs"></div>
+</div>
+
+<div class="panel">
+  <h2>📊 Stats & Save</h2>
+  <div id="stats-content"></div>
+  <div class="prestige-points" id="prestigeDisplay" style="display:none">0 Prestige Points</div>
+  <button class="save-btn" onclick="saveGame()">💾 Save to File (.txt)</button>
+  <div class="file-input-wrapper">
+    <div class="file-input-btn">📁 Load from File (.txt)</div>
+    <input type="file" id="loadFileInput" accept=".txt" onchange="loadFromFile(event)">
+  </div>
+  <button class="export-btn" onclick="exportSave()">📋 Copy Save Code</button>
+  <button class="reset-btn" onclick="resetGame()">🗑️ Reset All</button>
+</div>
+</div>
+
+<div class="streak-display" id="streakDisplay">
+  <div>🔥 Combo: <span id="streakCount">0</span>x</div>
+  <div style="font-size:.8em;opacity:.8;margin-top:2px">+<span id="streakBonus">0</span>% clicks</div>
+  <div class="streak-bar"><div class="streak-fill" id="streakFill"></div></div>
+</div>
+
+<div class="toast-container" id="toasts"></div>
+
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle Music">🎵</button>
+<button class="mod-btn" id="modBtn" onclick="toggleModMenu()" title="Mod Menu">🎮</button>
+
+<div class="mod-overlay" id="modOverlay" onclick="closeModMenu(event)">
+<div class="mod-panel" onclick="event.stopPropagation()">
+<button class="mod-close" onclick="toggleModMenu()">×</button>
+<h2>🎮 Mod Menu & Save Editor</h2>
+
+<div class="mod-section">
+<h3>💰 Resources</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button class="mod-cheat-btn cheat-add" onclick="cheatAddScore(1000000)">+1M Score</button>
+<button class="mod-cheat-btn cheat-add" onclick="cheatAddScore(1000000000)">+1B Score</button>
+<button class="mod-cheat-btn cheat-add" onclick="cheatAddScore(1000000000000)">+1T Score</button>
+<button class="mod-cheat-btn cheat-add" onclick="cheatAddScore(Number.MAX_SAFE_INTEGER)">Max Score</button>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+<button class="mod-cheat-btn cheat-set" onclick="cheatSetScore()">Set Score</button>
+<input type="number" id="cheatScoreInput" class="mod-input" placeholder="Enter score amount...">
+</div>
+</div>
+
+<div class="mod-section">
+<h3>⚡ Power Cheats</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button class="mod-cheat-btn cheat-max" onclick="cheatMaxUpgrades()">Max All Upgrades</button>
+<button class="mod-cheat-btn cheat-max" onclick="cheatUnlockAllFemboys()">Unlock All Femboys</button>
+<button class="mod-cheat-btn cheat-add" onclick="cheatAddPrestige(100)">+100 Prestige</button>
+<button class="mod-cheat-btn cheat-add" onclick="cheatAddPrestige(10000)">+10K Prestige</button>
+</div>
+<div style="margin-top:8px">
+<button class="mod-cheat-btn cheat-set" onclick="cheatSetClickPower()">Set Click Power</button>
+<input type="number" id="cheatPowerInput" class="mod-input" placeholder="Enter click power...">
+</div>
+<div style="margin-top:8px">
+<button class="mod-cheat-btn cheat-set" onclick="cheatSetAutoRate()">Set Auto Rate</button>
+<input type="number" id="cheatAutoInput" class="mod-input" placeholder="Enter auto rate...">
+</div>
+</div>
+
+<div class="mod-section">
+<h3>🎛️ Toggles</h3>
+<div class="mod-toggle-row">
+<span class="mod-toggle-label">Auto Clicker (10 clicks/sec)</span>
+<div class="mod-toggle" id="autoClickToggle" onclick="toggleAutoClicker()"></div>
+</div>
+<div class="mod-toggle-row">
+<span class="mod-toggle-label">Infinite Crits (100%)</span>
+<div class="mod-toggle" id="infCritToggle" onclick="toggleInfCrits()"></div>
+</div>
+<div class="mod-toggle-row">
+<span class="mod-toggle-label">Golden Femboy Rain</span>
+<div class="mod-toggle" id="goldenRainToggle" onclick="toggleGoldenRain()"></div>
+</div>
+<div class="mod-toggle-row">
+<span class="mod-toggle-label">No Upgrade Costs</span>
+<div class="mod-toggle" id="freeUpgradesToggle" onclick="toggleFreeUpgrades()"></div>
+</div>
+</div>
+
+<div class="mod-section">
+<h3>🗂️ Save Editor</h3>
+<p style="font-size:.8em;opacity:.7;margin-bottom:10px">Edit your save data below (JSON format). Click "Apply Save" to load it.</p>
+<textarea class="save-editor-area" id="saveEditor" placeholder="Paste or edit save data here..."></textarea>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button class="mod-cheat-btn cheat-set" onclick="loadFromEditor()">Apply Save</button>
+<button class="mod-cheat-btn cheat-add" onclick="copyToEditor()">Copy Current Save</button>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+<button class="mod-cheat-btn cheat-max" onclick="downloadSaveFile()">Download .txt</button>
+<button class="mod-cheat-btn cheat-danger" onclick="clearEditor()">Clear Editor</button>
+</div>
+</div>
+
+<div class="mod-section">
+<h3>⚠️ Danger Zone</h3>
+<button class="mod-cheat-btn cheat-danger" onclick="cheatResetAll()">Reset Everything</button>
+</div>
+
+</div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let score=0,totalClicks=0,clickPower=1,autoClickRate=0,multiplier=1,streak=0,streakTimer=null,lastClickTime=0;
+let critChance=5,critMultiplier=2,goldenChance=0.001;
+let prestigePoints=0,totalPrestige=0,lifetimeClicks=0;
+let buffs={clickFrenzy:false,doublePower:false,goldenRain:false};
+let buffTimers={};
+
+let modState = {
+    autoClicker: false,
+    infCrits: false,
+    goldenRain: false,
+    freeUpgrades: false,
+    autoClickInterval: null,
+    goldenRainInterval: null
+};
+
+let musicPlaying = false;
+
+const femboys=[
+{name:"Femboy #1",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy1.png",mult:1,cost:0,unlock:0},
+{name:"Femboy #2",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy2.png",mult:2,cost:100,unlock:100},
+{name:"Femboy #3",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy3.png",mult:3,cost:1000,unlock:1000},
+{name:"Femboy #4",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy1.png",mult:5,cost:5000,unlock:5000},
+{name:"Femboy #5",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy2.png",mult:8,cost:25000,unlock:25000},
+{name:"Femboy #6",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy3.png",mult:13,cost:100000,unlock:100000},
+{name:"Femboy #7",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy1.png",mult:21,cost:500000,unlock:500000},
+{name:"Femboy #8",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy2.png",mult:34,cost:2000000,unlock:2000000},
+{name:"Femboy #9",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy4.png",mult:55,cost:10000000,unlock:10000000},
+{name:"Femboy #10",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy5.png",mult:89,cost:50000000,unlock:50000000},
+{name:"Femboy #11",img:"https://quantil.jsdelivr.net/gh/matheveryday25/math@main/femboy6.png",mult:144,cost:250000000,unlock:250000000}
+];
+let unlockedFemboys=[true,false,false,false,false,false,false,false,false,false,false];
+
+const upgrades=[
+{name:"Catgirl Ears",desc:"+1 per click",baseCost:15,power:1,type:"click",count:0,max:50},
+{name:"Thigh Highs",desc:"+1 per second",baseCost:50,rate:1,type:"auto",count:0,max:50},
+{name:"Cute Skirt",desc:"+5 per click",baseCost:200,power:5,type:"click",count:0,max:30},
+{name:"UwU Machine",desc:"+5 per second",baseCost:500,rate:5,type:"auto",count:0,max:30},
+{name:"Femboy Hooters",desc:"+20 per second",baseCost:2000,rate:20,type:"auto",count:0,max:20},
+{name:"Trap Master",desc:"+50 per click",baseCost:5000,power:50,type:"click",count:0,max:20},
+{name:"Astolfo Summon",desc:"+100 per second",baseCost:15000,rate:100,type:"auto",count:0,max:15},
+{name:"Femboy Reality",desc:"+500 per click",baseCost:50000,power:500,type:"click",count:0,max:10},
+{name:"Divine Feminine",desc:"+200 per second",baseCost:100000,rate:200,type:"auto",count:0,max:10},
+{name:"Ultimate Femboy",desc:"+1000 per click",baseCost:500000,power:1000,type:"click",count:0,max:5},
+{name:"God Tier",desc:"+5000 per second",baseCost:2000000,rate:5000,type:"auto",count:0,max:3},
+{name:"Infinite UwU",desc:"+20000 per click",baseCost:10000000,power:20000,type:"click",count:0,max:2},
+{name:"Maid Outfit",desc:"+50000 per second",baseCost:50000000,rate:50000,type:"auto",count:0,max:2},
+{name:"Foxgirl Tail",desc:"+100000 per click",baseCost:200000000,power:100000,type:"click",count:0,max:2},
+{name:"Egirl Makeup",desc:"+250000 per second",baseCost:1000000000,rate:250000,type:"auto",count:0,max:1},
+{name:"Catboy Maid",desc:"+1000000 per click",baseCost:5000000000,power:1000000,type:"click",count:0,max:1},
+{name:"Femboy Paradise",desc:"+5000000 per second",baseCost:25000000000,rate:5000000,type:"auto",count:0,max:1},
+{name:"UwU Singularity",desc:"+25000000 per click",baseCost:100000000000,power:25000000,type:"click",count:0,max:1},
+{name:"The One True Femboy",desc:"+100000000 per second",baseCost:500000000000,rate:100000000,type:"auto",count:0,max:1}
+];
+
+const skills=[
+{name:"Click Frenzy",desc:"10x clicks for 10s",cooldown:120,cost:0,effect:"frenzy",icon:"⚡"},
+{name:"Double Power",desc:"2x all power for 30s",cooldown:300,cost:0,effect:"double",icon:"💪"},
+{name:"Golden Rain",desc:"Golden femboys spawn",cooldown:600,cost:0,effect:"rain",icon:"🌟"}
+];
+let skillCooldowns={};
+
+function recalcStats() {
+    clickPower = 1;
+    autoClickRate = 0;
+    upgrades.forEach(function(u) {
+        if (u.type === "click") clickPower += u.power * u.count;
+        else autoClickRate += u.rate * u.count;
+    });
+}
+
+function fmt(n){
+if(n>=1e12)return(n/1e12).toFixed(2)+"T";
+if(n>=1e9)return(n/1e9).toFixed(2)+"B";
+if(n>=1e6)return(n/1e6).toFixed(2)+"M";
+if(n>=1000)return(n/1000).toFixed(2)+"K";
+return Math.floor(n).toString();
+}
+
+function getCost(base,count){return Math.floor(base*Math.pow(1.35,count))}
+
+function updateDisplay(){
+document.getElementById("score").textContent=fmt(score);
+document.getElementById("fps").textContent=fmt(autoClickRate);
+document.getElementById("totalClicks").textContent=fmt(totalClicks);
+document.getElementById("multiplier").textContent="x"+multiplier;
+document.getElementById("critChance").textContent=critChance;
+
+let prestigeGain=Math.floor(Math.pow(score/1e6,0.5));
+if(prestigeGain<1)prestigeGain=0;
+document.getElementById("prestigeGain").textContent="+"+fmt(prestigeGain)+" PP";
+document.getElementById("prestigeBtn").disabled=prestigeGain<1;
+
+if(prestigePoints>0){
+document.getElementById("prestigeDisplay").style.display="block";
+document.getElementById("prestigeDisplay").textContent=fmt(prestigePoints)+" PP (+"+(prestigePoints*10)+"% bonus)";
+}
+
+const list=document.getElementById("upgrade-list");
+list.innerHTML="";
+upgrades.forEach((u,i)=>{
+const cost=getCost(u.baseCost,u.count);
+const d=document.createElement("div");
+const isMax=u.count>=u.max;
+d.className="upgrade-item"+(score<cost?" disabled":"")+(isMax?" maxed":"");
+d.innerHTML='<div class="upgrade-name"><span>'+u.name+'</span>'+(isMax?'<span class="max-badge">MAX</span>':u.count>0?'<span class="upgrade-owned">'+u.count+'/'+u.max+'</span>':'')+'</div><div class="upgrade-desc">'+u.desc+'</div><div class="upgrade-cost">'+(isMax?'MAXED':'Cost: '+fmt(cost))+'</div>';
+if(!isMax)d.onclick=function(){buyUpgrade(i)};
+list.appendChild(d);
+});
+
+const skillBar=document.getElementById("skills");
+skillBar.innerHTML="";
+skills.forEach((s,i)=>{
+const btn=document.createElement("button");
+const cd=skillCooldowns[i]||0;
+const now=Date.now();
+const remaining=cd>now?Math.ceil((cd-now)/1000):0;
+btn.className="skill-btn"+(remaining>0?" cooldown":"");
+btn.innerHTML=remaining>0?'<span>'+s.icon+'</span><div class="cd-overlay">'+remaining+'s</div>':'<span>'+s.icon+' '+s.name+'</span>';
+if(remaining===0)btn.onclick=function(){useSkill(i)};
+skillBar.appendChild(btn);
+});
+
+const stats=document.getElementById("stats-content");
+stats.innerHTML="";
+const statData=[
+["Click Power",fmt(clickPower)],
+["Auto Rate",fmt(autoClickRate)+"/s"],
+["Multiplier","x"+multiplier],
+["Crit Chance",critChance+"%"],
+["Total Clicks",fmt(totalClicks)],
+["Lifetime Clicks",fmt(lifetimeClicks)],
+["Upgrades",upgrades.reduce(function(a,u){return a+u.count},0)+"/"+upgrades.reduce(function(a,u){return a+u.max},0)],
+["Femboys",unlockedFemboys.filter(Boolean).length+"/"+femboys.length],
+["Prestiges",totalPrestige]
+];
+statData.forEach(function(row){
+const r=document.createElement("div");
+r.className="stat-row";
+r.innerHTML='<span class="stat-label">'+row[0]+'</span><span class="stat-value '+(row[0].indexOf('Click')>=0?'pink':row[0].indexOf('Auto')>=0?'blue':'')+'">'+row[1]+'</span>';
+stats.appendChild(r);
+});
+
+let nextUnlock=null,prevUnlock=0;
+for(let i=0;i<femboys.length;i++){
+if(!unlockedFemboys[i]){nextUnlock=femboys[i].unlock;break;}
+else prevUnlock=femboys[i].unlock;
+}
+if(nextUnlock){
+const progress=Math.min(100,((totalClicks-prevUnlock)/(nextUnlock-prevUnlock))*100);
+document.getElementById("unlockProgress").style.width=progress+"%";
+document.getElementById("nextUnlock").textContent="Next femboy at "+fmt(nextUnlock)+" clicks ("+fmt(Math.max(0,nextUnlock-totalClicks))+" remaining)";
+}else{
+document.getElementById("unlockProgress").style.width="100%";
+document.getElementById("nextUnlock").textContent="All femboys unlocked! 🎉";
+}
+
+const buffDiv=document.getElementById("buffs");
+buffDiv.innerHTML="";
+if(buffs.clickFrenzy){const b=document.createElement("div");b.className="buff-tag";b.textContent="⚡ Frenzy";buffDiv.appendChild(b);}
+if(buffs.doublePower){const b=document.createElement("div");b.className="buff-tag";b.textContent="💪 Double";buffDiv.appendChild(b);}
+if(buffs.goldenRain){const b=document.createElement("div");b.className="buff-tag";b.textContent="🌟 Golden";buffDiv.appendChild(b);}
+}
+
+function buyUpgrade(i){
+const u=upgrades[i];
+if(u.count>=u.max)return;
+const cost=getCost(u.baseCost,u.count);
+if(score<cost && !modState.freeUpgrades)return;
+if(!modState.freeUpgrades) score-=cost;
+u.count++;
+recalcStats();
+updateDisplay();
+}
+
+function clickFemboy(idx,e){
+if(!unlockedFemboys[idx])return;
+const now=Date.now();
+if(now-lastClickTime<400)streak++;
+else streak=1;
+lastClickTime=now;
+
+const maxStreak=25;
+const streakBonus=Math.min(streak,maxStreak);
+const streakMult=1+(streakBonus*0.05);
+
+const streakEl=document.getElementById("streakDisplay");
+document.getElementById("streakCount").textContent=streakBonus;
+document.getElementById("streakBonus").textContent=Math.floor(streakMult*100-100);
+streakEl.classList.add("active");
+document.getElementById("streakFill").style.width=(streakBonus/maxStreak*100)+"%";
+clearTimeout(streakTimer);
+streakTimer=setTimeout(function(){streak=0;streakEl.classList.remove("active");},1000);
+
+let isCrit=false;
+if(modState.infCrits || Math.random()*100<critChance){
+isCrit=true;
+if(!modState.infCrits) spawnFloating(e,"CRIT! x"+critMultiplier,"crit-text");
+}
+
+let basePower=clickPower*femboys[idx].mult;
+if(buffs.clickFrenzy)basePower*=10;
+if(buffs.doublePower)basePower*=2;
+basePower*=streakMult;
+if(isCrit)basePower*=critMultiplier;
+basePower*=prestigeMult();
+
+score+=basePower;
+totalClicks++;
+lifetimeClicks++;
+
+const container=document.getElementById("clickArea");
+const x=e.clientX-container.getBoundingClientRect().left;
+const y=e.clientY-container.getBoundingClientRect().top;
+
+if(!isCrit || modState.infCrits){
+if(streakBonus>=5 && !modState.infCrits){
+const t=document.createElement("div");
+t.className="combo-text";
+t.textContent=streakBonus+"x! +"+fmt(basePower);
+t.style.left=x+"px";
+t.style.top=(y-50)+"px";
+container.appendChild(t);
+setTimeout(function(){t.remove()},1000);
+}else{
+spawnFloating(e,"+"+fmt(basePower),"floating-text");
+}
+}
+
+e.target.style.transform="scale(.8) rotate(5deg)";
+setTimeout(function(){e.target.style.transform=""},120);
+
+for(let i=0;i<3;i++){
+setTimeout(function(){spawnParticle(e.clientX+Math.random()*40-20,e.clientY+Math.random()*40-20)},i*50);
+}
+
+if(Math.random()<goldenChance||buffs.goldenRain)spawnGoldenFemboy();
+
+updateDisplay();
+checkUnlocks();
+}
+
+function spawnFloating(e,text,cls){
+const container=document.getElementById("clickArea");
+const t=document.createElement("div");
+t.className=cls;
+t.textContent=text;
+const cr=container.getBoundingClientRect();
+t.style.left=(e.clientX-cr.left)+"px";
+t.style.top=(e.clientY-cr.top-30)+"px";
+container.appendChild(t);
+setTimeout(function(){t.remove()},1200);
+}
+
+function spawnParticle(x,y){
+const p=document.createElement("div");
+p.className="particle";
+p.style.left=x+"px";
+p.style.top=y+"px";
+p.style.background="hsl("+(Math.random()*60+280)+",100%,"+(60+Math.random()*40)+"%)";
+p.style.width=(4+Math.random()*8)+"px";
+p.style.height=p.style.width;
+p.style.animationDuration=(2+Math.random()*3)+"s";
+document.getElementById("particles").appendChild(p);
+setTimeout(function(){p.remove()},5000);
+}
+
+function spawnGoldenFemboy(){
+if(document.querySelector(".golden-femboy"))return;
+const g=document.createElement("div");
+g.className="golden-femboy";
+g.style.left=(10+Math.random()*80)+"vw";
+g.style.top=(10+Math.random()*80)+"vh";
+g.textContent="🌟";
+g.onclick=function(){
+const bonus=Math.max(score*0.1,1000);
+score+=bonus;
+showToast("Golden Femboy!","+"+fmt(bonus)+" bonus!");
+g.remove();
+};
+document.body.appendChild(g);
+setTimeout(function(){g.remove()},5000);
+showToast("Golden Femboy Appeared!","Click it fast!");
+}
+
+function checkUnlocks(){
+for(let i=0;i<femboys.length;i++){
+if(!unlockedFemboys[i]&&totalClicks>=femboys[i].unlock){
+unlockedFemboys[i]=true;
+addFemboy(i);
+showToast("🎉 "+femboys[i].name+" Unlocked!","Multiplier x"+femboys[i].mult+"! Total: x"+multiplier);
+if(i>=2)critChance=Math.min(50,critChance+5);
+updateDisplay();
+}
+}
+}
+
+function addFemboy(idx){
+const grid=document.getElementById("femboyGrid");
+const wrap=document.createElement("div");
+wrap.className="femboy-wrapper";
+wrap.innerHTML='<img src="'+femboys[idx].img+'" class="femboy-image" draggable="false" onclick="clickFemboy('+idx+',event)"><div class="femboy-label">'+femboys[idx].name+'</div><div class="multiplier-badge">x'+femboys[idx].mult+'</div>';
+grid.appendChild(wrap);
+}
+
+function useSkill(idx){
+const now=Date.now();
+if(skillCooldowns[idx]&&skillCooldowns[idx]>now)return;
+const s=skills[idx];
+skillCooldowns[idx]=now+s.cooldown*1000;
+
+if(s.effect==="frenzy"){
+buffs.clickFrenzy=true;
+showToast("⚡ Click Frenzy!","10x click power for 10 seconds!");
+setTimeout(function(){buffs.clickFrenzy=false;updateDisplay();},10000);
+}else if(s.effect==="double"){
+buffs.doublePower=true;
+showToast("💪 Double Power!","2x all power for 30 seconds!");
+setTimeout(function(){buffs.doublePower=false;updateDisplay();},30000);
+}else if(s.effect==="rain"){
+buffs.goldenRain=true;
+showToast("🌟 Golden Rain!","Golden femboys everywhere!");
+let count=0;
+const interval=setInterval(function(){
+spawnGoldenFemboy();
+count++;
+if(count>=5){clearInterval(interval);buffs.goldenRain=false;updateDisplay();}
+},2000);
+}
+updateDisplay();
+}
+
+function prestigeMult(){return 1+(prestigePoints*0.1)}
+
+function doPrestige(){
+const gain=Math.floor(Math.pow(Math.max(0,score)/1e6,0.5));
+if(gain<1)return;
+if(!confirm("Prestige for "+fmt(gain)+" points? Resets progress but gives permanent +10% bonus!"))return;
+prestigePoints+=gain;
+totalPrestige++;
+score=0;totalClicks=0;clickPower=1;autoClickRate=0;multiplier=1;streak=0;
+unlockedFemboys=[true,false,false,false,false,false,false,false,false,false,false];
+document.getElementById("femboyGrid").innerHTML="";
+upgrades.forEach(function(u){u.count=0});
+critChance=5;
+addFemboy(0);
+showToast("✨ Prestige Complete!","+"+fmt(gain)+" PP! Bonus: +"+(prestigePoints*10)+"%");
+updateDisplay();
+}
+
+function showToast(title,msg){
+const c=document.getElementById("toasts");
+const t=document.createElement("div");
+t.className="toast";
+t.innerHTML="<h4>"+title+"</h4><p>"+msg+"</p>";
+c.appendChild(t);
+setTimeout(function(){t.classList.add("out");setTimeout(function(){t.remove()},400);},4000);
+}
+
+function getSaveData() {
+    return {
+        score: score,
+        totalClicks: totalClicks,
+        lifetimeClicks: lifetimeClicks,
+        multiplier: multiplier,
+        critChance: critChance,
+        prestigePoints: prestigePoints,
+        totalPrestige: totalPrestige,
+        unlockedFemboys: unlockedFemboys,
+        upgrades: upgrades.map(function(u){return{count:u.count}}),
+        skillCooldowns: skillCooldowns,
+        buffs: buffs,
+        version: "3.0"
+    };
+}
+
+function saveGame(){
+    const data = getSaveData();
+    const jsonStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonStr], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'femboy_clicker_save.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("💾 Saved!", "Downloaded femboy_clicker_save.txt");
+}
+
+function loadFromFile(event){
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+        try{
+            const text = e.target.result;
+            const d = JSON.parse(text);
+            applySaveData(d);
+            showToast("📁 Loaded!", "Save file imported successfully!");
+        }catch(err){
+            showToast("❌ Error!", "Invalid save file format.");
+            console.error(err);
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+function applySaveData(d) {
+    score = d.score || 0;
+    totalClicks = d.totalClicks || 0;
+    lifetimeClicks = d.lifetimeClicks || 0;
+    multiplier = d.multiplier || 1;
+    critChance = d.critChance || 5;
+    prestigePoints = d.prestigePoints || 0;
+    totalPrestige = d.totalPrestige || 0;
+    if(d.unlockedFemboys) unlockedFemboys = d.unlockedFemboys;
+    if(d.upgrades) d.upgrades.forEach(function(u,i){if(upgrades[i]) upgrades[i].count = u.count || 0});
+    if(d.skillCooldowns) skillCooldowns = d.skillCooldowns;
+    if(d.buffs) buffs = d.buffs;
+    recalcStats();
+    document.getElementById("femboyGrid").innerHTML = "";
+    unlockedFemboys.forEach(function(u,i){if(u) addFemboy(i)});
+    updateDisplay();
+}
+
+function exportSave(){
+    const data = JSON.stringify(getSaveData());
+    const b64 = btoa(data);
+    navigator.clipboard.writeText(b64).then(function(){showToast("📋 Copied!","Save code copied to clipboard")});
+}
+
+function loadGame(){
+    const saved = localStorage.getItem("femboyClickerUltimate");
+    if(saved){
+        try{
+            const d = JSON.parse(saved);
+            applySaveData(d);
+            showToast("💾 Auto-Loaded!", "Found old save in browser storage.");
+            return;
+        }catch(e){console.error(e)}
+    }
+}
+
+function resetGame(){
+    if(!confirm("NUCLEAR RESET? Everything gone forever!"))return;
+    localStorage.removeItem("femboyClickerUltimate");
+    location.reload();
+}
+
+function toggleMusic() {
+    const audio = document.getElementById('bgMusic');
+    const btn = document.getElementById('musicBtn');
+    if(musicPlaying) {
+        audio.pause();
+        musicPlaying = false;
+        btn.classList.add('muted');
+        btn.textContent = '🔇';
+        showToast("🔇 Music Paused", "Click again to resume");
+    } else {
+        audio.play().then(function(){
+            musicPlaying = true;
+            btn.classList.remove('muted');
+            btn.textContent = '🎵';
+            showToast("🎵 Music Playing", "Enjoy the vibes!");
+        }).catch(function(err){
+            showToast("❌ Error", "Could not play music. Click again.");
+            console.error(err);
+        });
+    }
+}
+
+function toggleModMenu() {
+    const overlay = document.getElementById('modOverlay');
+    const btn = document.getElementById('modBtn');
+    if(overlay.classList.contains('active')) {
+        overlay.classList.remove('active');
+        btn.classList.remove('active');
+    } else {
+        overlay.classList.add('active');
+        btn.classList.add('active');
+        copyToEditor();
+    }
+}
+
+function closeModMenu(e) {
+    if(e.target === document.getElementById('modOverlay')) {
+        toggleModMenu();
+    }
+}
+
+function cheatAddScore(amount) {
+    if(amount === Number.MAX_SAFE_INTEGER) amount = 9007199254740991;
+    score += amount;
+    showToast("💰 Cheat!", "+" + fmt(amount) + " score added!");
+    updateDisplay();
+}
+
+function cheatSetScore() {
+    const val = parseInt(document.getElementById('cheatScoreInput').value);
+    if(isNaN(val) || val < 0) {
+        showToast("❌ Invalid!", "Enter a valid number.");
+        return;
+    }
+    score = val;
+    showToast("💰 Set!", "Score set to " + fmt(val));
+    updateDisplay();
+}
+
+function cheatAddPrestige(amount) {
+    prestigePoints += amount;
+    showToast("✨ Cheat!", "+" + fmt(amount) + " prestige points!");
+    updateDisplay();
+}
+
+function cheatMaxUpgrades() {
+    upgrades.forEach(function(u) {
+        u.count = u.max;
+    });
+    recalcStats();
+    showToast("⚡ Maxed!", "All upgrades set to maximum!");
+    updateDisplay();
+}
+
+function cheatUnlockAllFemboys() {
+    for(let i = 0; i < femboys.length; i++) {
+        if(!unlockedFemboys[i]) {
+            unlockedFemboys[i] = true;
+            addFemboy(i);
+        }
+    }
+    showToast("🎉 Unlocked!", "All femboys unlocked!");
+    updateDisplay();
+}
+
+function cheatSetClickPower() {
+    const val = parseInt(document.getElementById('cheatPowerInput').value);
+    if(isNaN(val) || val < 1) {
+        showToast("❌ Invalid!", "Enter a valid number.");
+        return;
+    }
+    clickPower = val;
+    showToast("⚡ Set!", "Click power set to " + fmt(val));
+    updateDisplay();
+}
+
+function cheatSetAutoRate() {
+    const val = parseInt(document.getElementById('cheatAutoInput').value);
+    if(isNaN(val) || val < 0) {
+        showToast("❌ Invalid!", "Enter a valid number.");
+        return;
+    }
+    autoClickRate = val;
+    showToast("⚡ Set!", "Auto rate set to " + fmt(val) + "/s");
+    updateDisplay();
+}
+
+function toggleAutoClicker() {
+    modState.autoClicker = !modState.autoClicker;
+    document.getElementById('autoClickToggle').classList.toggle('active');
+
+    if(modState.autoClicker) {
+        modState.autoClickInterval = setInterval(function(){
+            if(unlockedFemboys[0]) {
+                const img = document.querySelector('.femboy-image');
+                if(img) {
+                    const rect = img.getBoundingClientRect();
+                    const fakeEvent = {
+                        clientX: rect.left + rect.width/2,
+                        clientY: rect.top + rect.height/2,
+                        target: img
+                    };
+                    clickFemboy(0, fakeEvent);
+                }
+            }
+        }, 100);
+        showToast("🤖 Auto Clicker", "Clicking 10x per second!");
+    } else {
+        clearInterval(modState.autoClickInterval);
+        showToast("🤖 Stopped", "Auto clicker disabled.");
+    }
+}
+
+function toggleInfCrits() {
+    modState.infCrits = !modState.infCrits;
+    document.getElementById('infCritToggle').classList.toggle('active');
+    showToast(modState.infCrits ? "🎯 Infinite Crits ON" : "🎯 Infinite Crits OFF", modState.infCrits ? "Every hit is a crit!" : "Back to normal crits.");
+}
+
+function toggleGoldenRain() {
+    modState.goldenRain = !modState.goldenRain;
+    document.getElementById('goldenRainToggle').classList.toggle('active');
+
+    if(modState.goldenRain) {
+        modState.goldenRainInterval = setInterval(function(){
+            spawnGoldenFemboy();
+        }, 1500);
+        showToast("🌟 Golden Rain ON", "Golden femboys spawning constantly!");
+    } else {
+        clearInterval(modState.goldenRainInterval);
+        showToast("🌟 Golden Rain OFF", "Back to normal spawn rate.");
+    }
+}
+
+function toggleFreeUpgrades() {
+    modState.freeUpgrades = !modState.freeUpgrades;
+    document.getElementById('freeUpgradesToggle').classList.toggle('active');
+    showToast(modState.freeUpgrades ? "🆓 Free Upgrades ON" : "🆓 Free Upgrades OFF", modState.freeUpgrades ? "All upgrades cost nothing!" : "Prices restored.");
+    updateDisplay();
+}
+
+function copyToEditor() {
+    const data = getSaveData();
+    document.getElementById('saveEditor').value = JSON.stringify(data, null, 2);
+}
+
+function loadFromEditor() {
+    try {
+        const text = document.getElementById('saveEditor').value;
+        const d = JSON.parse(text);
+        applySaveData(d);
+        showToast("✅ Applied!", "Save editor data loaded!");
+    } catch(err) {
+        showToast("❌ Invalid JSON!", "Check your save data format.");
+        console.error(err);
+    }
+}
+
+function downloadSaveFile() {
+    const text = document.getElementById('saveEditor').value;
+    if(!text.trim()) {
+        showToast("❌ Empty!", "Editor is empty. Copy current save first.");
+        return;
+    }
+    const blob = new Blob([text], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'femboy_clicker_save.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("💾 Downloaded!", "Save file downloaded as .txt");
+}
+
+function clearEditor() {
+    document.getElementById('saveEditor').value = '';
+    showToast("🧹 Cleared!", "Editor cleared.");
+}
+
+function cheatResetAll() {
+    if(!confirm("DESTROY EVERYTHING? All progress wiped!")) return;
+    score = 0; totalClicks = 0; lifetimeClicks = 0; clickPower = 1; autoClickRate = 0;
+    multiplier = 1; streak = 0; critChance = 5; prestigePoints = 0; totalPrestige = 0;
+    unlockedFemboys = [true, false, false, false, false, false, false, false, false, false, false];
+    upgrades.forEach(function(u){ u.count = 0; });
+    skillCooldowns = {}; buffs = {clickFrenzy:false, doublePower:false, goldenRain:false};
+    document.getElementById('femboyGrid').innerHTML = '';
+    addFemboy(0);
+    recalcStats();
+    showToast("💥 NUKED!", "Everything has been reset.");
+    updateDisplay();
+}
+
+setInterval(function(){
+if(autoClickRate>0){
+let gain=autoClickRate/10;
+if(buffs.doublePower)gain*=2;
+gain*=prestigeMult();
+score+=gain;
+}
+},100);
+
+setInterval(function(){
+if(Math.random()<0.02)spawnGoldenFemboy();
+},5000);
+
+for(let i=0;i<30;i++){
+setTimeout(function(){
+const p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDelay=Math.random()*5+"s";
+p.style.animationDuration=(3+Math.random()*4)+"s";
+p.style.background="hsl("+(Math.random()*360)+",70%,70%)";
+document.getElementById("particles").appendChild(p);
+},Math.random()*5000);
+}
+
+addFemboy(0);
+loadGame();
+updateDisplay();
+</script>
+</body>
+</html>

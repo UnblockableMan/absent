@@ -1,0 +1,13 @@
+{
+  "name": "ABSENT",
+  "description": "ABSENT \u2014 a fast, static web proxy. No backend, no build step.",
+  "repository": "https://github.com/UnblockableMan/absent",
+  "keywords": [
+    "proxy",
+    "static",
+    "scramjet",
+    "wisp",
+    "cloudflare"
+  ],
+  "stack": "container"
+}

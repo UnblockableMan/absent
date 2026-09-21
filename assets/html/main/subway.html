@@ -1,0 +1,291 @@
+<html>
+<head>
+<base href="https://quantil.jsdelivr.net/gh/matheveryday25/math/subway2/">
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Subway Surfers - UNBL0CKEDZ0NE</title>
+    <link rel="icon" href="img/UB.png">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="4399.z.js"></script>
+    <script>
+        window.config = {
+            loader: "unity",
+            debug: false,
+            maxRatio: 16 / 9,
+            minRatio: 9 / 16,
+            title: "Subway Surfers: San Francisco",
+            unityVersion: "2019.4.18f1",
+            unityWebglBuildUrl: "SanFrancisco.json",
+            fileSize: 35,
+            cachedDecompressedFileSizes: {
+                "SanFrancisco.asm.code.unityweb": 9077143,
+                "SanFrancisco.asm.framework.unityweb": 86369,
+                "SanFrancisco.asm.memory.unityweb": 951447,
+                "SanFrancisco.data.unityweb": 18323917,
+                "SanFrancisco.wasm.code.unityweb": 7279617,
+                "SanFrancisco.wasm.framework.unityweb": 90693,
+            },
+        };
+        window.mergedBlobUrls = {};
+        window.assetsReady = false;
+
+        async function mergeSplitFile(fileUrlBase, numParts = 2) {
+            const partUrls = Array.from({ length: numParts }, (_, i) =>
+                `${fileUrlBase}.part${i + 1}`
+            );
+            try {
+                const responses = await Promise.all(partUrls.map(url => fetch(url)));
+                if (responses.some(r => !r.ok)) { return null; }
+                const parts = await Promise.all(responses.map(r => r.arrayBuffer()));
+                const combinedBlob = new Blob(parts, { type: 'application/octet-stream' });
+                return URL.createObjectURL(combinedBlob);
+            } catch (error) { return null; }
+        }
+
+        function setupXHRInterceptor() {
+            if (window.xhrInterceptorInstalled) { return; }
+            const originalOpen = XMLHttpRequest.prototype.open;
+            const originalSend = XMLHttpRequest.prototype.send;
+            XMLHttpRequest.prototype.open = function(method, url, ...args) {
+                this._url = url; this._method = method; this._args = args;
+                let finalUrl = url;
+                for (const [filename, blobUrl] of Object.entries(window.mergedBlobUrls)) {
+                    if (url.includes(filename)) { finalUrl = blobUrl; break; }
+                }
+                return originalOpen.call(this, method, finalUrl, ...args);
+            };
+            XMLHttpRequest.prototype.send = function(...args) {
+                const xhr = this;
+                if (!window.assetsReady) {
+                    const checkReady = setInterval(() => {
+                        if (window.assetsReady) { clearInterval(checkReady); originalSend.apply(xhr, args); }
+                    }, 50);
+                    return;
+                }
+                return originalSend.apply(this, args);
+            };
+            window.xhrInterceptorInstalled = true;
+        }
+
+        async function prepareGameAssets() {
+            try {
+                window.assetsReady = false;
+                delete window.xhrInterceptorInstalled;
+                window.mergedBlobUrls = {};
+                setupXHRInterceptor();
+                const filesToMerge = ['SanFrancisco.data.unityweb', 'SanFrancisco.wasm.code.unityweb'];
+                for (const filename of filesToMerge) {
+                    const blobUrl = await mergeSplitFile(filename, 2);
+                    if (blobUrl) { window.mergedBlobUrls[filename] = blobUrl; }
+                }
+                window.assetsPrepared = true;
+                window.assetsReady = true;
+            } catch (error) {
+                window.assetsPrepared = false;
+                window.assetsReady = true;
+            }
+        }
+
+        prepareGameAssets();
+    </script>
+    <script src="poki-sdk-core-v2.234.2.js" type="text/javascript" crossorigin="anonymous"></script>
+    <style type="text/css">
+        * { margin: 0; padding: 0; }
+        html, body {
+            width: 100vw; height: 100vh; overflow: hidden;
+            background: #002B50;
+            font-family: Torus, Arial, Helvetica, sans-serif;
+            color: #fff;
+        }
+        #game-container { position: absolute !important; left: 50%; top: 50%; display: none; }
+        #game, #game canvas { width: 100%; height: 100%; }
+        #loader { width: 100%; height: 100%; }
+        #slideshow {
+            width: 100%; height: 100%; flex-direction: column;
+            align-items: center; justify-content: space-evenly;
+            display: flex; user-select: none;
+        }
+        @font-face {
+            font-family: Torus;
+            src: url('./fonts/torus-bold-webfont.woff2') format('woff2'), url('//a.poki.com/fonts/torus-bold-webfont.woff') format('woff');
+            font-style: bold; font-weight: 700;
+        }
+        #slideshow-top { display: flex; margin: 2.5vh 0; }
+        #slideshow-top-container { display: flex; flex-direction: column; justify-content: center; flex-grow: 1; }
+        #game-title, #progress-comment { display: flex; flex-grow: 1; align-items: center; font-size: 2vh; }
+        #progress-container { display: flex; align-items: center; flex-grow: 1; transition: 0.2s ease-out all; }
+        #progress-container.done { opacity: 0; }
+        #progress-bar { background: #fff; width: 100%; overflow: hidden; }
+        #progress-fill {
+            background: #3CF7DC; height: 100%; transition: 0.2s ease-out all;
+            animation-name: fillColor; animation-duration: 3.5s;
+            animation-iteration-count: infinite; animation-fill-mode: both;
+        }
+        @keyframes fillColor {
+            0% { background-color: #3CF7DC; } 25% { background-color: #FFA9BE; }
+            50% { background-color: #FFDC00; } 75% { background-color: #E0AEF5; }
+            100% { background-color: #3CF7DC; }
+        }
+        @media (orientation: portrait) {
+            #game-title h1 { font-size: 2vh; } #slideshow-top { width: 70vw; }
+            #progress-bar { height: 1vh; border-radius: 0.5vh; }
+            #progress-fill { border-radius: 0.5vh; }
+            #progress-amount { font-size: 2vh; margin-left: 1.5vh; width: 3vh; }
+        }
+        @media (orientation: landscape) {
+            #game-title h1 { font-size: 3vh; } #slideshow-top { width: 50vw; }
+            #progress-bar { height: 1.2vh; border-radius: 0.6vh; }
+            #progress-fill { border-radius: 0.6vh; }
+            #progress-amount { font-size: 2.5vh; margin-left: 1.875vh; width: 3.75vh; }
+        }
+        #slideshow-images { width: 100vw; display: flex; justify-content: center; }
+        #slideshow-images .image {
+            position: absolute; box-shadow: 0 2.4vh 3.6vh rgba(0,0,0,0.4);
+            transition-property: transform; transition-timing-function: ease-in-out;
+            perspective: 1000px; left: 0; overflow: hidden;
+        }
+        #slideshow-images .image img { width: 100%; height: 100%; }
+        #slideshow-images .image:nth-of-type(1n) { border-color: #3BE8B0; }
+        #slideshow-images .image:nth-of-type(2n) { border-color: #FF6D92; }
+        #slideshow-images .image:nth-of-type(3n) { border-color: #A177FF; }
+        #slideshow-images .image:nth-of-type(4n) { border-color: #FFD200; }
+        #slideshow-images .left { z-index: 2; } #slideshow-images .right { z-index: 1; } #slideshow-images .middle { z-index: 3; }
+        #slideshow-images .left img, #slideshow-images .right img { transform: scale(1.05); }
+        #slideshow-images .left img, #slideshow-images .right img,
+        #slideshow-images .fromLeft img, #slideshow-images .fromRight img { filter: blur(1vh); }
+        #slideshow-images .inactive { display: none; }
+        #slideshow-images .inactive.fromLeft, #slideshow-images .inactive.fromRight { display: block; }
+        #slideshow-nav { display: flex; justify-content: center; margin: 2.5vh 0; }
+        #slideshow-nav .bullet { display: flex; justify-content: center; align-items: center; }
+        #slideshow-nav .bullet:after { content: ''; background: #fff; border-radius: 0.4vh; width: 0.8vh; height: 0.8vh; }
+        #slideshow-nav .bullet.active:after { background: #009CFF; }
+        #slideshow-nav .bullet { width: 2.5vh; height: 2.5vh; }
+        #slideshow-nav .bullet:after { border-radius: 50%; width: 50%; height: 50%; }
+        #slideshow-nav, #slideshow-images {
+            opacity: 0; transition: 0.4s all ease-out;
+            transform: translateY(2vh); perspective: 1000px; transition-delay: 400ms;
+        }
+        #slideshow-nav { transition-delay: 600ms; }
+        #slideshow.active #slideshow-images, #slideshow.active #slideshow-nav { opacity: 1; transform: translateY(0); }
+        @keyframes bounceInDown {
+            from, 60%, 75%, 90%, to { animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000); }
+            0% { transform: translate3d(0, -100vh, 0); } 40% { transform: translate3d(0, 0.5vh, 0); }
+            65% { transform: translate3d(0, -0.2vh, 0); } 80% { transform: translate3d(0, 0.1vh, 0); }
+            to { transform: translate3d(0, 0, 0); }
+        }
+        #slideshow-top { transform: translate3d(0, -20vh, 0); opacity: 0; }
+        #slideshow-top.active {
+            opacity: 1; transform: translate3d(0, 0, 0);
+            animation-name: bounceInDown; animation-duration: 0.5s;
+        }
+}
+    </style>
+    <style>
+        .pokiSdkContainer {
+            overflow: hidden; position: absolute; left: 0; top: 0;
+            width: 100%; height: 100%; z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pokiSdkContainer.pokiSdkFixed { position: fixed; }
+        .pokiSdkContainer.pokiSdkVisible { display: block; }
+        .pokiSdkContainer.pokiSdkHidden, .pokiSdkSpinnerContainer.pokiSdkHidden { display: none; }
+        .pokiSdkContainer.pokiSdkHidden, .pokiSdkSpinnerContainer { pointer-events: none; }
+        .pokiSdkSpinnerContainer {
+            z-index: 10; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://a.poki.com/images/thumb_anim_2x.gif') 50% 50% no-repeat;
+            user-select: none;
+        }
+        .pokiSdkInsideContainer {
+            background: #000; position: relative; z-index: 1;
+            width: 100%; height: 100%; display: flex; flex-direction: column;
+            opacity: 0; transition: opacity 0.5s ease-in-out;
+        }
+        .pokiSdkContainer.pokiSdkVisible .pokiSdkInsideContainer { opacity: 1; }
+        .pokiSDKAdContainer, .pokiSdkVideoContainer { position: absolute; width: 100%; height: 100%; }
+        .pokiSdkStartAdButton {
+            position: absolute; z-index: 9999; top: 0; padding-top: 10%;
+            width: 100%; height: 100%; text-align: center; color: #FFF;
+            font: 700 15pt 'Arial', sans-serif; font-weight: bold;
+            letter-spacing: 1px; transition: 0.1s ease-in-out; line-height: 1em;
+        }
+        .pokiSdkPauseButton { cursor: pointer; position: absolute; top: 50%; left: 50%; z-index: 1; }
+        .pokiSdkPauseButton:before {
+            content: ''; position: absolute; width: 100px; height: 100px; display: block;
+            border: 2px solid #fff; border-radius: 50%; user-select: none;
+            background-color: rgba(0,0,0,0.6); transition: background-color 0.5s ease;
+            animation: 1s linear infinite pulse;
+        }
+        .pokiSdkPauseButton:after {
+            content: ''; position: absolute; display: block; box-sizing: border-box;
+            border-color: transparent transparent transparent #fff; border-style: solid;
+            border-width: 26px 0 26px 40px; pointer-events: none;
+            animation: 1s linear infinite pulse; left: 6px;
+        }
+        .pokiSdkPauseButtonBG {
+            position: fixed; top: 0; left: 0; display: block; content: '';
+            background: rgba(0,43,80,0.5); width: 100%; height: 100%;
+        }
+        .pokiSdkPauseButtonBG:hover { background: rgba(0,43,80,0.7); }
+        @keyframes pulse {
+            0% { transform: translate(-50%,-50%) scale(0.95); }
+            70% { transform: translate(-50%,-50%) scale(1.1); }
+            100% { transform: translate(-50%,-50%) scale(0.95); }
+        }
+        .pokiSdkProgressContainer { background: #B8C7DD; width: 100%; height: 5px; position: absolute; bottom: 0; z-index: 9999; }
+        .pokiSdkProgressBar { position: relative; bottom: 0px; background: #FFDC00; height: 100%; width: 0%; transition: width 0.5s; transition-timing-function: linear; }
+        .pokiSdkProgressBar.pokiSdkVisible, .pokiSdkPauseButton.pokiSdkVisible, .pokiSdkStartAdButton.pokiSdkVisible { display: block; pointer-events: auto; }
+        .pokiSdkProgressBar.pokiSdkHidden, .pokiSdkPauseButton.pokiSdkHidden, .pokiSdkStartAdButton.pokiSdkHidden { display: none; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <script src="master-loader.js"></script>
+    <script src="poki-sdk.js"></script>
+    <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math/subway2/unity.js"></script>
+
+    <div id="loader">
+        <div id="slideshow">
+            <div id="slideshow-top">
+                <img>
+                <div id="slideshow-top-container">
+                    <div id="game-title">Subway Surfers: San Francisco</div>
+                    <div id="progress-container">
+                        <div id="progress-bar">
+                            <div id="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <div id="progress-amount">0%</div>
+                    </div>
+                    <div id="progress-comment">Loading</div>
+                </div>
+            </div>
+            <div id="slideshow-images"></div>
+            <div id="slideshow-nav"></div>
+        </div>
+    </div>
+
+    <div id="game-container">
+        <div id="game">
+            <canvas id="#canvas" style="width: 100%; height: 100%; cursor: default;"></canvas>
+        </div>
+    </div>
+
+    <script src="UnityLoader.2019.2.js"></script>
+
+    <div class="pokiSdkContainer pokiSdkHidden pokiSdkFixed">
+        <div class="pokiSdkInsideContainer">
+            <div class="pokiSdkProgressContainer pokiSdkHidden">
+                <div class="pokiSdkProgressBar" style="width: 0%;"></div>
+            </div>
+            <video id="pokiSDKVideoContainer" class="pokiSdkVideoContainer" playsinline muted></video>
+            <div id="pokiSDKAdContainer" class="pokiSDKAdContainer"></div>
+        </div>
+        <div class="pokiSdkSpinnerContainer"></div>
+        <div class="pokiSdkPauseButton pokiSdkHidden">
+            <div class="pokiSdkPauseButtonBG"></div>
+        </div>
+        <div class="pokiSdkStartAdButton pokiSdkHidden">Tap anywhere to play ad</div>
+    </div>
+
+</body>
+</html>

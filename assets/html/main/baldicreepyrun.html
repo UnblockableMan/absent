@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Baldi Basic Creepy Run</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #000; overflow: hidden; font-family: 'Pixelify Sans', sans-serif; }
+#unity-container { width: 100vw; height: 100vh; position: relative; }
+#unity-canvas { width: 100%; height: 100%; display: block; background: #000; }
+#loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #ff8c00;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#loading-logo {
+  max-width: 300px;
+  max-height: 200px;
+  margin-bottom: 30px;
+}
+#loading-text { font-size: 28px; margin-bottom: 20px; color: #ff8c00; }
+#loading-percent { font-size: 28px; font-weight: 700; color: #ff8c00; margin-bottom: 20px; }
+#unity-progress-bar-empty {
+  width: 300px;
+  height: 12px;
+  background: #333;
+  border-radius: 6px;
+  border: 2px solid #ff8c00;
+  overflow: hidden;
+}
+#loading-bar {
+  width: 0%;
+  height: 100%;
+  background: #ff8c00;
+  transition: width 0.2s;
+}
+#fullscreen-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ff8c00;
+  border: 2px solid #ff8c00;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 16px;
+  border-radius: 5px;
+  z-index: 100;
+  transition: all 0.2s ease-in-out;
+}
+#fullscreen-btn:hover { background: rgba(255, 140, 0, 0.2); transform: translateY(-1px); }
+#fullscreen-btn:active { transform: translateY(1px); }
+</style>
+</head>
+<body>
+<div id="unity-container">
+<canvas id="unity-canvas" tabindex="-1"></canvas>
+<div id="loading">
+<img id="loading-logo" src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/UNBL0CKEDZ0NE%20in%20Text.png" alt="Logo">
+<div id="loading-text">LOADING...</div>
+<div id="loading-percent">0%</div>
+<div id="unity-progress-bar-empty">
+  <div id="loading-bar"></div>
+</div>
+</div>
+<button id="fullscreen-btn">FULLSCREEN</button>
+</div>
+<script>
+const baseUrl = "https://quantil.jsdelivr.net/gh/matheveryday25/math@main/baldicreepyrun";
+const wasmName = "web.wasm";
+const wasmChunks = 6;
+const assets = [
+{ name: "web.data", url: `${baseUrl}/Build/web.data` },
+{ name: "web.framework.js", url: `${baseUrl}/Build/web.framework.js` },
+{ name: "web.loader.js", url: `${baseUrl}/Build/web.loader.js` }
+];
+let loadedCount = 0;
+let totalAssets = assets.length + wasmChunks;
+let wasmData = null;
+let unityInstance = null;
+async function fetchAsset(url) {
+const response = await fetch(url);
+if (!response.ok) throw new Error(`Failed to load ${url}`);
+return await response.arrayBuffer();
+}
+async function fetchWasmChunks() {
+const chunks = [];
+for (let i = 0; i < wasmChunks; i++) {
+const chunkIndex = i.toString().padStart(2, '0');
+const url = `${baseUrl}/Build/${wasmName}${chunkIndex}`;
+const chunk = await fetchAsset(url);
+chunks.push(chunk);
+updateLoading();
+}
+const totalSize = chunks.reduce((sum, chunk) => sum + chunk.byteLength, 0);
+wasmData = new Uint8Array(totalSize);
+let offset = 0;
+for (const chunk of chunks) {
+wasmData.set(new Uint8Array(chunk), offset);
+offset += chunk.byteLength;
+}
+}
+async function loadAssets() {
+const promises = assets.map(async (asset) => {
+asset.data = await fetchAsset(asset.url);
+updateLoading();
+});
+await Promise.all(promises);
+}
+function updateLoading() {
+loadedCount++;
+const percent = Math.floor((loadedCount / totalAssets) * 100);
+document.getElementById('loading-percent').textContent = percent + '%';
+document.getElementById('loading-bar').style.width = percent + '%';
+}
+async function initUnity() {
+const canvas = document.querySelector('#unity-canvas');
+const config = {
+dataUrl: URL.createObjectURL(new Blob([assets.find(a => a.name === 'web.data').data])),
+frameworkUrl: URL.createObjectURL(new Blob([assets.find(a => a.name === 'web.framework.js').data])),
+codeUrl: URL.createObjectURL(new Blob([wasmData])),
+streamingAssetsUrl: "StreamingAssets",
+companyName: "BaldyBaldsTheUniverse",
+productName: "Baldi Basic Creepy Run",
+productVersion: "1.0"
+};
+const loaderScript = document.createElement('script');
+loaderScript.src = assets.find(a => a.name === 'web.loader.js').url;
+loaderScript.onload = () => {
+createUnityInstance(canvas, config, (progress) => {
+const percent = Math.floor(progress * 100);
+document.getElementById('loading-percent').textContent = percent + '%';
+document.getElementById('loading-bar').style.width = percent + '%';
+}).then((instance) => {
+unityInstance = instance;
+document.getElementById('loading').style.display = 'none';
+}).catch((message) => {
+alert(message);
+});
+};
+document.body.appendChild(loaderScript);
+}
+document.getElementById('fullscreen-btn').addEventListener('click', () => {
+if (unityInstance) {
+unityInstance.SetFullscreen(1);
+} else {
+if (document.fullscreenElement) {
+document.exitFullscreen();
+} else {
+document.documentElement.requestFullscreen();
+}
+}
+});
+(async () => {
+try {
+await Promise.all([fetchWasmChunks(), loadAssets()]);
+await initUnity();
+} catch (error) {
+alert('Error loading game: ' + error.message);
+}
+})();
+</script>
+</body>
+</html>

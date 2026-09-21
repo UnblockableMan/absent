@@ -1,0 +1,167 @@
+<html lang="en-us">
+<head>
+    <base target="_blank">
+    <base href="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/slope/">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Slope Plus</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+        #unity-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #copyright-banner {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 99999;
+            background: linear-gradient(90deg, #111, #1a1a1a);
+            border-bottom: 2px solid #ff9900;
+            box-shadow: 0 0 16px #ff9900;
+            color: #fff;
+            font-family: 'Pixelify Sans', sans-serif;
+            font-size: 13px;
+            text-align: center;
+            padding: 12px 20px;
+            letter-spacing: 1px;
+            animation: fadeOut 0.6s ease 4.4s forwards;
+        }
+        #copyright-banner span {
+            color: #ff9900;
+            text-shadow: 0 0 8px #ff9900;
+        }
+        #copyright-timer { display: none; }
+        @keyframes fadeOut {
+            to { opacity: 0; pointer-events: none; transform: translateY(-100%); }
+        }
+    </style>
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+        function mergeFiles(fileParts) {
+            return new Promise((resolve, reject) => {
+                let buffers = [];
+
+                function fetchPart(index) {
+                    if (index >= fileParts.length) {
+                        let mergedBlob = new Blob(buffers);
+                        let mergedFileUrl = URL.createObjectURL(mergedBlob);
+                        resolve(mergedFileUrl);
+                        return;
+                    }
+                    fetch(fileParts[index]).then((response) => response.arrayBuffer()).then((data) => {
+                        buffers.push(data);
+                        fetchPart(index + 1);
+                    }).catch(reject);
+                }
+                fetchPart(0);
+            });
+        }
+
+        function getParts(file, start, end) {
+            let parts = [];
+            for (let i = start; i <= end; i++) {
+                parts.push(file + ".part" + i);
+            }
+            return parts;
+        }
+
+        window.addEventListener('resize', resizeGameContainer);
+
+        function resizeGameContainer() {
+            const container = document.getElementById('gameContainer');
+            if (container) {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                container.style.width = `${width}px`;
+                container.style.height = `${height}px`;
+            }
+        }
+
+        window.onload = function () {
+            resizeGameContainer();
+
+            Promise.all([
+                mergeFiles(getParts("https://quantil.jsdelivr.net/gh/matheveryday25/math@main/slope/Build/WEB1.2.1.data.unityweb", 1, 2))
+            ]).then(([dataUrl]) => {
+                let json = {
+                    companyName: "Slope Plus",
+                    productName: "Slope Plus",
+                    dataUrl: dataUrl,
+                    wasmCodeUrl: "https://quantil.jsdelivr.net/gh/matheveryday25/math@main/slope/Build/WEB1.2.1.wasm.code.unityweb",
+                    wasmFrameworkUrl: "https://quantil.jsdelivr.net/gh/matheveryday25/math@main/slope/Build/WEB1.2.1.wasm.framework.unityweb",
+                    TOTAL_MEMORY: 268435456,
+                    graphicsAPI: ["WebGL 2.0", "WebGL 1.0"],
+                    webglContextAttributes: {
+                        preserveDrawingBuffer: false
+                    },
+                    splashScreenStyle: "Dark",
+                    backgroundColor: "#000000"
+                }
+                let blob = new Blob([JSON.stringify(json)], {
+                    type: 'application/json'
+                });
+                let blobUrl = URL.createObjectURL(blob);
+                UnityLoader.instantiate("gameContainer", json, {
+                    onProgress: UnityProgress,
+                    url: blobUrl
+                });
+            });
+        };
+    </script>
+</head>
+
+<body>
+
+    <!-- Copyright Banner -->
+    <div id="copyright-banner">
+        I own <span>THESE GAME ASSETS</span> — If you steal from here, you will receive a <span>copyright strike!</span> &nbsp;—&nbsp; <span>UNBL0CKEDZ0NE</span>
+        <span id="copyright-timer">5</span>
+    </div>
+
+    <script>
+        var count = 5;
+        var timerEl = document.getElementById("copyright-timer");
+        var bannerEl = document.getElementById("copyright-banner");
+        var interval = setInterval(function() {
+            count--;
+            if (timerEl) timerEl.innerText = count;
+            if (count <= 0) {
+                clearInterval(interval);
+                setTimeout(function() {
+                    if (bannerEl) bannerEl.remove();
+                }, 600);
+            }
+        }, 1000);
+    </script>
+
+    <div class="webgl-content">
+        <div id="gameContainer" style="width: 860px; height: 935px; padding: 0px; margin: 0px; border: 0px; position: relative; background: rgb(0, 0, 0);"><canvas id="#canvas" style="cursor: default;" width="1883" height="935"></canvas><div class="logo Dark" style="display: none;"></div><div class="progress Dark" style="display: none;"><div class="empty" style="width: 0%;"></div><div class="full" style="width: 100%;"></div></div></div>
+    </div>
+
+<script src="blob:https://59237766-atari-embeds.googleusercontent.com/042f4285-f741-42c9-9058-5dee7db41837"></script>
+</body>
+</html>
+<!-- 
+Play a G4mes Website with stuff for every blocker! - 🎮 UNBL0CKEDZ0NE 💻.
+Our G4mes Doc with 2K G4mes 🎮! - https://docs.google.com/document/d/1JBhyNwurO02JYGBzx0p58B9e74qcphEKN8bI-i2dCcc/preview
+Discord with Links 👾! - https://discord.gg/v66D3fn4kD
+Our Tiktok 🔗 - https://www.tiktok.com/@unbl0ckedz0ne
+Our Youtube 🔗 - https://www.youtube.com/@unblockedzonegames
+Note Last Updated 🔄️ - March 21 2026
+-->

@@ -1,0 +1,6 @@
+# ABSENT — Cloudflare Workers static assets (one-click: deploy.workers.cloudflare.com)
+name = "absent"
+compatibility_date = "2025-09-01"
+
+[assets]
+directory = "."

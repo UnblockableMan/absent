@@ -1,0 +1,92 @@
+<html><head><base target="_blank"></head><body><div id="container">
+  <iframe id="fr" width="100%" height="100%" frameborder="0" allowfullscreen="" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
+
+  <div id="button-wrapper">
+    <button class="play-button school" type="button" onclick="PlayTo()">PLAY FOR SCHOOL</button>
+  </div>
+</div>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body, html { width: 100%; height: 100%; overflow: hidden; background: #000; }
+  #container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
+
+  #button-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1001;
+  }
+
+  .play-button {
+    padding: 20px 40px;
+    background: #000;
+    color: #fff;
+    border: 2px solid #4a148c;
+    border-radius: 10px;
+    font: bold 22px Arial;
+    cursor: pointer;
+    transition: 0.3s;
+    white-space: nowrap;
+  }
+
+  .play-button:hover { background: #4a148c; transform: scale(1.05); }
+</style>
+
+<script>
+  const GAME_HTML = `<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="generator" content="Construct 3">
+<title>game</title>
+<link rel="manifest" href="https://quantil.jsdelivr.net/gh/matheveryday25/math/random/appmanifest.html">
+<link rel="stylesheet" href="https://quantil.jsdelivr.net/gh/matheveryday25/math/random/style.css">
+<style>
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
+  canvas { display: block; }
+</style>
+<script>
+window.addEventListener("keydown", function(e) {
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
+<\/script>
+<script src="https://quantil.jsdelivr.net/gh/matheveryday25/math/random/scripts/c3runtime.js"><\/script>
+</head><body>
+<script src="https://quantil.jsdelivr.net/gh/matheveryday25/math/random/box2d.wasm.js"><\/script>
+<noscript>
+    <div id="notSupportedWrap">
+        <h2>This content requires JavaScript</h2>
+    </div>
+</noscript>
+<script src="https://quantil.jsdelivr.net/gh/matheveryday25/math/random/scripts/supportcheck.js"><\/script>
+<script src="https://quantil.jsdelivr.net/gh/matheveryday25/math/random/scripts/offlineclient.js"><\/script>
+<script src="https://quantil.jsdelivr.net/gh/matheveryday25/math/random/scripts/main.js"><\/script>
+<script src="https://quantil.jsdelivr.net/gh/matheveryday25/math/random/scripts/register-sw.js"><\/script>
+</body></html>`;
+
+  function PlayTo() {
+    const iframe = document.getElementById("fr");
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(GAME_HTML);
+    iframe.contentDocument.close();
+    iframe.style.display = "block";
+    document.getElementById("button-wrapper").style.display = "none";
+  }
+
+  window.addEventListener('load', PlayTo);
+</script></body></html>
+<!-- 
+Play a G4mes Website with stuff for every blocker! - 🎮 UNBL0CKEDZ0NE 💻.
+Our G4mes Doc with 2K G4mes 🎮! - https://docs.google.com/document/d/1JBhyNwurO02JYGBzx0p58B9e74qcphEKN8bI-i2dCcc/preview
+Discord with Links 👾! - https://discord.gg/v66D3fn4kD
+Our Tiktok 🔗 - https://www.tiktok.com/@unbl0ckedz0ne
+Our Youtube 🔗 - https://www.youtube.com/@unblockedzonegames
+Note Last Updated 🔄️ - March 21 2026
+-->

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8" />
+  <title>Tung Sahur Horror - UNBL0CKEDZ0NE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      background: #000;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      padding: 0;
+      margin: 0;
+    }
+
+    #gameContainer { 
+      position: absolute; 
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    #gameContainer canvas { 
+      position: absolute; 
+      width: 100%;
+      height: 100%;
+    }
+}
+  </style>
+</head>
+<body>
+<script id="gmsoft-jssdk" src="https://quantil.jsdelivr.net/gh/matheveryday25/math@latest/tung/gmsoftsdk_v5.js"></script>
+
+  <!-- The wrapper logic has been removed and display set to block so the game loads natively -->
+  <div id="gameContainer" style="display:block;">
+    <canvas id="unity-canvas"></canvas>
+  </div>
+
+  <div id="loadingBar" style="color:white; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-family:Arial;">
+    loading... <span id="pct">0%</span>
+  </div>
+
+  <script>
+    setTimeout(function () {
+      var bannerEl = document.getElementById("copyright-banner");
+      if (bannerEl) {
+        setTimeout(function () {
+          bannerEl.remove();
+        }, 600);
+      }
+    }, 5000);
+  </script>
+
+  <script>
+    function firebaseLogEvent(event_name) {
+      console.log('firebaseLogEvent (stubbed):', event_name);
+    }
+    function firebaseLogEventParameter(event_name, event_param) {
+      console.log('firebaseLogEventParameter (stubbed):', event_name, event_param);
+    }
+    function firebaseSetUserProperties(props) {
+      console.log('firebaseSetUserProperties (stubbed):', props);
+    }
+  </script>
+
+  <script>
+    window.fileMergerConfig = {
+      files: [
+        { name: 'tung-sahur-horror-v25051505.data.unityweb', parts: 2 },
+      ],
+      basePath: 'https://quantil.jsdelivr.net/gh/matheveryday25/math@latest/tung/Build/',
+      debug: true
+    };
+  </script>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const defaultConfig = {
+        files: [],
+        basePath: "",
+        debug: true,
+      };
+
+      const config = Object.assign({}, defaultConfig, window.fileMergerConfig || {});
+      window.mergedFiles = window.mergedFiles || {};
+
+      const mergeStatus = {};
+      const mergeProgress = {};
+
+      let loadingDiv;
+      let loadingContent;
+
+      function initializeUI() {
+        loadingDiv = document.createElement("div");
+        loadingDiv.id = "file-merger-loading";
+        loadingDiv.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(0, 0, 0, 0.9);
+          color: white;
+          padding: 30px 40px;
+          border-radius: 10px;
+          font-family: monospace;
+          font-size: 16px;
+          z-index: 10000;
+          min-width: 300px;
+          text-align: center;
+        `;
+
+        loadingContent = document.createElement("div");
+        loadingContent.id = "file-merger-content";
+        loadingDiv.appendChild(loadingContent);
+        document.body.appendChild(loadingDiv);
+      }
+
+      function updateLoadingDisplay() {
+        if (!loadingContent) return;
+
+        const lines = [
+          '<div style="font-size: 18px; margin-bottom: 15px;">loading...</div>',
+          '<a href="https://nikehub.org" style="font-size: 15px; color: #d42222; text-decoration: underline; margin-bottom: 10px; display: block;">nikehub</a>'
+        ];
+
+        config.files.forEach((file) => {
+          const status = mergeStatus[file.name] || "waiting";
+          const progress = mergeProgress[file.name] || {
+            current: 0,
+            total: file.parts,
+          };
+
+          let statusText = "";
+          let color = "#888";
+
+          if (status === "merging") {
+            statusText = ` merging... ${progress.current}/${progress.total}`;
+            color = "#ffa500";
+          } else if (status === "ready") {
+            statusText = "done";
+            color = "#00ff00";
+          } else if (status === "failed") {
+            statusText = "failed";
+            color = "#ff0000";
+          } else {
+            statusText = "Waiting...";
+          }
+
+          lines.push(
+            `<div style="margin: 8px 0; color: ${color};">${file.name}: ${statusText}</div>`
+          );
+        });
+
+        loadingContent.innerHTML = lines.join("");
+
+        const allDone = config.files.every(
+          (file) =>
+            mergeStatus[file.name] === "ready" ||
+            mergeStatus[file.name] === "failed"
+        );
+
+        if (allDone) {
+          setTimeout(() => {
+            loadingDiv.style.opacity = "0";
+            loadingDiv.style.transition = "opacity 0.5s";
+            setTimeout(() => loadingDiv.remove(), 500);
+          }, 500);
+        }
+      }
+      
+      // Auto initialization fallback for script wrapper logic
+      initializeUI();
+      updateLoadingDisplay();
+    })();
+  </script>
+</body>
+</html>

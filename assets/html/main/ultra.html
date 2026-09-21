@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <base target="_blank">
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>google.com</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #000;
+    }
+    #unity-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      display: block;
+    }
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      z-index: 10;
+    }
+    #loading-text { margin-bottom: 15px; }
+    #progress-container {
+      width: 40%;
+      height: 10px;
+      background: #222;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #09f;
+      transition: width 0.2s linear;
+    }
+  </style>
+</head>
+<body>
+  <!-- Enabled loading screen by default to track resource assembly -->
+  <div id="loading-screen" style="display: flex;">
+    <div id="loading-text">Loading...</div>
+    <div id="progress-container">
+      <div id="progress-bar" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <canvas id="unity-canvas" width="1078" height="711" style="cursor: default;"></canvas>
+
+  <!-- Loader CDN -->
+  <script src="https://quantil.jsdelivr.net/gh/kelsimsk/ugil@main/Build/ultrakill.loader.js"></script>
+
+  <script>
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      const meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+      document.getElementsByTagName('head')[0].appendChild(meta);
+    }
+
+    const loadingScreen = document.getElementById("loading-screen");
+    const progressBar = document.getElementById("progress-bar");
+    const loadingText = document.getElementById("loading-text");
+
+    async function mergeParts(baseName, totalParts, progressWeight) {
+      const parts = [];
+      for (let i = 0; i < totalParts; i++) {
+        const url = `https://quantil.jsdelivr.net/gh/kelsimsk/ugil@main/Build/${baseName}.part${i}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Part ${i} yüklenemedi: ${url}`);
+        const buf = await res.arrayBuffer();
+        parts.push(buf);
+
+        const percent = ((i + 1) / totalParts) * progressWeight;
+        progressBar.style.width = percent + "%";
+      }
+      const blob = new Blob(parts, { type: "application/octet-stream" });
+      return URL.createObjectURL(blob);
+    }
+
+    (async () => {
+      const dataParts = 4;
+      const wasmParts = 3;
+
+      try {
+        const dataUrl = await mergeParts("ultrakill.data.unityweb", dataParts, 40);
+        const wasmUrl = await mergeParts("ultrakill.wasm.unityweb", wasmParts, 80);
+
+        createUnityInstance(document.querySelector("#unity-canvas"), {
+          dataUrl: dataUrl,
+          frameworkUrl: "https://quantil.jsdelivr.net/gh/kelsimsk/ugil@main/Build/ultrakill.framework.js.unityweb",
+          codeUrl: wasmUrl,
+          streamingAssetsUrl: "StreamingAssets",
+          companyName: "Hakita",
+          productName: "ULTRAKILL WEB PORT",
+          productVersion: "1.5",
+        }, (progress) => {
+          const percent = 80 + progress * 20;
+          progressBar.style.width = percent + "%";
+        }).then(() => {
+          loadingScreen.style.display = "none";
+        }).catch((err) => {
+          loadingText.textContent = "Error loading game: " + err;
+          loadingText.style.color = "red";
+        });
+      } catch (e) {
+        loadingText.textContent = "CDN Error: " + e.message;
+        loadingText.style.color = "red";
+      }
+    })();
+  </script>
+</body>
+</html>

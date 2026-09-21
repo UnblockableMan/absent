@@ -1,0 +1,8 @@
+[build]
+  publish = "."
+  command = "echo 'ABSENT is fully static — no build step'"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"

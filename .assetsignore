@@ -1,0 +1,13 @@
+.git
+.github
+node_modules
+README.md
+LICENSE
+wrangler.toml
+render.yaml
+netlify.toml
+app.json
+Dockerfile
+.dockerignore
+.assetsignore
+.gitignore

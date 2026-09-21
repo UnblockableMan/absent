@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Granny Original</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; background: #000; }
+        #unity-container { position: absolute; width: 100%; height: 100%; left: 0; top: 0; }
+        #unity-canvas { width: 100%; height: 100%; background: #231F20; }
+        
+        #unity-loading-bar {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffffff;
+            border-radius: 10px;
+            display: block;
+            z-index: 10;
+        }
+        
+        #unity-logo {
+            position: absolute;
+            top: -110px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+        }
+
+        #unity-logo img { width: 100%; height: auto; }
+
+        #unity-progress-bar-empty { width: 100%; height: 100%; position: relative; }
+        #unity-progress-bar-full {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: #4caf50;
+            border-radius: 8px;
+            transition: width 0.3s ease;
+        }
+
+        #unity-warning {
+            position: absolute;
+            left: 50%;
+            top: 5%;
+            transform: translate(-50%);
+            background: white;
+            padding: 10px;
+            display: none;
+            border-radius: 5px;
+            color: black;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+    <div id="unity-container">
+        <canvas id="unity-canvas"></canvas>
+        <div id="unity-loading-bar">
+            <div id="unity-logo">
+                <img src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/UNBL0CKEDZ0NE%20in%20Text.png" alt="Logo">
+            </div>
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+        </div>
+        <div id="unity-warning"></div>
+    </div>
+
+    <script src="https://quantil.jsdelivr.net/gh/gru6nny/ohd@main/sdk.js"></script>
+    <script>
+        const progressBarFull = document.querySelector("#unity-progress-bar-full");
+        const loadingBar = document.querySelector("#unity-loading-bar");
+        const canvas = document.querySelector("#unity-canvas");
+        const warningBanner = document.querySelector("#unity-warning");
+
+        // Helper to update the bar smoothly
+        function updateProgress(val) {
+            progressBarFull.style.width = `${val}%`;
+        }
+
+        async function mergeUnityWebFiles(baseUrl, filePrefix, totalParts, extension, startRange, endRange) {
+            const buffers = [];
+            for (let i = 1; i <= totalParts; i++) {
+                const response = await fetch(`${baseUrl}/${filePrefix}_part${i}.${extension}`);
+                if (!response.ok) throw new Error("Failed to load parts");
+                const buffer = await response.arrayBuffer();
+                buffers.push(buffer);
+                
+                // Maps current part download to its specific section of the 100% bar
+                let progress = startRange + ((i / totalParts) * (endRange - startRange));
+                updateProgress(progress);
+            }
+            const totalLength = buffers.reduce((acc, b) => acc + b.byteLength, 0);
+            const combined = new Uint8Array(totalLength);
+            let offset = 0;
+            buffers.forEach(b => { combined.set(new Uint8Array(b), offset); offset += b.byteLength; });
+            return combined;
+        }
+
+        async function initializeGame() {
+            const buildUrl = "https://quantil.jsdelivr.net/gh/gru6nny/ohd@main/Build";
+            
+            try {
+                // Phase 1: Data (0% to 40%)
+                const dataBuffer = await mergeUnityWebFiles(buildUrl, "Granny", 2, "data", 0, 40);
+                // Phase 2: Wasm (40% to 80%)
+                const wasmBuffer = await mergeUnityWebFiles(buildUrl, "Granny", 2, "wasm", 40, 80);
+
+                const dataUrl = URL.createObjectURL(new Blob([dataBuffer], { type: "application/octet-stream" }));
+                const wasmUrl = URL.createObjectURL(new Blob([wasmBuffer], { type: "application/octet-stream" }));
+
+                const config = {
+                    dataUrl: dataUrl,
+                    frameworkUrl: buildUrl + "/Granny.framework.js",
+                    codeUrl: wasmUrl,
+                    streamingAssetsUrl: "https://quantil.jsdelivr.net/gh/gru6nny/ohd@main/StreamingAssets",
+                    companyName: "Anastasia Kazantseva",
+                    productName: "Granny",
+                    productVersion: "1.0",
+                };
+
+                const script = document.createElement("script");
+                script.src = buildUrl + "/Granny.loader.js";
+                script.onload = () => {
+                    createUnityInstance(canvas, config, (progress) => {
+                        // Phase 3: Engine startup (80% to 100%)
+                        updateProgress(80 + (progress * 20));
+                    }).then((instance) => {
+                        loadingBar.style.display = "none";
+                    });
+                };
+                document.body.appendChild(script);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        initializeGame();
+    </script>
+</body>
+</html>
+<!-- 
+Play a G4mes Website with stuff for every blocker! - 🎮 UNBL0CKEDZ0NE 💻.
+Our G4mes Doc with 2K G4mes 🎮! - https://docs.google.com/document/d/1JBhyNwurO02JYGBzx0p58B9e74qcphEKN8bI-i2dCcc/preview
+Discord with Links 👾! - https://discord.gg/v66D3fn4kD
+Our Tiktok 🔗 - https://www.tiktok.com/@unbl0ckedz0ne
+Our Youtube 🔗 - https://www.youtube.com/@unblockedzonegames
+Note Last Updated 🔄️ - March 21 2026
+-->

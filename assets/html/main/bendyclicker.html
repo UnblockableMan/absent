@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BENDY CLICKER — ENHANCED</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap');
+  :root{--ink:#1a0a00;--sepia:#3d2b1f;--paper:#f0e8d0;--yellow:#f5c518;--red:#8b0000;--glow:#ffdd00;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#0d0800;color:var(--paper);font-family:'Special Elite',cursive;min-height:100vh;overflow-x:hidden;background-image:radial-gradient(ellipse at 50% 0%,#3d1f00 0%,transparent 60%),repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.3) 2px,rgba(0,0,0,0.3) 4px);}
+  .drip-bar{width:100%;height:60px;background:#000;position:relative;display:flex;justify-content:space-around;align-items:flex-end;}
+  .drip{width:14px;background:#111;border-radius:0 0 50% 50%;animation:drip-fall linear infinite;}
+  @keyframes drip-fall{0%{height:10px;opacity:.6}60%{height:55px;opacity:1}100%{height:10px;opacity:.6}}
+  header{text-align:center;padding:20px 10px 10px;position:relative;}
+  .title{font-family:'Creepster',cursive;font-size:clamp(2.5rem,8vw,5rem);color:var(--yellow);text-shadow:0 0 20px var(--glow),0 0 40px #ff8800,3px 3px 0px #000,-1px -1px 0px #000;letter-spacing:4px;animation:flicker 4s infinite;}
+  @keyframes flicker{0%,95%,100%{opacity:1}96%{opacity:.6}97%{opacity:1}98%{opacity:.4}99%{opacity:1}}
+  .subtitle{font-size:.85rem;color:#a08060;letter-spacing:6px;text-transform:uppercase;margin-top:4px;}
+  .main-layout{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:20px;max-width:1100px;margin:0 auto;}
+  .left-panel{flex:0 0 280px;display:flex;flex-direction:column;gap:14px;}
+  .ink-panel{background:rgba(0,0,0,0.6);border:2px solid #2a1a00;border-radius:4px;padding:14px;position:relative;box-shadow:inset 0 0 20px rgba(0,0,0,0.8),0 0 10px rgba(0,0,0,0.5);}
+  .ink-panel::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;bottom:-1px;border-radius:4px;background:linear-gradient(135deg,#3d2b00 0%,transparent 50%);pointer-events:none;opacity:.3;}
+  .panel-title{font-family:'Creepster',cursive;font-size:1.1rem;color:var(--yellow);text-align:center;margin-bottom:10px;letter-spacing:2px;text-shadow:0 0 10px var(--glow);}
+  .ink-count{font-family:'Creepster',cursive;font-size:2.8rem;text-align:center;color:var(--paper);text-shadow:0 0 15px rgba(255,220,100,.4);line-height:1;}
+  .ink-label{text-align:center;font-size:.75rem;color:#807060;letter-spacing:3px;text-transform:uppercase;}
+  .ips{text-align:center;font-size:.8rem;color:#a08060;margin-top:6px;}
+  .center-panel{flex:0 0 320px;display:flex;flex-direction:column;align-items:center;gap:16px;}
+  .clicker-container{position:relative;width:220px;height:220px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;-webkit-user-select:none;}
+  .clicker-ring{position:absolute;width:220px;height:220px;border-radius:50%;border:3px solid #3d2b00;box-shadow:0 0 20px rgba(255,200,0,.15),inset 0 0 30px rgba(0,0,0,.6);animation:ring-pulse 3s ease-in-out infinite;pointer-events:none;}
+  @keyframes ring-pulse{0%,100%{box-shadow:0 0 20px rgba(255,200,0,.15),inset 0 0 30px rgba(0,0,0,.6)}50%{box-shadow:0 0 40px rgba(255,200,0,.35),inset 0 0 30px rgba(0,0,0,.6)}}
+  .clicker-container.clicked #bendyCanvas{transform:scale(.88) rotate(-3deg);filter:drop-shadow(0 0 24px rgba(255,220,0,.8)) brightness(1.3);}
+  .float-text{position:fixed;pointer-events:none;font-family:'Creepster',cursive;font-size:1.6rem;color:var(--yellow);text-shadow:0 0 8px #ff8800,2px 2px 0 #000;animation:float-up .9s ease-out forwards;z-index:9999;}
+  @keyframes float-up{0%{opacity:1;transform:translateY(0) scale(1)}80%{opacity:.8}100%{opacity:0;transform:translateY(-80px) scale(.5)}}
+  .splatter{position:fixed;pointer-events:none;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,rgba(0,0,0,0.9) 0%,transparent 70%);animation:splat .5s ease-out forwards;z-index:9998;transform:translate(-50%,-50%);}
+  @keyframes splat{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(-50%,-50%) scale(3);opacity:0}}
+  .click-power{font-family:'Creepster',cursive;font-size:1rem;color:#a08060;text-align:center;letter-spacing:2px;}
+  .right-panel{flex:1;min-width:260px;max-width:380px;display:flex;flex-direction:column;gap:10px;}
+  .upgrade-btn{background:rgba(10,5,0,.85);border:1px solid #3d2b00;border-radius:4px;padding:10px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .15s,border-color .15s,transform .1s;position:relative;overflow:hidden;}
+  .upgrade-btn::after{content:'';position:absolute;top:0;left:-100%;width:60px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,200,0,.08),transparent);transition:left .4s;}
+  .upgrade-btn:hover::after{left:150%;}
+  .upgrade-btn:hover{background:rgba(30,15,0,.95);border-color:#7a5500;transform:translateX(2px);}
+  .upgrade-btn.affordable{border-color:#7a5500;box-shadow:0 0 8px rgba(255,180,0,.2);}
+  .upgrade-btn.affordable .upg-cost{color:var(--yellow);}
+  .upgrade-btn.maxed{opacity:.5;cursor:default;}
+  .upg-icon{font-size:1.8rem;flex-shrink:0;width:36px;text-align:center;}
+  .upg-info{flex:1;}
+  .upg-name{font-family:'Creepster',cursive;font-size:1rem;color:var(--paper);letter-spacing:1px;}
+  .upg-desc{font-size:.7rem;color:#807060;margin-top:2px;line-height:1.3;}
+  .upg-cost{font-family:'Creepster',cursive;font-size:.95rem;color:#807060;text-align:right;flex-shrink:0;}
+  .upg-owned{font-size:.7rem;color:#604030;text-align:right;}
+  .milestones{margin-top:6px;}
+  .milestone{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(61,43,0,.3);font-size:.75rem;color:#604030;transition:color .3s;}
+  .milestone.unlocked{color:var(--yellow);text-shadow:0 0 6px rgba(255,200,0,.4);}
+  .milestone-icon{font-size:1rem;}
+  .notif{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);border:1px solid var(--yellow);border-radius:4px;padding:10px 20px;font-family:'Creepster',cursive;font-size:1.1rem;color:var(--yellow);text-shadow:0 0 8px var(--glow);z-index:10000;animation:notif-show .3s ease,notif-hide .3s ease 2.2s forwards;white-space:nowrap;}
+  @keyframes notif-show{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+  @keyframes notif-hide{to{opacity:0;transform:translateX(-50%) translateY(-10px)}}
+  .right-panel::-webkit-scrollbar{width:4px;}
+  .right-panel::-webkit-scrollbar-track{background:#0d0800;}
+  .right-panel::-webkit-scrollbar-thumb{background:#3d2b00;border-radius:2px;}
+  .section-label{font-family:'Creepster',cursive;font-size:.85rem;letter-spacing:4px;color:#5a3d1a;text-align:center;text-transform:uppercase;margin:4px 0 6px;}
+  footer{text-align:center;padding:20px;font-size:.65rem;color:#3d2b1f;letter-spacing:3px;}
+
+  /* ── TOOLBAR BUTTONS ── */
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:0 20px 10px;}
+  .tbtn{font-family:'Creepster',cursive;font-size:.85rem;letter-spacing:2px;background:rgba(0,0,0,.7);border:1px solid #5a3d1a;border-radius:4px;color:var(--yellow);padding:6px 14px;cursor:pointer;transition:background .15s,border-color .15s;}
+  .tbtn:hover{background:rgba(61,43,0,.5);border-color:var(--yellow);}
+  .tbtn.red{border-color:#8b0000;color:#ff6666;}
+  .tbtn.red:hover{background:rgba(139,0,0,.3);}
+  .tbtn.green{border-color:#2d7a00;color:#88ff44;}
+  .tbtn.green:hover{background:rgba(45,122,0,.3);}
+
+  /* ── OVERLAY ── */
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:20000;align-items:center;justify-content:center;}
+  .overlay.active{display:flex;}
+  .modal{background:#0d0800;border:2px solid #3d2b00;border-radius:6px;padding:24px;max-width:520px;width:90%;max-height:85vh;overflow-y:auto;position:relative;}
+  .modal h2{font-family:'Creepster',cursive;color:var(--yellow);font-size:1.6rem;text-align:center;margin-bottom:16px;text-shadow:0 0 10px var(--glow);}
+  .modal-close{position:absolute;top:12px;right:12px;background:none;border:none;color:#a08060;font-size:1.4rem;cursor:pointer;}
+  .modal-close:hover{color:var(--yellow);}
+  .mod-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(61,43,0,.3);}
+  .mod-label{font-size:.85rem;color:var(--paper);flex:1;}
+  .mod-input{background:rgba(0,0,0,.6);border:1px solid #5a3d1a;border-radius:3px;color:var(--yellow);font-family:'Special Elite',cursive;font-size:.9rem;padding:4px 8px;width:130px;text-align:right;}
+  .mod-input:focus{outline:none;border-color:var(--yellow);}
+  .mod-btn{font-family:'Creepster',cursive;font-size:.8rem;background:rgba(61,43,0,.5);border:1px solid #5a3d1a;border-radius:3px;color:var(--yellow);padding:4px 10px;cursor:pointer;}
+  .mod-btn:hover{background:rgba(122,85,0,.5);}
+  .mod-btn.danger{border-color:#8b0000;color:#ff6666;}
+  .mod-btn.danger:hover{background:rgba(139,0,0,.3);}
+  .mod-section{font-family:'Creepster',cursive;color:#a08060;font-size:.9rem;letter-spacing:3px;margin:14px 0 6px;text-transform:uppercase;}
+  .save-textarea{width:100%;min-height:160px;background:rgba(0,0,0,.7);border:1px solid #5a3d1a;border-radius:3px;color:#88cc44;font-family:monospace;font-size:.75rem;padding:8px;resize:vertical;}
+  .save-textarea:focus{outline:none;border-color:var(--yellow);}
+  .save-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .achievements-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+  .ach-card{background:rgba(0,0,0,.5);border:1px solid #3d2b00;border-radius:4px;padding:8px;font-size:.75rem;text-align:center;}
+  .ach-card.earned{border-color:#7a5500;background:rgba(61,43,0,.3);}
+  .ach-card .ach-icon{font-size:1.4rem;}
+  .ach-card .ach-name{color:var(--paper);margin-top:4px;}
+  .ach-card .ach-desc{color:#807060;font-size:.65rem;margin-top:2px;}
+  .ach-card.earned .ach-name{color:var(--yellow);}
+  .speed-indicator{display:inline-block;padding:2px 8px;border-radius:3px;font-size:.75rem;font-family:'Creepster',cursive;letter-spacing:1px;}
+  .speed-indicator.normal{background:rgba(0,0,0,.5);color:#a08060;border:1px solid #3d2b00;}
+  .speed-indicator.fast{background:rgba(0,80,0,.4);color:#88ff44;border:1px solid #2d7a00;}
+  .speed-indicator.mega{background:rgba(120,0,120,.4);color:#ff88ff;border:1px solid #7a007a;}
+</style>
+</head>
+<body>
+
+<div class="drip-bar" id="dripBar"></div>
+
+<header>
+  <div class="title">🖋 BENDY CLICKER 🖋</div>
+  <div class="subtitle">Enhanced Edition — Cause we're playing Bendy...</div>
+</header>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <button class="tbtn" onclick="openMod()">⚙ MOD MENU</button>
+  <button class="tbtn" onclick="openSave()">💾 SAVE EDITOR</button>
+  <button class="tbtn green" onclick="exportSaveTxt()">📥 EXPORT TXT</button>
+  <button class="tbtn green" onclick="document.getElementById('importFile').click()">📤 IMPORT TXT</button>
+  <input type="file" id="importFile" accept=".txt,.json" style="display:none" onchange="importSaveTxt(event)">
+  <button class="tbtn" onclick="openAchievements()">🏆 ACHIEVEMENTS</button>
+  <button class="tbtn red" onclick="if(confirm('Wipe all progress?')){resetGame();}">☠ RESET</button>
+</div>
+
+<div class="main-layout">
+  <!-- LEFT -->
+  <div class="left-panel">
+    <div class="ink-panel">
+      <div class="panel-title">☠ INK COLLECTED ☠</div>
+      <div class="ink-count" id="inkCount">0</div>
+      <div class="ink-label">barrels of ink</div>
+      <div class="ips" id="ipsDisplay">0 ink / second</div>
+      <div style="text-align:center;margin-top:6px" id="speedBadge"></div>
+    </div>
+    <div class="ink-panel">
+      <div class="panel-title">🏆 MILESTONES</div>
+      <div class="milestones" id="milestones"></div>
+    </div>
+    <div class="ink-panel">
+      <div class="panel-title">📜 STATS</div>
+      <div style="font-size:.75rem;color:#807060;line-height:2">
+        <div>Total clicked: <span id="totalClicks" style="color:#c0a060">0</span></div>
+        <div>All-time ink: <span id="totalInk" style="color:#c0a060">0</span></div>
+        <div>Prestige level: <span id="prestigeLevel" style="color:#c0a060">0</span></div>
+        <div>Buildings owned: <span id="totalBuildings" style="color:#c0a060">0</span></div>
+        <div>Upgrades bought: <span id="totalUpgrades" style="color:#c0a060">0</span></div>
+        <div>Game speed: <span id="gameSpeedStat" style="color:#c0a060">1×</span></div>
+      </div>
+      <button onclick="prestige()" id="prestigeBtn" style="display:none;margin-top:10px;width:100%;background:linear-gradient(135deg,#4a0000,#000);border:1px solid #8b0000;border-radius:3px;padding:7px;font-family:'Creepster',cursive;font-size:.9rem;color:#ff4444;cursor:pointer;letter-spacing:2px;box-shadow:0 0 10px rgba(139,0,0,.3)">☠ PRESTIGE ☠</button>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center-panel">
+    <div class="clicker-container" id="clickerContainer" onclick="handleClick(event)">
+      <div class="clicker-ring"></div>
+      <canvas id="bendyCanvas" width="180" height="220" style="pointer-events:none;image-rendering:auto;"></canvas>
+      <img id="bendyImgHidden" src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/bendy.png" crossorigin="anonymous" style="display:none" alt="Bendy">
+    </div>
+    <div class="click-power">🖋 <span id="clickPower">1</span> ink per click</div>
+    <div style="font-size:.7rem;color:#5a3d1a;text-align:center;letter-spacing:2px;text-transform:uppercase">click bendy to collect ink</div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-panel" id="upgradesPanel">
+    <div class="section-label">— upgrades —</div>
+  </div>
+</div>
+
+<footer>BENDY AND THE INK MACHINE © THE MEATLY · ENHANCED CLICKER TRIBUTE</footer>
+
+<!-- ══════════ OVERLAYS ══════════ -->
+
+<!-- MOD MENU -->
+<div class="overlay" id="modOverlay">
+<div class="modal">
+  <button class="modal-close" onclick="closeAllModals()">✕</button>
+  <h2>⚙ MOD MENU ⚙</h2>
+
+  <div class="mod-section">🖋 Ink</div>
+  <div class="mod-row"><span class="mod-label">Add ink</span><input class="mod-input" id="modAddInk" type="number" value="1000"><button class="mod-btn" onclick="modAddInk()">Apply</button></div>
+  <div class="mod-row"><span class="mod-label">Set ink</span><input class="mod-input" id="modSetInk" type="number" value="0"><button class="mod-btn" onclick="modSetInk()">Apply</button></div>
+  <div class="mod-row"><span class="mod-label">Add total ink (all-time)</span><input class="mod-input" id="modAddTotal" type="number" value="0"><button class="mod-btn" onclick="modAddTotal()">Apply</button></div>
+
+  <div class="mod-section">⚡ Speed</div>
+  <div class="mod-row"><span class="mod-label">Game speed multiplier</span>
+    <select class="mod-input" id="modSpeed" style="text-align:left">
+      <option value="1">1× Normal</option>
+      <option value="2">2× Fast</option>
+      <option value="5">5× Very Fast</option>
+      <option value="10">10× Ludicrous</option>
+      <option value="50">50× MEGA</option>
+    </select>
+    <button class="mod-btn" onclick="modSetSpeed()">Apply</button>
+  </div>
+
+  <div class="mod-section">🖱 Click Power</div>
+  <div class="mod-row"><span class="mod-label">Set click power</span><input class="mod-input" id="modClickPow" type="number" value="1"><button class="mod-btn" onclick="modSetClickPow()">Apply</button></div>
+  <div class="mod-row"><span class="mod-label">Multiply click power</span><input class="mod-input" id="modClickMult" type="number" value="2"><button class="mod-btn" onclick="modMultClickPow()">Apply</button></div>
+
+  <div class="mod-section">🏗 Buildings</div>
+  <div id="modBuildingRows"></div>
+
+  <div class="mod-section">✨ Upgrades</div>
+  <div class="mod-row"><span class="mod-label">Unlock all upgrades</span><button class="mod-btn" onclick="modUnlockAllUpgrades()">Unlock All</button></div>
+  <div class="mod-row"><span class="mod-label">Lock all upgrades</span><button class="mod-btn danger" onclick="modLockAllUpgrades()">Lock All</button></div>
+
+  <div class="mod-section">🌀 Prestige</div>
+  <div class="mod-row"><span class="mod-label">Set prestige level</span><input class="mod-input" id="modPrestige" type="number" value="0"><button class="mod-btn" onclick="modSetPrestige()">Apply</button></div>
+
+  <div class="mod-section">🎲 Fun</div>
+  <div class="mod-row"><span class="mod-label">Max everything (instant win)</span><button class="mod-btn" onclick="modMaxEverything()">GO WILD</button></div>
+  <div class="mod-row"><span class="mod-label">Ink per second override</span><input class="mod-input" id="modIpsOverride" type="number" placeholder="auto"><button class="mod-btn" onclick="modIpsOverride()">Apply</button><button class="mod-btn danger" onclick="modIpsClear()">Auto</button></div>
+</div>
+</div>
+
+<!-- SAVE EDITOR -->
+<div class="overlay" id="saveOverlay">
+<div class="modal">
+  <button class="modal-close" onclick="closeAllModals()">✕</button>
+  <h2>💾 SAVE EDITOR 💾</h2>
+  <p style="font-size:.75rem;color:#807060;margin-bottom:12px">Edit the raw JSON save data. Be careful — invalid JSON will not load.</p>
+
+  <div class="mod-section">📋 Current Save Data</div>
+  <textarea class="save-textarea" id="saveEditorArea"></textarea>
+  <div class="save-btn-row">
+    <button class="mod-btn" onclick="refreshSaveEditor()">🔄 Refresh</button>
+    <button class="mod-btn" onclick="applySaveEdit()">✅ Apply Changes</button>
+    <button class="mod-btn" onclick="prettifySave()">✨ Prettify JSON</button>
+    <button class="mod-btn danger" onclick="if(confirm('Reset everything?')){resetGame();closeAllModals();}">☠ Reset All</button>
+  </div>
+
+  <div class="mod-section" style="margin-top:20px">📥 Export / Import</div>
+  <div style="font-size:.75rem;color:#807060;margin-bottom:8px">Save your progress as a .txt file and reload it any time.</div>
+  <div class="save-btn-row">
+    <button class="mod-btn green" onclick="exportSaveTxt()">💾 Export as .txt</button>
+    <button class="mod-btn green" onclick="document.getElementById('importFile2').click()">📂 Import from .txt</button>
+    <input type="file" id="importFile2" accept=".txt,.json" style="display:none" onchange="importSaveTxt(event)">
+    <button class="mod-btn" onclick="copySaveToClipboard()">📋 Copy to Clipboard</button>
+    <button class="mod-btn" onclick="pasteFromClipboard()">📌 Paste from Clipboard</button>
+  </div>
+
+  <div class="mod-section" style="margin-top:16px">⚙ Individual Fields</div>
+  <div class="mod-row"><span class="mod-label">ink</span><input class="mod-input" id="fe_ink" type="number"><button class="mod-btn" onclick="setField('ink',parseFloat(document.getElementById('fe_ink').value))">Set</button></div>
+  <div class="mod-row"><span class="mod-label">totalInk</span><input class="mod-input" id="fe_totalInk" type="number"><button class="mod-btn" onclick="setField('totalInk',parseFloat(document.getElementById('fe_totalInk').value))">Set</button></div>
+  <div class="mod-row"><span class="mod-label">totalClicks</span><input class="mod-input" id="fe_totalClicks" type="number"><button class="mod-btn" onclick="setField('totalClicks',parseInt(document.getElementById('fe_totalClicks').value))">Set</button></div>
+  <div class="mod-row"><span class="mod-label">clickPower</span><input class="mod-input" id="fe_clickPower" type="number"><button class="mod-btn" onclick="setField('clickPower',parseFloat(document.getElementById('fe_clickPower').value))">Set</button></div>
+  <div class="mod-row"><span class="mod-label">prestige</span><input class="mod-input" id="fe_prestige" type="number"><button class="mod-btn" onclick="setField('prestige',parseInt(document.getElementById('fe_prestige').value))">Set</button></div>
+</div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div class="overlay" id="achOverlay">
+<div class="modal">
+  <button class="modal-close" onclick="closeAllModals()">✕</button>
+  <h2>🏆 ACHIEVEMENTS 🏆</h2>
+  <div id="achievementsGrid" class="achievements-grid"></div>
+</div>
+</div>
+
+<audio id="bendyAudio" preload="auto"><source id="audioSrc" type="audio/mpeg"></audio>
+
+<script>
+// ── AUDIO ──
+const audioB64="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";
+function playSound(){try{const s=new Audio('data:audio/mpeg;base64,'+audioB64);s.volume=.7;s.play().catch(()=>{});setTimeout(()=>s.src='',4000);}catch(e){}}
+
+// ── STATE ──
+let state={
+  ink:0,totalInk:0,totalClicks:0,clickPower:1,ips:0,prestige:0,
+  buildings:{},upgrades:{},gameSpeed:1,ipsOverride:null,
+  achievements:{}
+};
+const saved=localStorage.getItem('bendyClicker_v2');
+if(saved){try{Object.assign(state,JSON.parse(saved));}catch(e){}}
+
+// ── DEFINITIONS ──
+const BUILDINGS=[
+  {id:'pump',    name:'Ink Pump',       icon:'🩸',baseCost:10,   baseIps:.1, desc:'Slowly pumps ink from the walls.'},
+  {id:'pipe',    name:'Ink Pipe',       icon:'🪠',baseCost:80,   baseIps:.5, desc:'Channels ink through the studio.'},
+  {id:'barrel',  name:'Ink Barrel',     icon:'🛢', baseCost:350,  baseIps:2,  desc:'Big barrels. Smells terrible.'},
+  {id:'machine', name:'Ink Machine',    icon:'⚙️',baseCost:2000, baseIps:10, desc:'The heart of Joey Drew Studios.'},
+  {id:'demon',   name:'Ink Demon',      icon:'😈',baseCost:10000,baseIps:50, desc:'Bendy himself. Terrifying efficiency.'},
+  {id:'studio',  name:"Joey's Studio",  icon:'🎬',baseCost:50000,baseIps:200,desc:'The whole corrupted studio works for you.'},
+];
+const UPGRADES=[
+  {id:'sharper_pen', name:'Sharper Pen',   icon:'✏️',cost:50,   req:{},         desc:'Double click power.',       effect:()=>{state.clickPower*=2;}},
+  {id:'ink_fountain',name:'Ink Fountain',  icon:'⛲',cost:200,  req:{pump:5},   desc:'Pumps work 2× as fast.',    effect:()=>{}},
+  {id:'black_gloves',name:'Black Gloves',  icon:'🧤',cost:500,  req:{},         desc:'Click power × 3.',          effect:()=>{state.clickPower*=3;}},
+  {id:'toon_power',  name:'Toon Power',    icon:'🌀',cost:1000, req:{pipe:5},   desc:'Pipes produce 2× ink.',     effect:()=>{}},
+  {id:'ritual',      name:'Dark Ritual',   icon:'🕯',cost:5000, req:{machine:1},desc:'Ink Machine output × 2.',   effect:()=>{}},
+  {id:'boris_helper',name:'Boris Helps',   icon:'🐺',cost:2000, req:{},         desc:'Click power + 20.',         effect:()=>{state.clickPower+=20;}},
+  {id:'alice_angel', name:'Alice Angel',   icon:'👼',cost:15000,req:{demon:1},  desc:'All ink sources × 1.5.',    effect:()=>{}},
+  {id:'golden_ink',  name:'Golden Ink',    icon:'✨',cost:50000,req:{studio:1}, desc:'Click power × 10.',         effect:()=>{state.clickPower*=10;}},
+  {id:'devil_pact',  name:"Devil's Pact",  icon:'📜',cost:100000,req:{studio:3},desc:'All IPS × 3 + click×5.',    effect:()=>{state.clickPower*=5;}},
+  {id:'eternal_ink', name:'Eternal Ink',   icon:'♾️',cost:500000,req:{demon:10},desc:'Click power × 50.',         effect:()=>{state.clickPower*=50;}},
+];
+const MILESTONES=[
+  {id:'m1',threshold:10,     label:'First drip',       icon:'💧'},
+  {id:'m2',threshold:100,    label:'Ink curious',       icon:'🖋'},
+  {id:'m3',threshold:500,    label:'Toon watcher',      icon:'📺'},
+  {id:'m4',threshold:2000,   label:'Studio apprentice', icon:'🎬'},
+  {id:'m5',threshold:10000,  label:'Ink addict',        icon:'🛢'},
+  {id:'m6',threshold:50000,  label:"Demon's servant",   icon:'😈'},
+  {id:'m7',threshold:200000, label:"Joey Drew's heir",  icon:'☠'},
+  {id:'m8',threshold:1000000,label:'THE INK MACHINE',   icon:'⚙️'},
+];
+const ACHIEVEMENTS=[
+  {id:'a_click1',name:'First Click',    icon:'🖱',desc:'Click Bendy once.'},
+  {id:'a_click100',name:'Century Clicker',icon:'💯',desc:'Click 100 times.'},
+  {id:'a_click1000',name:'Click Machine',icon:'⚡',desc:'Click 1000 times.'},
+  {id:'a_ink1k',name:'Ink Hoarder',    icon:'🛢',desc:'Collect 1,000 ink.'},
+  {id:'a_ink100k',name:'Ink Baron',    icon:'💰',desc:'Collect 100,000 ink.'},
+  {id:'a_ink1m',name:'Ink Millionaire',icon:'🌊',desc:'Collect 1,000,000 total ink.'},
+  {id:'a_build1',name:'Builder',       icon:'🔨',desc:'Own any 1 building.'},
+  {id:'a_build10',name:'Foreman',      icon:'👷',desc:'Own 10 buildings total.'},
+  {id:'a_build50',name:'Industrialist',icon:'🏭',desc:'Own 50 buildings total.'},
+  {id:'a_upg1',name:'Upgraded',        icon:'⬆',desc:'Buy your first upgrade.'},
+  {id:'a_upg5',name:'Power User',      icon:'⚡',desc:'Buy 5 upgrades.'},
+  {id:'a_prestige1',name:'Reborn',     icon:'🌀',desc:'Prestige once.'},
+  {id:'a_speed',name:'Need for Speed', icon:'🏎',desc:'Use a game speed multiplier.'},
+  {id:'a_mod',name:'Cheater',          icon:'😏',desc:'Use the mod menu.'},
+  {id:'a_export',name:'Archivist',     icon:'📁',desc:'Export a save file.'},
+];
+
+// ── HELPERS ──
+function fmt(n){if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return Math.floor(n).toString();}
+function getBuildingCost(b){const o=state.buildings[b.id]||0;return Math.ceil(b.baseCost*Math.pow(1.15,o));}
+function getBuildingIps(b){
+  const o=state.buildings[b.id]||0;if(!o)return 0;
+  let m=1;
+  if(b.id==='pump'&&state.upgrades['ink_fountain'])m=2;
+  if(b.id==='pipe'&&state.upgrades['toon_power'])m=2;
+  if(b.id==='machine'&&state.upgrades['ritual'])m=2;
+  if(state.upgrades['alice_angel'])m*=1.5;
+  if(state.upgrades['devil_pact'])m*=3;
+  return b.baseIps*o*m*(1+state.prestige*.5);
+}
+function calcTotalIps(){if(state.ipsOverride!=null)return state.ipsOverride;return BUILDINGS.reduce((s,b)=>s+getBuildingIps(b),0);}
+function totalOwnedBuildings(){return Object.values(state.buildings).reduce((s,v)=>s+v,0);}
+function totalOwnedUpgrades(){return Object.keys(state.upgrades).filter(k=>state.upgrades[k]).length;}
+
+// ── ACHIEVEMENT UNLOCK ──
+function checkAchievements(){
+  const u={};
+  if(state.totalClicks>=1)u.a_click1=true;
+  if(state.totalClicks>=100)u.a_click100=true;
+  if(state.totalClicks>=1000)u.a_click1000=true;
+  if(state.totalInk>=1000)u.a_ink1k=true;
+  if(state.totalInk>=100000)u.a_ink100k=true;
+  if(state.totalInk>=1000000)u.a_ink1m=true;
+  if(totalOwnedBuildings()>=1)u.a_build1=true;
+  if(totalOwnedBuildings()>=10)u.a_build10=true;
+  if(totalOwnedBuildings()>=50)u.a_build50=true;
+  if(totalOwnedUpgrades()>=1)u.a_upg1=true;
+  if(totalOwnedUpgrades()>=5)u.a_upg5=true;
+  if(state.prestige>=1)u.a_prestige1=true;
+  if(state.gameSpeed>1)u.a_speed=true;
+  Object.entries(u).forEach(([id,v])=>{
+    if(v&&!state.achievements[id]){
+      state.achievements[id]=true;
+      const a=ACHIEVEMENTS.find(x=>x.id===id);
+      if(a)showNotif('🏆 '+a.name+' — '+a.desc);
+    }
+  });
+}
+
+// ── CLICK ──
+function handleClick(e){
+  playSound();
+  const gain=state.clickPower;
+  state.ink+=gain;state.totalInk+=gain;state.totalClicks++;
+  const btn=document.getElementById('clickerContainer');
+  btn.classList.add('clicked');setTimeout(()=>btn.classList.remove('clicked'),120);
+  const ft=document.createElement('div');
+  ft.className='float-text';ft.textContent='+'+fmt(gain);
+  ft.style.left=(e.clientX-20+Math.random()*40-20)+'px';ft.style.top=(e.clientY-20)+'px';
+  document.body.appendChild(ft);setTimeout(()=>ft.remove(),900);
+  const sp=document.createElement('div');sp.className='splatter';
+  sp.style.left=e.clientX+'px';sp.style.top=e.clientY+'px';
+  document.body.appendChild(sp);setTimeout(()=>sp.remove(),500);
+  checkAchievements();updateUI();
+}
+
+// ── BUY ──
+function buyBuilding(id){
+  const b=BUILDINGS.find(x=>x.id===id);
+  const cost=getBuildingCost(b);if(state.ink<cost)return;
+  state.ink-=cost;state.buildings[id]=(state.buildings[id]||0)+1;
+  state.ips=calcTotalIps();showNotif('🖋 '+b.name+' acquired!');
+  checkAchievements();renderUpgrades();updateUI();
+}
+function buyUpgrade(id){
+  const u=UPGRADES.find(x=>x.id===id);
+  if(state.ink<u.cost||state.upgrades[id])return;
+  state.ink-=u.cost;state.upgrades[id]=true;u.effect();
+  state.ips=calcTotalIps();showNotif('✨ '+u.name+' unlocked!');
+  checkAchievements();renderUpgrades();updateUI();
+}
+
+// ── PRESTIGE ──
+function prestige(){
+  if(state.totalInk<1000000)return;
+  state.prestige++;state.ink=0;state.totalInk=0;state.totalClicks=0;
+  state.clickPower=1+state.prestige;state.buildings={};state.upgrades={};
+  state.ips=0;state.ipsOverride=null;
+  showNotif('☠ PRESTIGE '+state.prestige+'! Bonus ×'+(1+state.prestige*.5).toFixed(1));
+  checkAchievements();renderUpgrades();updateUI();
+}
+
+// ── RENDER ──
+function renderUpgrades(){
+  const panel=document.getElementById('upgradesPanel');
+  let html='<div class="section-label">— upgrades —</div>';
+  UPGRADES.forEach(u=>{
+    const owned=!!state.upgrades[u.id];
+    let reqMet=true;
+    Object.entries(u.req).forEach(([bid,cnt])=>{if((state.buildings[bid]||0)<cnt)reqMet=false;});
+    if(!reqMet&&!owned)return;
+    const afford=state.ink>=u.cost&&!owned;
+    html+=`<div class="upgrade-btn ${afford?'affordable':''} ${owned?'maxed':''}" onclick="buyUpgrade('${u.id}')">
+      <div class="upg-icon">${u.icon}</div>
+      <div class="upg-info"><div class="upg-name">${u.name}</div><div class="upg-desc">${u.desc}</div></div>
+      <div><div class="upg-cost">${owned?'✓ owned':fmt(u.cost)+' 🖋'}</div></div>
+    </div>`;
+  });
+  html+='<div class="section-label" style="margin-top:12px">— buildings —</div>';
+  BUILDINGS.forEach(b=>{
+    const owned=state.buildings[b.id]||0;
+    const cost=getBuildingCost(b);const afford=state.ink>=cost;
+    html+=`<div class="upgrade-btn ${afford?'affordable':''}" onclick="buyBuilding('${b.id}')">
+      <div class="upg-icon">${b.icon}</div>
+      <div class="upg-info"><div class="upg-name">${b.name}</div><div class="upg-desc">${b.desc} · +${b.baseIps}/s each</div></div>
+      <div style="text-align:right"><div class="upg-cost">${fmt(cost)} 🖋</div><div class="upg-owned">owned: ${owned}</div></div>
+    </div>`;
+  });
+  panel.innerHTML=html;
+}
+function renderMilestones(){
+  document.getElementById('milestones').innerHTML=MILESTONES.map(m=>{
+    const u=state.totalInk>=m.threshold;
+    return `<div class="milestone ${u?'unlocked':''}"><span class="milestone-icon">${m.icon}</span><span>${m.label}</span><span style="margin-left:auto;font-size:.7rem">${u?'✓':fmt(m.threshold)}</span></div>`;
+  }).join('');
+}
+function updateUI(){
+  state.ips=calcTotalIps();
+  document.getElementById('inkCount').textContent=fmt(state.ink);
+  document.getElementById('ipsDisplay').textContent=state.ips.toFixed(1)+' ink / second';
+  document.getElementById('clickPower').textContent=fmt(state.clickPower);
+  document.getElementById('totalClicks').textContent=fmt(state.totalClicks);
+  document.getElementById('totalInk').textContent=fmt(state.totalInk);
+  document.getElementById('prestigeLevel').textContent=state.prestige;
+  document.getElementById('totalBuildings').textContent=totalOwnedBuildings();
+  document.getElementById('totalUpgrades').textContent=totalOwnedUpgrades();
+  document.getElementById('gameSpeedStat').textContent=state.gameSpeed+'×';
+  document.getElementById('prestigeBtn').style.display=state.totalInk>=1000000?'block':'none';
+  const spd=state.gameSpeed;
+  const sb=document.getElementById('speedBadge');
+  if(spd>10)sb.innerHTML=`<span class="speed-indicator mega">⚡ ${spd}× MEGA SPEED</span>`;
+  else if(spd>1)sb.innerHTML=`<span class="speed-indicator fast">▶ ${spd}× SPEED</span>`;
+  else sb.innerHTML=`<span class="speed-indicator normal">▶ Normal Speed</span>`;
+  if(state.ipsOverride!=null)sb.innerHTML+=` <span class="speed-indicator fast">IPS: ${fmt(state.ipsOverride)}</span>`;
+  renderMilestones();
+}
+
+// ── DRIP BAR ──
+const dripBar=document.getElementById('dripBar');
+for(let i=0;i<18;i++){const d=document.createElement('div');d.className='drip';d.style.animationDuration=(1.5+Math.random()*3)+'s';d.style.animationDelay=(-Math.random()*3)+'s';d.style.height=(10+Math.random()*20)+'px';dripBar.appendChild(d);}
+
+// ── NOTIFICATION ──
+let notifTimeout;
+function showNotif(msg){
+  const old=document.querySelector('.notif');if(old)old.remove();if(notifTimeout)clearTimeout(notifTimeout);
+  const n=document.createElement('div');n.className='notif';n.textContent=msg;document.body.appendChild(n);
+  notifTimeout=setTimeout(()=>n.remove(),2600);
+}
+
+// ── GAME LOOP ──
+let lastTick=Date.now();
+function gameTick(){
+  const now=Date.now();const dt=(now-lastTick)/1000;lastTick=now;
+  if(state.ips>0){const g=state.ips*dt*state.gameSpeed;state.ink+=g;state.totalInk+=g;}
+  updateUI();
+}
+setInterval(gameTick,100);
+setInterval(renderUpgrades,1000);
+setInterval(()=>{localStorage.setItem('bendyClicker_v2',JSON.stringify(state));},5000);
+
+// ── RESET ──
+function resetGame(){
+  localStorage.removeItem('bendyClicker_v2');
+  state={ink:0,totalInk:0,totalClicks:0,clickPower:1,ips:0,prestige:0,buildings:{},upgrades:{},gameSpeed:1,ipsOverride:null,achievements:{}};
+  renderUpgrades();updateUI();showNotif('☠ Save wiped. Start over.');
+}
+
+// ══════════ MODALS ══════════
+function closeAllModals(){document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('active'));}
+
+function openMod(){
+  // fill building rows
+  let rows='';
+  BUILDINGS.forEach(b=>{
+    rows+=`<div class="mod-row"><span class="upg-icon">${b.icon}</span><span class="mod-label">${b.name}</span><input class="mod-input" id="mb_${b.id}" type="number" value="${state.buildings[b.id]||0}" min="0"><button class="mod-btn" onclick="modSetBuilding('${b.id}')">Set</button></div>`;
+  });
+  document.getElementById('modBuildingRows').innerHTML=rows;
+  document.getElementById('modSpeed').value=state.gameSpeed||1;
+  document.getElementById('modClickPow').value=state.clickPower;
+  document.getElementById('modPrestige').value=state.prestige;
+  document.getElementById('modOverlay').classList.add('active');
+  state.achievements['a_mod']=true;
+}
+function openSave(){
+  refreshSaveEditor();
+  // fill field editors
+  document.getElementById('fe_ink').value=Math.floor(state.ink);
+  document.getElementById('fe_totalInk').value=Math.floor(state.totalInk);
+  document.getElementById('fe_totalClicks').value=state.totalClicks;
+  document.getElementById('fe_clickPower').value=state.clickPower;
+  document.getElementById('fe_prestige').value=state.prestige;
+  document.getElementById('saveOverlay').classList.add('active');
+}
+function openAchievements(){
+  const grid=document.getElementById('achievementsGrid');
+  grid.innerHTML=ACHIEVEMENTS.map(a=>{
+    const earned=!!state.achievements[a.id];
+    return `<div class="ach-card ${earned?'earned':''}"><div class="ach-icon">${a.icon}</div><div class="ach-name">${a.name}</div><div class="ach-desc">${a.desc}</div></div>`;
+  }).join('');
+  document.getElementById('achOverlay').classList.add('active');
+}
+
+// ── MOD FUNCTIONS ──
+function modAddInk(){const v=parseFloat(document.getElementById('modAddInk').value)||0;state.ink+=v;state.totalInk+=v;updateUI();showNotif('💉 Added '+fmt(v)+' ink!');}
+function modSetInk(){const v=parseFloat(document.getElementById('modSetInk').value)||0;state.totalInk+=(v-state.ink);state.ink=v;updateUI();showNotif('💉 Ink set to '+fmt(v));}
+function modAddTotal(){const v=parseFloat(document.getElementById('modAddTotal').value)||0;state.totalInk+=v;updateUI();showNotif('📈 Total ink adjusted by '+fmt(v));}
+function modSetSpeed(){const v=parseFloat(document.getElementById('modSpeed').value)||1;state.gameSpeed=v;checkAchievements();updateUI();showNotif('⚡ Game speed set to '+v+'×');}
+function modSetClickPow(){const v=parseFloat(document.getElementById('modClickPow').value)||1;state.clickPower=v;updateUI();showNotif('🖱 Click power set to '+fmt(v));}
+function modMultClickPow(){const v=parseFloat(document.getElementById('modClickMult').value)||1;state.clickPower*=v;updateUI();showNotif('🖱 Click power multiplied by '+v+'!');}
+function modSetBuilding(id){const v=parseInt(document.getElementById('mb_'+id).value)||0;state.buildings[id]=v;state.ips=calcTotalIps();checkAchievements();renderUpgrades();updateUI();showNotif('🏗 '+id+' set to '+v);}
+function modUnlockAllUpgrades(){UPGRADES.forEach(u=>{if(!state.upgrades[u.id]){state.upgrades[u.id]=true;u.effect();}});state.ips=calcTotalIps();checkAchievements();renderUpgrades();updateUI();showNotif('✨ All upgrades unlocked!');}
+function modLockAllUpgrades(){state.upgrades={};state.clickPower=1+state.prestige;state.ips=calcTotalIps();renderUpgrades();updateUI();showNotif('🔒 All upgrades locked.');}
+function modSetPrestige(){const v=parseInt(document.getElementById('modPrestige').value)||0;state.prestige=v;state.ips=calcTotalIps();checkAchievements();updateUI();showNotif('🌀 Prestige set to '+v);}
+function modMaxEverything(){
+  state.ink=9999999999;state.totalInk=9999999999;state.clickPower=999999;state.prestige=10;
+  BUILDINGS.forEach(b=>state.buildings[b.id]=100);
+  UPGRADES.forEach(u=>{state.upgrades[u.id]=true;u.effect();});
+  state.gameSpeed=5;state.ips=calcTotalIps();
+  checkAchievements();renderUpgrades();updateUI();showNotif('☠ ABSOLUTE POWER ACHIEVED!');
+}
+function modIpsOverride(){const v=parseFloat(document.getElementById('modIpsOverride').value);if(!isNaN(v)&&v>=0){state.ipsOverride=v;updateUI();showNotif('⚡ IPS overridden to '+fmt(v));}}
+function modIpsClear(){state.ipsOverride=null;state.ips=calcTotalIps();updateUI();showNotif('⚡ IPS back to auto.');}
+
+// ── SAVE EDITOR FUNCTIONS ──
+function refreshSaveEditor(){
+  const pretty=JSON.stringify(state,null,2);
+  document.getElementById('saveEditorArea').value=pretty;
+}
+function applySaveEdit(){
+  try{
+    const parsed=JSON.parse(document.getElementById('saveEditorArea').value);
+    Object.assign(state,parsed);
+    state.ips=calcTotalIps();
+    renderUpgrades();updateUI();
+    showNotif('✅ Save data applied!');
+  }catch(e){showNotif('❌ Invalid JSON: '+e.message);}
+}
+function prettifySave(){
+  try{
+    const obj=JSON.parse(document.getElementById('saveEditorArea').value);
+    document.getElementById('saveEditorArea').value=JSON.stringify(obj,null,2);
+  }catch(e){showNotif('❌ Invalid JSON');}
+}
+function setField(key,val){
+  if(isNaN(val)){showNotif('❌ Invalid value');return;}
+  state[key]=val;state.ips=calcTotalIps();
+  renderUpgrades();updateUI();refreshSaveEditor();
+  showNotif('✅ '+key+' set to '+val);
+}
+
+// ── EXPORT / IMPORT ──
+function exportSaveTxt(){
+  localStorage.setItem('bendyClicker_v2',JSON.stringify(state));
+  const data=JSON.stringify(state,null,2);
+  const blob=new Blob([data],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  const ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,16);
+  a.download='bendy_save_'+ts+'.txt';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  state.achievements['a_export']=true;
+  showNotif('📥 Save exported as .txt!');
+}
+function importSaveTxt(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const parsed=JSON.parse(e.target.result);
+      Object.assign(state,parsed);
+      state.ips=calcTotalIps();
+      localStorage.setItem('bendyClicker_v2',JSON.stringify(state));
+      renderUpgrades();updateUI();
+      showNotif('✅ Save imported from '+file.name+'!');
+    }catch(err){showNotif('❌ Could not parse file: '+err.message);}
+  };
+  reader.readAsText(file);
+  event.target.value='';
+}
+async function copySaveToClipboard(){
+  const data=JSON.stringify(state);
+  try{await navigator.clipboard.writeText(data);showNotif('📋 Save copied to clipboard!');}
+  catch(e){showNotif('❌ Clipboard not available. Use Export instead.');}
+}
+async function pasteFromClipboard(){
+  try{
+    const text=await navigator.clipboard.readText();
+    document.getElementById('saveEditorArea').value=text;
+    showNotif('📌 Pasted from clipboard. Click Apply to load.');
+  }catch(e){showNotif('❌ Clipboard not available.');}
+}
+
+// ── BENDY CANVAS ──
+function renderBendyToCanvas(){
+  const img=document.getElementById('bendyImgHidden');
+  const canvas=document.getElementById('bendyCanvas');
+  const ctx=canvas.getContext('2d');
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    const id=ctx.getImageData(0,0,canvas.width,canvas.height);
+    const d=id.data;
+    for(let i=0;i<d.length;i+=4){
+      if(d[i]>200&&d[i+1]>200&&d[i+2]>200){
+        const w=Math.min(d[i],d[i+1],d[i+2]);
+        d[i+3]=Math.max(0,255-(w-180)*4);
+      }
+    }
+    ctx.putImageData(id,0,0);
+  }
+  if(img.complete&&img.naturalWidth>0)draw();
+  else{img.onload=draw;img.onerror=function(){ctx.font='100px serif';ctx.textAlign='center';ctx.fillText('🎭',90,120);};}
+}
+renderBendyToCanvas();
+
+// ── INIT ──
+renderUpgrades();updateUI();
+</script>
+</body>
+</html>

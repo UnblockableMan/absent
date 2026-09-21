@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+  <style>
+50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Just Build - UNBL0CKEDZ0NE</title>
+    <!-- Fixed the missing quote below -->
+    <link rel="shortcut icon" href="https://quantil.jsdelivr.net/gh/matheveryday25/math@latest/justbuild/favicon.ico">
+    <link rel="stylesheet" href="https://cdn. athletics.js/gh/UNBL0CKEDZ0NE/ubassets@latest/justbuild/style.css">
+    
+    <!-- Scripts -->
+    <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@latest/justbuild/adinLoader.js"></script>
+    <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@latest/justbuild/UnityLoader.js"></script>
+    <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@latest/justbuild/UnityProgress.js"></script>
+  </head>
+  <body>
+    <div id="gameContainer"></div>
+
+    <div id="loader">
+      <div class="spinner"></div>
+      <div class="progress"><div class="full"></div></div>
+    </div>
+
+<script>
+  // 1. CREATE THE STUBS IMMEDIATELY
+  // This ensures that even if the ad file is missing, the game won't crash.
+  window.showAds = function() {
+    console.log("Ad requested but script is missing. Skipping safely.");
+  };
+  window.hideAds = function() {
+    console.log("Ad hide requested. Skipping safely.");
+  };
+  window.getAdinDomain = ""; // Define the variable the ad loader expects
+
+  // 2. LOAD THE GAME
+  var jsonPath = "https://quantil.jsdelivr.net/gh/matheveryday25/math@latest/justbuild/build.json";
+  
+  var gameInstance = UnityLoader.instantiate("gameContainer", jsonPath, {
+    onProgress: UnityProgress,
+    Module: {
+      onRuntimeInitialized: function() {
+        UnityProgress(gameInstance, "complete");
+      }
+    }
+  });
+
+  // 3. POINTER LOCK LOGIC
+  function lockChangeAlert() {
+    if (!document.pointerLockElement && typeof gameInstance !== 'undefined')
+      gameInstance.SendMessage("Pause Canvas", "PauseGame");
+  }
+  document.addEventListener('pointerlockchange', lockChangeAlert, false);
+</script>
+  </body>
+</html>
+<!-- 
+Play a G4mes Website with stuff for every blocker! - 🎮 UNBL0CKEDZ0NE 💻.
+Our G4mes Doc with 2K G4mes 🎮! - https://docs.google.com/document/d/1JBhyNwurO02JYGBzx0p58B9e74qcphEKN8bI-i2dCcc/preview
+Discord with Links 👾! - https://discord.gg/v66D3fn4kD
+Our Tiktok 🔗 - https://www.tiktok.com/@unbl0ckedz0ne
+Our Youtube 🔗 - https://www.youtube.com/@unblockedzonegames
+Note Last Updated 🔄️ - March 21 2026
+-->

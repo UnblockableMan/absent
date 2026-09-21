@@ -1,0 +1,35 @@
+<script src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/game/allObjects.js"></script>
+<script src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/game/allLevels.js"></script>
+<script src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/libs/phaser.min.js"></script>
+<script>
+(function(){
+var C="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/";
+function r(u){return(!u||typeof u!="string"||u.match(/^https?:\/\//)||u.startsWith("data:"))?u:C+u.replace(/^\//,"");}
+var o=Phaser.Loader.LoaderPlugin.prototype.addFile;
+Phaser.Loader.LoaderPlugin.prototype.addFile=function(f){f.url=r(f.url);f.src=r(f.src);return o.call(this,f);};
+["image","svg","atlas","spritesheet","audio","json","text","script","binary"].forEach(function(m){
+var x=Phaser.Loader.LoaderPlugin.prototype[m];
+if(x)Phaser.Loader.LoaderPlugin.prototype[m]=function(k,u,...a){return x.call(this,k,r(u),...a);};
+});
+})()
+</script>
+<script src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/libs/pako.min.js"></script>
+<script src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/utils/cache-manager.js"></script>
+<script src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/api/GDapiWrapper.js"></script>
+<script>window._gdProxyUrl="https://gd-proxy.gmdc.workers.dev";</script>
+<script defer src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/utils/config.js"></script>
+<script defer src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/core/triggers.js"></script>
+<script defer src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/core/level.js?latest"></script>
+<script defer src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/core/player.js"></script>
+<script defer src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/core/audio.js"></script>
+<script defer src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/core/loading-screen.js"></script>
+<script defer src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/core/game-scene.js?latest"></script>
+<script defer src="https://quantil.jsdelivr.net/gh/web-dashers/web-dashers.github.io@main/assets/scripts/core/main.js"></script>
+<!-- 
+Play a G4mes Website with stuff for every blocker! - 🎮 UNBL0CKEDZ0NE 💻.
+Our G4mes Doc with 2K G4mes 🎮! - https://docs.google.com/document/d/1JBhyNwurO02JYGBzx0p58B9e74qcphEKN8bI-i2dCcc/preview
+Discord with Links 👾! - https://discord.gg/v66D3fn4kD
+Our Tiktok 🔗 - https://www.tiktok.com/@unbl0ckedz0ne
+Our Youtube 🔗 - https://www.youtube.com/@unblockedzonegames
+Note Last Updated 🔄️ - March 21 2026
+-->

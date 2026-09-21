@@ -1,0 +1,71 @@
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      overflow: hidden;
+    }
+  </style>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/style.css">
+  <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/UnityProgress.js"></script>
+  <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/2.7.js"></script>
+  <script type="text/javascript">
+    var gameInstance;
+    window.onload = function () {
+      gameInstance = UnityLoader.instantiate("gameContainer", "https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/2.7.json", {
+        onProgress: UnityProgress,
+        Module: {
+          onRuntimeInitialized: function () {
+            UnityProgress(gameInstance, "complete");
+          },
+        },
+      });
+    };
+  </script>
+  <div class="webgl-content">
+    <div id="gameContainer" style="width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; position: relative; background: rgb(0, 0, 0);">
+      <canvas id="#canvas" style="width: 100%; height: 100%; cursor: default;" width="1350" height="951"></canvas>
+      <div class="logo Dark" style="display: none;"></div>
+      <div class="progress Dark" style="display: none;">
+        <div class="empty" style="width: 0%;"></div>
+        <div class="full" style="width: 100%;"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/1firebase-app.js"></script>
+  <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/1firebase-auth.js"></script>
+  <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/1firebase-firestore.js"></script>
+  <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/1firebase.js"></script>
+  <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/1login.js?v=2"></script>
+  <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/1v1lol/1firestore.js"></script>
+  <script>
+    initializeFireBase();
+    function showAds() {
+      console.log("show ads");
+    }
+    function requestNewAd() {
+      unityAdFinishedCallback();
+    }
+    function unityAdFinishedCallback() {
+      try {
+        if (gameInstance) gameInstance.SendMessage("AdsManager", "OnWebCallback");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  </script>
+</head>
+<body>
+
+</body>
+</html>
+<!-- 
+Play a G4mes Website with stuff for every blocker! - 🎮 UNBL0CKEDZ0NE 💻.
+Our G4mes Doc with 2K G4mes 🎮! - https://docs.google.com/document/d/1JBhyNwurO02JYGBzx0p58B9e74qcphEKN8bI-i2dCcc/preview
+Discord with Links 👾! - https://discord.gg/v66D3fn4kD
+Our Tiktok 🔗 - https://www.tiktok.com/@unbl0ckedz0ne
+Our Youtube 🔗 - https://www.youtube.com/@unblockedzonegames
+Note Last Updated 🔄️ - March 21 2026
+-->

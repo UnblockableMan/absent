@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Web Dashers - UNBL0CKEDZ0NE</title>
+    
+    <base href="https://cdn.jsdelivr.net/gh/web-dashers/web-dashers.github.io@latest/">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+
+    <!-- Core Game Libraries -->
+    <script src="assets/scripts/libs/phaser.min.js"></script>
+    <script src="assets/scripts/libs/pako.min.js"></script>
+    
+    <!-- Game Data & API -->
+    <script src="assets/scripts/game/allObjects.js?latest"></script>
+    <script src="assets/scripts/game/allLevels.js"></script>
+    <script src="assets/scripts/utils/cache-manager.js"></script>
+    <script src="assets/scripts/api/GDapiWrapper.js"></script>
+    
+    <!-- Game Engine Logic -->
+    <script>window._gdProxyUrl = "https://gd-proxy.gmdc.workers.dev";</script>
+    <script defer src="assets/scripts/utils/config.js"></script>
+    <script defer src="assets/scripts/core/triggers.js"></script>
+    <script defer src="assets/scripts/core/level.js?latest"></script>
+    <script defer src="assets/scripts/core/player.js"></script>
+    <script defer src="assets/scripts/core/audio.js"></script>
+    <script defer src="assets/scripts/core/loading-screen.js"></script>
+    <script defer src="assets/scripts/core/game-scene.js?latest"></script>
+    <script defer src="assets/scripts/core/main.js"></script>
+
+    <script>
+        // Fix for window resizing and disabling right-click context menu
+        new ResizeObserver(() => {
+            window.dispatchEvent(new Event('resize'));
+        }).observe(document.documentElement);
+
+        document.oncontextmenu = (e) => e.preventDefault();
+    </script>
+</head>
+<body>
+    <!-- The game canvas will be injected here by main.js -->
+</body>
+</html>
+<!-- 
+Play a G4mes Website with stuff for every blocker! - 🎮 UNBL0CKEDZ0NE 💻.
+Our G4mes Doc with 2K G4mes 🎮! - https://docs.google.com/document/d/1JBhyNwurO02JYGBzx0p58B9e74qcphEKN8bI-i2dCcc/preview
+Discord with Links 👾! - https://discord.gg/v66D3fn4kD
+Our Tiktok 🔗 - https://www.tiktok.com/@unbl0ckedz0ne
+Our Youtube 🔗 - https://www.youtube.com/@unblockedzonegames
+Note Last Updated 🔄️ - March 21 2026
+-->

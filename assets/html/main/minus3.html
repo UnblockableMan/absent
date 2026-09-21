@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+  <style>
+50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <base href="https://quantil.jsdelivr.net/gh/matheveryday25/math@latest/minus3/">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Unity Web Player | -3</title>
+    <!-- Import Pixelify Sans from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #000;
+        font-family: 'Pixelify Sans', sans-serif;
+      }
+      #unity-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #unity-canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      #loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+      }
+      #loading-logo {
+        max-width: 80%;
+        max-height: 200px;
+        margin-bottom: 30px;
+      }
+      #loading-text {
+        color: #ff8c00; /* Orange */
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      #unity-progress-bar-empty {
+        width: 300px;
+        height: 12px;
+        background: #333;
+        border-radius: 6px;
+        border: 2px solid #ff8c00;
+        overflow: hidden;
+      }
+      #unity-progress-bar-full {
+        width: 0%;
+        height: 100%;
+        background: #ff8c00; /* Orange Progress */
+        transition: width 0.2s;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="loading-overlay">
+      <!-- Your Custom Logo -->
+      <img id="loading-logo" src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/UNBL0CKEDZ0NE%20in%20Text.png" alt="Logo">
+      
+      <div id="loading-text">LOADING... 0.00 MB / 111.21 MB</div>
+      
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+
+    <div id="unity-container">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+    </div>
+
+    <script>
+      var loadingOverlay = document.querySelector("#loading-overlay");
+      var loadingText = document.querySelector("#loading-text");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      let loadedBytes = 0;
+
+      async function fetchWithProgress(url) {
+        const response = await fetch(url);
+        const reader = response.body.getReader();
+        let chunks = [];
+        let received = 0;
+        while (true) {
+          const {done, value} = await reader.read();
+          if (done) break;
+          received += value.length;
+          loadedBytes += value.length;
+          chunks.push(value);
+          let mbDone = (loadedBytes / (1024 * 1024)).toFixed(2);
+          loadingText.textContent = `LOADING... ${mbDone} MB / 111.21 MB`;
+        }
+        let fullBuffer = new Uint8Array(received);
+        let offset = 0;
+        for (let chunk of chunks) {
+          fullBuffer.set(chunk, offset);
+          offset += chunk.length;
+        }
+        return fullBuffer.buffer;
+      }
+
+      async function mergeFiles(fileParts, cacheKey) {
+        const cache = await caches.open("-3-cache");
+        const cachedResponse = await cache.match(cacheKey);
+        if (cachedResponse) {
+          const blob = await cachedResponse.blob();
+          return URL.createObjectURL(blob);
+        }
+        const buffers = await Promise.all(fileParts.map(part => fetchWithProgress(part)));
+        const mergedBlob = new Blob(buffers);
+        const response = new Response(mergedBlob);
+        await cache.put(cacheKey, response);
+        return URL.createObjectURL(mergedBlob);
+      }
+
+      function getParts(file, start, end) {
+        let parts = [];
+        for (let i = start; i <= end; i++) { parts.push(file + ".part" + i); }
+        return parts;
+      }
+
+      (async () => {
+        const [dataUrl, wasmUrl] = await Promise.all([
+          mergeFiles(getParts("Build/minus3bog.data", 1, 5), "minus3bog.data"),
+          mergeFiles(getParts("Build/minus3bog.wasm", 1, 2), "minus3bog.wasm"),
+        ]);
+
+        var canvas = document.querySelector("#unity-canvas");
+        var config = {
+          dataUrl: dataUrl,
+          frameworkUrl: "Build/minus3bog.framework.js",
+          codeUrl: wasmUrl,
+          streamingAssetsUrl: "StreamingAssets",
+          companyName: "Mauzer2137",
+          productName: "-3",
+          productVersion: "3.-3",
+        };
+
+        var script = document.createElement("script");
+        script.src = "Build/minus3bog.loader.js";
+        script.onload = () => {
+          createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = (100 * progress) + "%";
+          }).then((unityInstance) => {
+            loadingOverlay.remove();
+          }).catch((message) => {
+            alert(message);
+          });
+        };
+        document.body.appendChild(script);
+      })();
+    </script>
+  </body>
+</html>

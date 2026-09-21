@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Snowball.IO</title>
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/snow/UnityProgress.js"></script>
+    <script src="https://quantil.jsdelivr.net/gh/matheveryday25/math@main/snow/loader.js"></script> <style>
+        /* Optional internal overrides if needed */
+    </style>
+</head>
+<body>
+    <div id="gameContainer"></div>
+
+    <script>
+      // The base URL for your CDN
+      var cdnBase = "https://quantil.jsdelivr.net/gh/matheveryday25/math@main/snow/";
+
+      var gameInstance = UnityLoader.instantiate("gameContainer", cdnBase + "game.json", {
+          onProgress: UnityProgress,
+          Module: {
+              splashScreenStyle: "Dark",
+              // Logo URL for the loading screen
+              progressLogoUrl: "https://quantil.jsdelivr.net/gh/matheveryday25/math@main/UNBL0CKEDZ0NE%20in%20Text.png",
+              
+              // CDN Redirect Logic
+              resolveBuildUrl: function(url) {
+                  return url.indexOf("://") !== -1 ? url : cdnBase + url;
+              },
+              
+              onRuntimeInitialized: function() {
+                  UnityProgress(gameInstance, "complete");
+              }
+          }
+      });
+    </script>
+</body>
+</html>
+<!-- 
+Play a G4mes Website with stuff for every blocker! - 🎮 UNBL0CKEDZ0NE 💻.
+Our G4mes Doc with 2K G4mes 🎮! - https://docs.google.com/document/d/1JBhyNwurO02JYGBzx0p58B9e74qcphEKN8bI-i2dCcc/preview
+Discord with Links 👾! - https://discord.gg/v66D3fn4kD
+Our Tiktok 🔗 - https://www.tiktok.com/@unbl0ckedz0ne
+Our Youtube 🔗 - https://www.youtube.com/@unblockedzonegames
+Note Last Updated 🔄️ - March 21 2026
+-->

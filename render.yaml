@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: absent
+    runtime: static
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
