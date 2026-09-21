@@ -6,7 +6,7 @@
     <title>ABSENT</title>
     <meta name="description" content="ABSENT — a fast, static web proxy. No backend, no build step. Deploy anywhere.">
     <meta name="theme-color" content="#6ecbff">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000'/%3E%3Cpath d='M32 10 52 54H44L32 26 20 54H12Z' fill='%236ecbff'/%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000'/%3E%3Ctext x='32' y='47' font-size='42' text-anchor='middle' fill='%2360a5fa' font-family='serif'%3E%E2%80%A0%3C/text%3E%3C/svg%3E">
     <script src="https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.all.js" defer></script>
     <script type="module">
         import * as BareMux from "https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux/dist/index.mjs";
@@ -14,7 +14,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
@@ -742,8 +742,63 @@
         .custom-input-group input, .custom-input-group button { border-radius: 12px; }
         .tab { border-radius: 10px 10px 0 0; }
         /* ── CROSSHAIR OVERLAY ── */
-        #absent-crosshair { position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%); z-index: 2147483000; pointer-events: none; display: none; }
+        #absent-crosshair { position: fixed; left: 0; top: 0; z-index: 2147483000; pointer-events: none; display: none; }
         #absent-crosshair.on { display: block; }
+
+        /* ════════════ ABSENT X — tool belt rail ════════════ */
+        #absent-belt {
+          display: flex; flex-direction: column; align-items: center; gap: 4px;
+          width: 50px; padding: 10px 0 14px; flex-shrink: 0;
+          background: rgb(15, 17, 26); border-right: 1px solid var(--border);
+        }
+        #absent-belt .belt-logo {
+          font-family: var(--font); color: var(--accent); font-size: 21px; line-height: 1;
+          margin-bottom: 8px; text-shadow: 0 0 14px var(--accent-glow); pointer-events: none;
+        }
+        #absent-belt button {
+          width: 34px; height: 34px; border-radius: 10px; border: 1px solid transparent;
+          background: transparent; color: var(--text-dim); font-size: 15px; cursor: pointer;
+          display: flex; align-items: center; justify-content: center; transition: all .15s ease;
+          font-family: var(--font); padding: 0;
+        }
+        #absent-belt button:hover {
+          background: rgba(255,255,255,.07); color: var(--text-primary);
+          border-color: var(--border); transform: translateY(-1px);
+        }
+        #absent-belt .belt-sep { width: 22px; height: 1px; background: var(--border); margin: 6px 0; }
+        #absent-belt button.danger:hover { border-color: rgba(255,107,107,.5); color: #ff6b6b; background: rgba(255,68,68,.1); }
+        #proxy-app .browser-container { flex: 1; min-width: 0; }
+        /* ════════════ tabbed settings modal ════════════ */
+        .absent-set-tabs { display: flex; gap: 6px; padding: 12px 18px 0; flex-wrap: wrap; }
+        .absent-set-tab {
+          font-family: var(--font); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+          padding: 7px 13px; border-radius: 999px; border: 1px solid var(--border);
+          background: transparent; color: var(--text-dim); cursor: pointer; transition: all .15s ease;
+        }
+        .absent-set-tab:hover { color: var(--text-primary); }
+        .absent-set-tab.on { background: var(--accent); color: #020617; border-color: var(--accent); font-weight: 700; }
+        .absent-panel { display: none; }
+        .absent-panel.on { display: block; }
+        .absent-panel .section-title:first-child { margin-top: 0; }
+        .absent-hint { font-family: var(--font); font-size: .72rem; color: var(--text-dim); margin: 6px 2px 0; line-height: 1.5; }
+        .absent-btn-row { display: flex; gap: 8px; }
+        .absent-btn {
+          font-family: var(--font); font-size: .74rem; letter-spacing: .06em; padding: 9px 14px;
+          border-radius: 12px; border: 1px solid var(--border); background: var(--input-bg);
+          color: var(--text-primary); cursor: pointer; transition: all .15s ease; flex: 1; text-align: center;
+        }
+        .absent-btn:hover { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+        .absent-btn.accent { background: var(--accent); color: #020617; border-color: var(--accent); font-weight: 700; }
+        .absent-btn.danger { background: rgba(255,68,68,.12); border-color: rgba(255,68,68,.35); color: #ff6b6b; font-weight: 700; }
+        /* ════════════ toast ════════════ */
+        #absent-toast {
+          position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(20px);
+          background: var(--card-bg); border: 1px solid var(--accent); color: var(--text-primary);
+          font-family: var(--font); font-size: .78rem; padding: 9px 16px; border-radius: 999px;
+          opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 2147483600;
+          box-shadow: 0 8px 30px rgba(0,0,0,.5); white-space: nowrap;
+        }
+        #absent-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
@@ -753,68 +808,156 @@
             <div id="proxy-app"></div>
         </section>
 
-        <!-- PROXY WISP SETTINGS MODAL -->
+        <!-- ABSENT SETTINGS MODAL (tabbed) -->
         <div class="wisp-settings-modal hidden" id="wisp-settings-modal">
             <div class="proxy-wisp-card">
                 <div class="proxy-wisp-header">
-                    <h2><span style="font-size:1.1rem;line-height:1">◈</span>Proxy Settings</h2>
+                    <h2><span style="font-size:1.15rem;line-height:1">†</span> ABSENT Settings</h2>
                     <button class="close-btn" id="close-wisp-modal"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-                <div class="settings-content" id="settings-tab-servers">
-                    <div class="section-title"><i class="fa-solid fa-server"></i>Select Server</div>
-                    <div class="server-list" id="server-list"></div>
-                    <div class="section-title"><i class="fa-solid fa-plug"></i>Custom Server</div>
-                    <div class="custom-input-group">
-                        <input type="text" id="custom-wisp-input" placeholder="wss://your-server.com/wisp/" spellcheck="false">
-                        <button id="save-custom-wisp"><i class="fa-solid fa-plus"></i></button>
-                    </div>
+                <div class="absent-set-tabs" id="absent-set-tabs">
+                    <button class="absent-set-tab on" data-panel="panel-proxy">Proxy</button>
+                    <button class="absent-set-tab" data-panel="panel-cloak">Cloak</button>
+                    <button class="absent-set-tab" data-panel="panel-look">Look</button>
+                    <button class="absent-set-tab" data-panel="panel-cursor">Cursor</button>
+                    <button class="absent-set-tab" data-panel="panel-panic">Panic</button>
+                    <button class="absent-set-tab" data-panel="panel-about">About</button>
                 </div>
-                <div class="section-title"><i class="fa-solid fa-person-running"></i>Panic Key</div>
-                    <div class="custom-input-group">
-                        <input type="text" id="panic-key-input" placeholder="Click, then press your panic combo" spellcheck="false" readonly style="cursor:pointer">
-                        <button id="panic-key-save" title="Save key"><i class="fa-solid fa-keyboard"></i></button>
+                <div class="settings-content">
+                    <!-- PROXY -->
+                    <div class="absent-panel on" id="panel-proxy">
+                        <div class="section-title"><i class="fa-solid fa-server"></i>Select Server</div>
+                        <div class="server-list" id="server-list"></div>
+                        <div class="section-title"><i class="fa-solid fa-plug"></i>Custom Server</div>
+                        <div class="custom-input-group">
+                            <input type="text" id="custom-wisp-input" placeholder="wss://your-server.com/wisp/" spellcheck="false">
+                            <button id="save-custom-wisp"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <p class="absent-hint">Lower ping = faster browsing. The best server is auto-selected by default.</p>
                     </div>
-                    <div class="custom-input-group">
-                        <input type="text" id="panic-url-input" placeholder="Panic URL (e.g. https://classroom.google.com)" spellcheck="false">
-                        <button id="panic-url-save" title="Save URL"><i class="fa-solid fa-floppy-disk"></i></button>
+                    <!-- CLOAK -->
+                    <div class="absent-panel" id="panel-cloak">
+                        <div class="section-title"><i class="fa-solid fa-eye"></i>Tab Cloak</div>
+                        <select id="cloak-select" style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text-primary);padding:9px;border-radius:12px;font-family:inherit;">
+                            <option value="off">Off (ABSENT branding)</option>
+                            <option value="google">Google</option>
+                            <option value="classes">Google Classroom</option>
+                            <option value="drive">Google Drive</option>
+                            <option value="docs">Google Docs</option>
+                            <option value="newtab">New Tab</option>
+                            <option value="custom">Custom…</option>
+                        </select>
+                        <div class="custom-input-group" style="margin-top:10px">
+                            <input type="text" id="cloak-title-input" placeholder="Custom tab title" spellcheck="false">
+                        </div>
+                        <div class="custom-input-group">
+                            <input type="text" id="cloak-icon-input" placeholder="Custom favicon URL (optional)" spellcheck="false">
+                        </div>
+                        <div class="absent-btn-row" style="margin-top:10px">
+                            <button class="absent-btn accent" id="cloak-apply-btn">Apply Cloak</button>
+                            <button class="absent-btn" id="cloak-reset-btn">Reset</button>
+                        </div>
+                        <div class="section-title" style="margin-top:16px"><i class="fa-solid fa-ghost"></i>About:Blank Cloak</div>
+                        <div class="absent-btn-row">
+                            <button class="absent-btn accent" id="cloak-ab-launch">Launch in about:blank</button>
+                        </div>
+                        <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text-dim);margin:10px 2px 0;cursor:pointer">
+                            <input type="checkbox" id="cloak-auto-ab" style="accent-color:var(--accent)"> Auto-launch about:blank on first click
+                        </label>
+                        <p class="absent-hint">Hides ABSENT inside a blank window — the address bar shows about:blank.</p>
                     </div>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text-dim);margin:10px 2px 0;cursor:pointer">
-                        <input type="checkbox" id="panic-enabled" style="accent-color:var(--accent)"> Enable panic key (combo, e.g. Ctrl+Shift+X)
-                    </label>
-                    <div class="custom-input-group" style="margin-top:10px">
-                        <button id="panic-now-btn" style="width:100%;background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.35);color:#ff6b6b;padding:9px;border-radius:8px;font-family:inherit;cursor:pointer;letter-spacing:.12em;font-weight:700">⚠ PANIC NOW</button>
-                    </div>
-                    <div class="section-title"><i class="fa-solid fa-palette"></i>Theme</div>
-                    <div class="custom-input-group">
+                    <!-- LOOK -->
+                    <div class="absent-panel" id="panel-look">
+                        <div class="section-title"><i class="fa-solid fa-palette"></i>Theme</div>
                         <select id="theme-select" style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text-primary);padding:9px;border-radius:12px;font-family:inherit;">
                             <option value="">Abyss Blue (default)</option>
                             <option value="graphite">Graphite</option>
                             <option value="gold">Charcoal Gold</option>
                             <option value="midnight">Midnight Orange</option>
                         </select>
-                    </div>
-                    <div class="section-title" style="margin-top:14px"><i class="fa-solid fa-crosshairs"></i>Crosshair Overlay</div>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text-dim);margin:0 2px;cursor:pointer">
-                        <input type="checkbox" id="crosshair-enabled" style="accent-color:var(--accent)"> Show crosshair over games
-                    </label>
-                    <div class="custom-input-group" style="margin-top:8px">
-                        <select id="crosshair-style" style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text-primary);padding:9px;border-radius:12px;font-family:inherit;">
-                            <option value="cross">+ Cross</option>
-                            <option value="dot">Dot</option>
-                            <option value="circle">Circle</option>
-                            <option value="cross-dot">+ Dot</option>
-                            <option value="ring-dot">Ring + Dot</option>
-                            <option value="gap-cross">FPS Gap Cross</option>
-                            <option value="triangle">Triangle</option>
-                            <option value="diamond">Diamond</option>
-                            <option value="x">X</option>
-                            <option value="chevron">Chevron</option>
-                            <option value="t-shape">T-Shape</option>
-                            <option value="arrow">Arrow</option>
+                        <div class="section-title" style="margin-top:16px"><i class="fa-solid fa-droplet"></i>Accent Color</div>
+                        <div class="custom-input-group">
+                            <input type="color" id="accent-color" value="#60a5fa" style="height:40px;padding:3px;cursor:pointer;background:var(--input-bg);border:1px solid var(--border);border-radius:12px">
+                            <button id="accent-reset" title="Reset color"><i class="fa-solid fa-rotate-left"></i></button>
+                        </div>
+                        <div class="section-title" style="margin-top:16px"><i class="fa-solid fa-font"></i>Font</div>
+                        <select id="font-select" style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text-primary);padding:9px;border-radius:12px;font-family:inherit;">
+                            <option value="JetBrains Mono">JetBrains Mono</option>
+                            <option value="Montserrat">Montserrat</option>
+                            <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+                            <option value="Space Grotesk">Space Grotesk</option>
+                            <option value="system">System UI</option>
                         </select>
+                        <div class="section-title" style="margin-top:16px"><i class="fa-solid fa-image"></i>Background Image</div>
+                        <div class="custom-input-group">
+                            <input type="text" id="bg-url-input" placeholder="Paste image URL (https://…)" spellcheck="false">
+                            <button id="bg-url-apply" title="Apply"><i class="fa-solid fa-check"></i></button>
+                        </div>
+                        <div class="absent-btn-row" style="margin-top:8px">
+                            <button class="absent-btn" id="bg-clear">Clear Background</button>
+                        </div>
+                        <div class="section-title" style="margin-top:16px"><i class="fa-solid fa-crosshairs"></i>Crosshair Overlay</div>
+                        <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text-dim);margin:0 2px;cursor:pointer">
+                            <input type="checkbox" id="crosshair-enabled" style="accent-color:var(--accent)"> Show crosshair (follows your mouse)
+                        </label>
+                        <div class="custom-input-group" style="margin-top:8px">
+                            <select id="crosshair-style" style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text-primary);padding:9px;border-radius:12px;font-family:inherit;">
+                                <option value="cross">+ Cross</option>
+                                <option value="dot">Dot</option>
+                                <option value="circle">Circle</option>
+                                <option value="cross-dot">+ Dot</option>
+                                <option value="ring-dot">Ring + Dot</option>
+                                <option value="gap-cross">FPS Gap Cross</option>
+                                <option value="triangle">Triangle</option>
+                                <option value="diamond">Diamond</option>
+                                <option value="x">X</option>
+                                <option value="chevron">Chevron</option>
+                                <option value="t-shape">T-Shape</option>
+                                <option value="arrow">Arrow</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="settings-footer">
-                    <i class="fa-solid fa-bolt" style="color:var(--accent);margin-right:6px"></i>Lower ping = faster browsing
+                    <!-- CURSOR -->
+                    <div class="absent-panel" id="panel-cursor">
+                        <div class="section-title"><i class="fa-solid fa-arrow-pointer"></i>Cursor Style</div>
+                        <select id="cursor-select" style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text-primary);padding:9px;border-radius:12px;font-family:inherit;">
+                            <option value="default">Default</option>
+                            <option value="dagger">† Dagger</option>
+                            <option value="cross">+ Cross</option>
+                            <option value="crosshair">◎ Crosshair</option>
+                            <option value="dot">● Dot</option>
+                        </select>
+                        <p class="absent-hint">Replaces your cursor everywhere — inside games too. The dagger is the classic.</p>
+                    </div>
+                    <!-- PANIC -->
+                    <div class="absent-panel" id="panel-panic">
+                        <div class="section-title"><i class="fa-solid fa-person-running"></i>Panic Key</div>
+                        <div class="custom-input-group">
+                            <input type="text" id="panic-key-input" placeholder="Click, then press your panic combo" spellcheck="false" readonly style="cursor:pointer">
+                            <button id="panic-key-save" title="Save key"><i class="fa-solid fa-keyboard"></i></button>
+                        </div>
+                        <div class="custom-input-group">
+                            <input type="text" id="panic-url-input" placeholder="Panic URL (e.g. https://classroom.google.com)" spellcheck="false">
+                            <button id="panic-url-save" title="Save URL"><i class="fa-solid fa-floppy-disk"></i></button>
+                        </div>
+                        <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text-dim);margin:10px 2px 0;cursor:pointer">
+                            <input type="checkbox" id="panic-enabled" style="accent-color:var(--accent)"> Enable panic key (combo, e.g. Ctrl+Shift+X)
+                        </label>
+                        <div class="custom-input-group" style="margin-top:10px">
+                            <button id="panic-now-btn" style="width:100%;background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.35);color:#ff6b6b;padding:9px;border-radius:8px;font-family:inherit;cursor:pointer;letter-spacing:.12em;font-weight:700">⚠ PANIC NOW</button>
+                        </div>
+                    </div>
+                    <!-- ABOUT -->
+                    <div class="absent-panel" id="panel-about">
+                        <div class="section-title"><i class="fa-solid fa-circle-info"></i>About</div>
+                        <p class="absent-hint">
+                            <b style="color:var(--text-primary)">ABSENT</b> — a fast, static web proxy with a full browser experience:
+                            multi-tab browsing, games portal, study toolbox, cloaking, themes, cursors and a panic key.
+                            No backend, no build step — deploy anywhere.<br><br>
+                            Engine: Scramjet · Wisp · Epoxy · bare-mux. UI inspired by Opera GX &amp; Arc-style browsers.<br><br>
+                            MIT licensed. Use responsibly and in line with your school/work policies.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -824,30 +967,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>New Tab | ABSENT</title>
+  <title>ABSENT</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000'/%3E%3Ctext x='32' y='47' font-size='42' text-anchor='middle' fill='%2360a5fa' font-family='serif'%3E%E2%80%A0%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg:            var(--nt-bg,             #020617);
-      --accent:        var(--nt-accent,         #60a5fa);
-      --accent-glow:   var(--nt-accent-glow,    rgba(96, 165, 250, 0.3));
-      --text-primary:  var(--nt-text-primary,   #e5e7eb);
-      --text-dim:      var(--nt-text-dim,       #94a3b8);
-      --border:        var(--nt-border,         rgba(255, 255, 255, 0.08));
-      --card-bg:       var(--nt-card-bg,        rgba(255, 255, 255, 0.03));
-      --input-bg:      var(--nt-input-bg,       rgba(255, 255, 255, 0.05));
-      --font:          var(--nt-font,           'JetBrains Mono', monospace);
-      --bg-image:      var(--nt-bg-image,       none);
-      --bg-blur:       var(--nt-bg-blur,        0px);
-      --bg-brightness: var(--nt-bg-brightness,  100%);
+      --bg: #020617; --accent: #60a5fa; --accent-glow: rgba(96,165,250,.45);
+      --text-primary: #f1f5f9; --text-dim: #64748b; --border: rgba(148,163,184,.16);
+      --card-bg: rgba(15,23,42,.6); --input-bg: rgba(15,23,42,.5);
+      --font: 'JetBrains Mono', monospace;
+      --grid-size: 42px; --grid-line: rgba(255,255,255,.06); --grid-glow: rgba(255,255,255,.03);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    ::-webkit-scrollbar        { width: 6px; height: 6px; }
+    ::-webkit-scrollbar        { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track  { background: transparent; }
-    ::-webkit-scrollbar-thumb  { background: var(--accent); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    ::-webkit-scrollbar-thumb  { background: var(--accent); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { filter: brightness(1.2); }
     * { scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
     body {
       display: flex;
@@ -855,11 +992,16 @@
       overflow-x: hidden;
       overflow-y: auto;
       background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at top left,  #020617 0, #020617 35%, rgba(2,6,23,0) 60%),
+        radial-gradient(circle at top right, #020617 0, #020617 35%, rgba(2,6,23,0) 60%),
+        linear-gradient(#020617, #000000);
       font-family: var(--font);
       color: var(--text-primary);
       position: relative;
       flex-direction: column;
       align-items: center;
+      padding-bottom: 46px;
     }
     body::before {
       content: "";
@@ -873,6 +1015,14 @@
       z-index: -1;
       pointer-events: none;
     }
+    body::after {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -2;
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, var(--grid-glow), transparent 55%);
+      background-size: var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size), 900px 900px;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -884,391 +1034,186 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
-      max-width: 560px;
+      max-width: 620px;
       padding: 20px;
       margin: auto 0;
       animation: fadeIn 0.4s ease;
     }
-    /* Sub-views (games/tools/cheats) need the full width to breathe */
-    body.nt-sub .content { max-width: 1080px; }
-    body.nt-sub .content { padding-bottom: 48px; }
+    body.nt-sub .content { max-width: 1080px; padding-bottom: 56px; }
     .hero-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 1;
-      animation: fadeIn 0.4s ease;
-      margin-bottom: 32px;
+      display: flex; flex-direction: column; align-items: center; z-index: 1;
+      animation: fadeIn 0.4s ease; margin-bottom: 22px;
     }
     .absent-logo {
-      font-family: var(--font);
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      color: var(--accent);
-      text-shadow: 0 0 20px var(--accent-glow);
-      margin-bottom: 4px;
-      letter-spacing: 2px;
+      font-size: clamp(3.2rem, 8vw, 5.4rem); color: var(--accent);
+      text-shadow: 0 0 30px var(--accent-glow), 0 0 80px var(--accent-glow);
+      margin-bottom: 2px; line-height: 1; font-family: serif;
     }
     .absent-title {
-      font-size: clamp(2rem, 5vw, 4.5rem);
-      line-height: 1.1;
-      margin-bottom: 24px;
-      color: var(--accent);
-      text-shadow: 0 0 10px var(--accent-glow);
+      font-family: 'Montserrat', sans-serif; font-weight: 900; letter-spacing: .16em;
+      font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.1; margin-bottom: 4px;
+      color: var(--text-primary); text-transform: uppercase;
     }
-    .search-wrap { width: 100%; margin-bottom: 36px; }
+    .absent-tag {
+      font-family: var(--font); font-size: .68rem; letter-spacing: .34em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px;
+    }
+    /* ══════════ TOOL BELT ══════════ */
+    .tool-belt {
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: center;
+      background: linear-gradient(180deg, #10131d, #0a0d15);
+      border: 1px solid var(--border); border-radius: 999px; padding: 8px 16px 8px 12px;
+      box-shadow: 0 6px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
+      margin: 10px auto 26px;
+    }
+    .tool-belt .buckle {
+      font-size: 1.2rem; color: var(--accent); line-height: 1;
+      text-shadow: 0 0 12px var(--accent-glow); margin-right: 6px; font-family: serif;
+    }
+    .belt-slot {
+      font-family: var(--font); font-size: .74rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text-dim); background: transparent; border: 1px solid transparent;
+      border-radius: 999px; padding: 8px 15px; cursor: pointer; transition: all .15s ease;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .belt-slot i { font-size: .78rem; }
+    .belt-slot:hover { color: var(--text-primary); background: rgba(255,255,255,.06); border-color: var(--border); }
+    .belt-slot.active { color: #020617; background: var(--accent); border-color: var(--accent); font-weight: 700; }
+    .search-wrap { width: 100%; margin-bottom: 30px; }
     .search-box {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      width: 100%;
-      padding: 10px 16px;
-      border-radius: 12px;
-      background: var(--input-bg);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(5px);
-      transition: 0.2s;
-      color-scheme: dark;
+      display: flex; align-items: center; gap: 14px; width: 100%;
+      padding: 10px 16px; border-radius: 12px; background: var(--input-bg);
+      border: 1px solid var(--border); backdrop-filter: blur(5px); transition: 0.2s; color-scheme: dark;
     }
-    .search-box:focus-within {
-      border-color: var(--accent);
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 15px var(--accent-glow);
-    }
-    .search-icon {
-      flex-shrink: 0;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      transition: 0.2s;
-      opacity: 0.7;
-    }
+    .search-box:focus-within { border-color: var(--accent); background: rgba(255,255,255,.08); box-shadow: 0 0 15px var(--accent-glow); }
+    .search-icon { flex-shrink: 0; color: var(--accent); display: flex; align-items: center; transition: 0.2s; opacity: 0.7; }
     .search-box:focus-within .search-icon { opacity: 1; }
-    .search-icon svg {
-      width: 15px;
-      height: 15px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .search-icon svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .search-box input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-primary); font-size: 1rem; font-family: var(--font); color-scheme: dark; }
+    .search-box input::placeholder { color: var(--text-dim); opacity: .5; }
+    .search-box select { background: transparent; color: var(--text-dim); border: none; outline: none; font-family: var(--font); font-size: .8rem; cursor: pointer; }
+    .search-box select option { background: #0f172a; color: var(--text-primary); }
+    .shortcuts { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; width: 100%; }
+    .shortcut { width: 92px; cursor: pointer; position: relative; text-align: center; }
+    .shortcut-box {
+      width: 100%; aspect-ratio: 1; border-radius: 18px; background: var(--card-bg);
+      border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+      transition: all .2s ease; backdrop-filter: blur(5px); overflow: hidden;
     }
-    .search-box input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text-primary);
-      font-size: 1rem;
-      font-family: var(--font);
-      color-scheme: dark;
+    .shortcut:hover .shortcut-box { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .shortcut svg { width: 34px; height: 34px; fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .shortcut-label { font-family: var(--font); font-size: .66rem; color: var(--text-dim); margin-top: 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .shortcut-add .shortcut-box { border-style: dashed; color: var(--text-dim); font-size: 1.4rem; }
+    .shortcut-remove {
+      position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%;
+      background: #ef4444; color: #fff; border: none; font-size: 11px; line-height: 20px;
+      text-align: center; cursor: pointer; display: none; padding: 0;
     }
-    .search-box input::placeholder { color: var(--text-dim); opacity: 0.5; }
-    .search-box select {
-      background: transparent;
-      color: var(--text-dim);
-      border: none;
-      padding: 2px 4px;
-      font-family: var(--font);
-      font-size: 0.65rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      outline: none;
-      cursor: pointer;
-      transition: 0.2s;
-      color-scheme: dark;
-      appearance: none;
-      -webkit-appearance: none;
+    .shortcut:hover .shortcut-remove { display: block; }
+    /* ══════════ SECTIONS ══════════ */
+    .nt-section { display: none; width: 100%; max-width: 1060px; margin: 0 auto; padding: 0 20px 40px; text-align: left; }
+    .nt-section.on { display: block; animation: fadeIn .3s ease; }
+    .nt-section-head {
+      font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700;
+      color: var(--text-primary); margin: 4px 0 14px; display: flex; align-items: center; gap: 10px;
     }
-    .search-box select:hover { color: var(--accent); }
-    .search-box select:focus { color: var(--accent); }
-    .search-box select option          { background: var(--bg); color: var(--text-primary); }
-    .search-box select option:checked  { background: var(--accent); color: #000; }
-    .shortcuts {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 16px;
-      width: 100%;
+    .nt-section-head .spacer { flex: 1; }
+    .nt-subhead {
+      font-family: 'Montserrat', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent); margin: 22px 0 10px; display: flex; align-items: center; gap: 8px;
     }
-    .shortcut {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      text-decoration: none;
-      animation: fadeIn 0.4s ease both;
+    .nt-subhead::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .nt-search {
+      width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-primary);
+      font-family: var(--font); font-size: .9rem; padding: 11px 14px; border-radius: 12px; margin-bottom: 16px; outline: none;
     }
-    .shortcut-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s;
-      backdrop-filter: blur(10px);
+    .nt-search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 14px; }
+    .game-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
+      cursor: pointer; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
     }
-    .shortcut:hover .shortcut-icon {
-      border-color: var(--accent);
-      background: rgba(255, 255, 255, 0.05);
-      box-shadow: 0 0 15px var(--accent-glow);
+    .game-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .game-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: #0b1220; }
+    .game-letter {
+      width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 2rem; color: var(--accent);
+      background: linear-gradient(160deg, rgba(96,165,250,.12), rgba(96,165,250,.03));
     }
-    .shortcut-icon img {
-      width: 24px;
-      height: 24px;
-      opacity: 0.7;
-      transition: 0.2s;
+    .game-name { font-family: var(--font); font-size: .74rem; color: var(--text-primary); padding: 8px 10px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tool-item, .cheat-item {
+      display: flex; align-items: center; gap: 14px; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 18px; padding: 14px 18px; cursor: pointer; transition: border-color .15s, background .15s;
     }
-    .shortcut:hover .shortcut-icon img { opacity: 1; }
-    .shortcut-svg {
-      width: 24px;
-      height: 24px;
-      fill: var(--text-dim);
-      stroke: none;
-      transition: fill 0.2s;
+    .tool-item:hover, .cheat-item:hover { border-color: var(--accent); background: rgba(255,255,255,.05); }
+    .tool-icon, .cheat-icon { font-size: 1.3rem; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--input-bg); border-radius: 50%; flex-shrink: 0; }
+    .tool-name, .cheat-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .9rem; color: var(--text-primary); margin: 0; }
+    .tool-desc, .cheat-desc { font-family: var(--font); font-size: .72rem; color: var(--text-dim); margin: 2px 0 0; }
+    .nt-list { display: grid; gap: 12px; }
+    .copy-tag {
+      margin-left: auto; font-family: var(--font); font-size: .62rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border);
+      padding: 4px 10px; border-radius: 999px; flex-shrink: 0;
     }
-    .shortcut:hover .shortcut-svg { fill: var(--accent); }
-    .shortcut-icon i { color: var(--accent); font-size: 18px; }
-    .shortcut-label {
-      font-family: var(--font);
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: 0.2s;
-      text-align: center;
+    .nt-empty { font-family: var(--font); font-size: .8rem; color: var(--text-dim); padding: 18px 4px; }
+    .ghost-btn {
+      font-family: var(--font); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text-dim); background: transparent; border: 1px solid var(--border);
+      border-radius: 999px; padding: 6px 13px; cursor: pointer; transition: all .15s;
     }
-    .shortcut:hover .shortcut-label { color: var(--accent); }
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.88);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      animation: fadeIn 0.4s ease;
+    .ghost-btn:hover { color: #ff6b6b; border-color: rgba(255,107,107,.4); }
+    /* ══════════ FOOTER (rotating phrases) ══════════ */
+    .nt-footer { position: fixed; bottom: 12px; left: 0; right: 0; text-align: center; pointer-events: none; z-index: 15; }
+    .nt-footer span {
+      font-family: var(--font); font-size: .72rem; letter-spacing: .22em; color: var(--text-dim);
+      opacity: .6; display: inline-block; transition: opacity .35s ease, transform .35s ease;
     }
+    .nt-footer span.swap { opacity: 0; transform: translateY(7px); }
+    /* ══════════ MODAL ══════════ */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 100; }
     .modal-overlay.hidden { display: none; }
-    .modal {
-      background: var(--card-bg);
-      border: 1px solid var(--accent);
-      border-radius: 16px;
-      padding: 25px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 60px var(--accent-glow), 0 0 20px rgba(0,0,0,0.8);
-      display: flex;
-      flex-direction: column;
-      backdrop-filter: blur(10px);
-    }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 16px;
-      margin-bottom: 20px;
-    }
-    .modal-header h2 {
-      font-family: var(--font);
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 0 0 10px var(--accent-glow);
-      margin: 0;
-    }
-    .modal-close {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      width: 30px;
-      height: 30px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 13px;
-      transition: 0.2s;
-    }
-    .modal-close:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-    .modal label {
-      display: block;
-      font-family: var(--font);
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-    .modal input {
-      width: 100%;
-      background: var(--input-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      color: var(--text-primary);
-      font-family: var(--font);
-      font-size: 0.85rem;
-      outline: none;
-      transition: 0.2s;
-      margin-bottom: 20px;
-      backdrop-filter: blur(5px);
-      color-scheme: dark;
-    }
-    .modal input:focus {
-      border-color: var(--accent);
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .modal input::placeholder { color: var(--text-dim); opacity: 0.5; }
-    .modal-footer {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      border-top: 1px solid var(--border);
-      padding-top: 16px;
-    }
-    .btn-cancel {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      border-radius: 6px;
-      padding: 8px 10px;
-      cursor: pointer;
-      font-family: var(--font);
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: 0.2s;
-    }
-    .btn-cancel:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-    .btn-save {
-      background: var(--accent);
-      border: none;
-      color: #000;
-      border-radius: 8px;
-      padding: 14px 32px;
-      cursor: pointer;
-      font-family: var(--font);
-      font-size: 0.75rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: 0.2s;
-    }
-    .btn-save:hover { box-shadow: 0 0 10px var(--accent-glow); }
-    .nav-loader {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-    }
+    .modal { background: #0f172a; border: 1px solid var(--border); border-radius: 18px; padding: 24px; width: 92%; max-width: 380px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .modal-header h2 { font-family: 'Montserrat', sans-serif; font-size: 1rem; }
+    .modal-close { background: none; border: none; color: var(--text-dim); font-size: 1.1rem; cursor: pointer; }
+    .modal label { font-family: var(--font); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); display: block; margin: 10px 0 5px; }
+    .modal input { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-primary); font-family: var(--font); font-size: .9rem; padding: 10px 13px; border-radius: 10px; outline: none; }
+    .modal input:focus { border-color: var(--accent); }
+    .modal-footer { display: flex; gap: 10px; margin-top: 18px; }
+    .modal-footer button { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: var(--text-primary); font-family: var(--font); cursor: pointer; }
+    .modal-footer .btn-save { background: var(--accent); color: #020617; border-color: var(--accent); font-weight: 700; }
+    .nav-loader { position: fixed; inset: 0; background: var(--bg); display: none; align-items: center; justify-content: center; z-index: 999; }
     .nav-loader.show { display: flex; }
-    .spinner {
-      width: 26px;
-      height: 26px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
+    .spinner { width: 34px; height: 34px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── AETHERIS SKIN (NT) ── */
-  body::after {
-    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -2;
-    --grid-size: 42px; --grid-line: rgba(255,255,255,0.06); --grid-glow: rgba(255,255,255,0.03);
-    background-image:
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-      radial-gradient(circle at 50% 50%, var(--grid-glow), transparent 55%);
-    background-size: var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size), 900px 900px;
-  }
-  h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
-  .absent-title { font-weight: 900; letter-spacing: .02em; }
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
-  .nt-nav { display: flex; gap: 8px; margin: 0 0 18px; flex-wrap: wrap; justify-content: center; position: sticky; top: 10px; z-index: 20; background: rgba(2, 6, 23, .82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 999px; padding: 8px 10px; }
-  .nt-chip {
-    font-family: var(--font); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--text-dim); background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 999px; padding: 7px 16px; cursor: pointer; transition: all .15s ease;
-  }
-  .nt-chip:hover { color: var(--text-primary); background: rgba(255,255,255,.06); }
-  .nt-chip.active { color: #020617; background: var(--accent); border-color: var(--accent); font-weight: 700; }
-  .nt-section { display: none; width: 100%; max-width: 1060px; margin: 0 auto; padding: 0 20px 40px; text-align: left; }
-  .nt-section.on { display: block; }
-  .nt-section-head { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 4px 0 14px; display: flex; align-items: center; gap: 10px; }
-  .nt-search {
-    width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-primary);
-    font-family: var(--font); font-size: .9rem; padding: 11px 14px; border-radius: 12px; margin-bottom: 16px; outline: none;
-  }
-  .nt-search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-  .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 14px; }
-  .game-card {
-    background: var(--card-bg); border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
-    cursor: pointer; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-  }
-  .game-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
-  .game-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: #0b1220; }
-  .game-letter {
-    width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-    font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 2rem; color: var(--accent);
-    background: linear-gradient(160deg, rgba(96,165,250,.12), rgba(96,165,250,.03));
-  }
-  .game-name { font-family: var(--font); font-size: .74rem; color: var(--text-primary); padding: 8px 10px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .tool-item, .cheat-item {
-    display: flex; align-items: center; gap: 14px; background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 18px; padding: 14px 18px; cursor: pointer; transition: border-color .15s, background .15s;
-  }
-  .tool-item:hover, .cheat-item:hover { border-color: var(--accent); background: rgba(255,255,255,.05); }
-  .tool-icon, .cheat-icon { font-size: 1.4rem; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--input-bg); border-radius: 50%; flex-shrink: 0; }
-  .tool-name, .cheat-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .92rem; color: var(--accent); margin: 0; }
-  .tool-desc, .cheat-desc { font-family: var(--font); font-size: .74rem; color: var(--text-dim); margin: 2px 0 0; }
-  .nt-list { display: grid; gap: 12px; }
-  .copy-tag { margin-left: auto; font-family: var(--font); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 4px 10px; border-radius: 999px; flex-shrink: 0; }
+    @media (max-width: 640px) {
+      .content { padding: 14px; }
+      .tool-belt { gap: 2px; padding: 6px 10px; }
+      .belt-slot { padding: 7px 10px; font-size: .66rem; }
+      .belt-slot .slot-label { display: none; }
+    }
   </style>
 </head>
 <body>
-  <div class="nav-loader" id="loader">
-    <div class="spinner"></div>
-  </div>
+  <div class="nav-loader" id="loader"><div class="spinner"></div></div>
   <div class="content">
-    <div class="nt-nav" id="nt-nav">
-      <button class="nt-chip active" data-nt="home">Home</button>
-      <button class="nt-chip" data-nt="games">Games</button>
-      <button class="nt-chip" data-nt="tools">Tools</button>
-      <button class="nt-chip" data-nt="cheats">Cheats</button>
-    </div>
     <div class="hero-block">
-      <div class="absent-logo">◈</div>
-      <h1 class="absent-title">ABSENT</h1>
+      <div class="absent-logo">†</div>
+      <h1 class="absent-title">Absent</h1>
+      <div class="absent-tag">gone · unseen · unblocked</div>
     </div>
+    <nav class="tool-belt" id="tool-belt">
+      <span class="buckle">†</span>
+      <button class="belt-slot active" data-nt="home"><i class="fa-solid fa-house"></i><span class="slot-label">Home</span></button>
+      <button class="belt-slot" data-nt="games"><i class="fa-solid fa-gamepad"></i><span class="slot-label">Games</span></button>
+      <button class="belt-slot" data-nt="tools"><i class="fa-solid fa-toolbox"></i><span class="slot-label">Toolbox</span></button>
+      <button class="belt-slot" data-nt="history"><i class="fa-solid fa-clock-rotate-left"></i><span class="slot-label">History</span></button>
+      <button class="belt-slot" data-nt="bookmarks"><i class="fa-solid fa-star"></i><span class="slot-label">Saved</span></button>
+    </nav>
     <form class="search-wrap" id="searchForm">
       <div class="search-box">
         <span class="search-icon">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="11" cy="11" r="7"/>
-            <line x1="16.5" y1="16.5" x2="22" y2="22"/>
-          </svg>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
         </span>
         <input type="text" id="searchInput" placeholder="Search or enter URL..." autocomplete="off" spellcheck="false">
         <select id="engine">
@@ -1286,14 +1231,26 @@
       <div class="game-grid" id="game-grid"></div>
     </div>
     <div class="nt-section" id="nt-tools">
-      <div class="nt-section-head">🧰 Tools</div>
+      <div class="nt-section-head">🧰 Toolbox</div>
+      <div class="nt-subhead">🧮 Calculators</div>
+      <div class="nt-list" id="calc-list"></div>
+      <div class="nt-subhead">📚 Study Helpers</div>
+      <div class="nt-list" id="study-list"></div>
+      <div class="nt-subhead">🧷 Quick Bookmarklets</div>
+      <div class="nt-list" id="bm-list"></div>
+      <div class="nt-subhead">🔧 Utilities</div>
       <div class="nt-list" id="tool-list"></div>
     </div>
-    <div class="nt-section" id="nt-cheats">
-      <div class="nt-section-head">💥 Cheats</div>
-      <div class="nt-list" id="cheat-list"></div>
+    <div class="nt-section" id="nt-history">
+      <div class="nt-section-head">🕘 History <span class="spacer"></span><button class="ghost-btn" id="history-clear">Clear all</button></div>
+      <div class="nt-list" id="history-list"></div>
+    </div>
+    <div class="nt-section" id="nt-bookmarks">
+      <div class="nt-section-head">★ Saved <span class="spacer"></span><span style="font-family:var(--font);font-size:.66rem;color:var(--text-dim);letter-spacing:.06em">double-click ★ on the side belt to save a page</span></div>
+      <div class="nt-list" id="bookmark-list"></div>
     </div>
   </div>
+  <footer class="nt-footer"><span id="nt-phrase">w isaac</span></footer>
   <div class="modal-overlay hidden" id="addModal">
     <div class="modal">
       <div class="modal-header">
@@ -1311,7 +1268,20 @@
     </div>
   </div>
   <script>
-    // Receive live theme updates from the parent page
+    // Receive live theme + cursor updates from the parent page
+    const CURSOR_SVGS = {
+      dagger:    (c) => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="3.4" r="2.4" fill="' + c + '"/><rect x="6.5" y="7" width="15" height="2.8" rx="1.4" fill="' + c + '"/><path d="M14 10.8 16.3 13 15.2 24 14 27.4 12.8 24 11.7 13Z" fill="' + c + '"/></svg>',
+      cross:     (c) => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><path d="M14 4.5v19M4.5 14h19" stroke="' + c + '" stroke-width="3.2" stroke-linecap="round"/></svg>',
+      crosshair: (c) => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="7.5" fill="none" stroke="' + c + '" stroke-width="2"/><path d="M14 2.5v5M14 20.5v5M2.5 14h5M20.5 14h5" stroke="' + c + '" stroke-width="2" stroke-linecap="round"/></svg>',
+      dot:       (c) => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="4" fill="' + c + '"/></svg>',
+    };
+    function applyNtCursor(name) {
+      const fn = CURSOR_SVGS[name];
+      if (!fn) { document.documentElement.style.cursor = ''; return; }
+      const accent = (getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#60a5fa').trim();
+      document.documentElement.style.cursor = 'url("data:image/svg+xml;utf8,' + encodeURIComponent(fn(accent)) + '") 14 14, auto';
+    }
+    applyNtCursor(localStorage.getItem('absent_cursor') || 'default');
     window.addEventListener('message', (e) => {
       if (e.data && e.data.type === 'ABSENT_NT_THEME') {
         const t = e.data.theme;
@@ -1331,25 +1301,39 @@
         document.body.style.backgroundColor = t.bg || '';
         document.body.style.color = t.textPrimary || '';
         document.body.style.fontFamily = t.font || '';
+        applyNtCursor(localStorage.getItem('absent_cursor') || 'default');
       }
+      if (e.data && e.data.type === 'ABSENT_NT_CURSOR') applyNtCursor(e.data.cursor || 'default');
+      if (e.data && e.data.type === 'ABSENT_NT_VIEW' && e.data.view) ntSwitch(e.data.view);
     });
-    // Tell the parent we are ready so it can push the current theme immediately
     if (window.parent && window.parent !== window) {
       window.parent.postMessage({ type: 'ABSENT_NT_READY' }, '*');
     }
 
-
-    // ── NT sections: Games / Tools / Cheats ──────────────────────────
+    // ── Belt navigation ──────────────────────────────────────────────
     const NT_BASE = __NT_BASE__;
     const HOME_SEL = ['.hero-block', '.search-wrap', '.shortcuts'];
     function ntSwitch(name) {
-      document.querySelectorAll('.nt-chip').forEach(c => c.classList.toggle('active', c.dataset.nt === name));
+      document.querySelectorAll('.belt-slot').forEach(c => c.classList.toggle('active', c.dataset.nt === name));
       HOME_SEL.forEach(s => { const el = document.querySelector(s); if (el) el.style.display = (name === 'home') ? '' : 'none'; });
       document.querySelectorAll('.nt-section').forEach(s => s.classList.toggle('on', s.id === 'nt-' + name));
       document.body.classList.toggle('nt-sub', name !== 'home');
+      if (name === 'history') renderHistory();
+      if (name === 'bookmarks') renderBookmarks();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    document.querySelectorAll('.nt-chip').forEach(c => c.addEventListener('click', () => ntSwitch(c.dataset.nt)));
+    document.querySelectorAll('.belt-slot').forEach(c => c.addEventListener('click', () => ntSwitch(c.dataset.nt)));
+
+    // ── Footer phrase rotator ────────────────────────────────────────
+    const PHRASES = ['w isaac', 'isaac the goat', 'brooklyn be good', 'absent 4 life', 'no se curly'];
+    let _pi = 0;
+    setInterval(() => {
+      const el = document.getElementById('nt-phrase');
+      if (!el) return;
+      el.classList.add('swap');
+      setTimeout(() => { _pi = (_pi + 1) % PHRASES.length; el.textContent = PHRASES[_pi]; el.classList.remove('swap'); }, 380);
+    }, 2600);
+
     function openGame(url, local) {
       if (local) window.parent.postMessage({ type: 'open-local', url: NT_BASE + url }, '*');
       else navigate(url);
@@ -1360,8 +1344,8 @@
       if (!grid) return;
       let games = [];
       try { games = await (await fetch(NT_BASE + 'games.json')).json(); } catch (e) {}
-      const chip = [...document.querySelectorAll('.nt-chip')].find(c => c.dataset.nt === 'games');
-      if (chip && games.length) chip.append(' · ' + games.length);
+      const slot = [...document.querySelectorAll('.belt-slot')].find(c => c.dataset.nt === 'games');
+      if (slot && games.length) slot.querySelector('.slot-label').append(' · ' + games.length);
       const render = (list) => {
         grid.innerHTML = '';
         list.forEach(g => {
@@ -1379,6 +1363,25 @@
         render(q ? games.filter(g => g.n.toLowerCase().includes(q)) : games);
       });
     }
+    // ── Toolbox (calculators · study helpers · bookmarklets · utilities) ──
+    const CALCS = [
+      { n: 'Desmos',           d: 'Graphing calculator',                    i: '📈', u: 'https://www.desmos.com/calculator' },
+      { n: 'GeoGebra',         d: 'Graphing + geometry calculator',         i: '📐', u: 'https://www.geogebra.org/calculator' },
+      { n: 'Wolfram|Alpha',    d: 'Step-by-step answers engine',            i: '🧠', u: 'https://www.wolframalpha.com/' },
+      { n: 'Symbolab',         d: 'Math solver with steps',                 i: '➗', u: 'https://www.symbolab.com/' },
+      { n: 'Calculator.net',   d: 'Every calculator imaginable',            i: '🧾', u: 'https://www.calculator.net/' },
+    ];
+    const STUDY = [
+      { n: 'Kahoot Winner',    d: 'Auto-answer kahoot challenges',          i: '🟢', u: 'https://theusaf.org/kahoot-winner/' },
+      { n: 'Blooket Suite',    d: 'Community cheat hub for all modes',      i: '🔰', u: 'https://05konz.github.io/Blooket-Cheats/' },
+      { n: 'SchoolCheats Hub', d: 'Kahoot · Quizizz · Blooket · Gimkit',    i: '🏫', u: 'https://schoolcheats.net/' },
+    ];
+    const BMS = [
+      { n: 'Blooket All-in-One', d: 'Drag/copy to bookmarks bar, run while playing', tag: 'copy',
+        copy: "javascript:(function(){var s=document.createElement('script');s.src='https://aetheris.win/assets/games/blooketcheat.js?'+Date.now();document.body.appendChild(s);})();" },
+      { n: 'Edit Any Page',      d: 'Make any page editable — great for screenshots', tag: 'copy',
+        copy: "javascript:(function(){document.body.contentEditable='true';document.designMode='on';})();void 0" },
+    ];
     const TOOLS = [
       { n: 'Code Editor',      d: 'Write and run code in your browser',   i: '⌨️', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3@latest/assets/html/other/runner.html' },
       { n: 'HTML Embedder',    d: 'Embed any webpage as HTML',            i: '🧩', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3@latest/assets/html/other/embed.html' },
@@ -1388,48 +1391,77 @@
       { n: 'Play.JS',          d: 'PS2 Emulator',                         i: '🕹️', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3/assets/html/other/playjs/index.html' },
       { n: 'Voxiles',          d: 'Voxel sandbox game',                   i: '⛏️', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3/assets/html/other/voxiles/index.html' },
     ];
-    function renderTools() {
-      const list = document.getElementById('tool-list');
+    function fillList(id, items, kind) {
+      const list = document.getElementById(id);
       if (!list) return;
-      TOOLS.forEach(t => {
+      items.forEach(t => {
         const el = document.createElement('div');
         el.className = 'tool-item';
-        el.innerHTML = `<div class="tool-icon">${t.i}</div><div><h3 class="tool-name">${esc(t.n)}</h3><p class="tool-desc">${esc(t.d)}</p></div><span class="copy-tag">open</span>`;
-        el.onclick = () => navigate(t.u);
+        el.innerHTML = `<div class="tool-icon">${t.i}</div><div style="min-width:0"><h3 class="tool-name">${esc(t.n)}</h3><p class="tool-desc">${esc(t.d)}</p></div><span class="copy-tag">${esc(t.tag || 'open')}</span>`;
+        el.onclick = async () => {
+          if (t.copy) {
+            try { await navigator.clipboard.writeText(t.copy); const tag = el.querySelector('.copy-tag'); tag.textContent = 'copied ✓'; setTimeout(() => tag.textContent = 'copy', 1400); }
+            catch (e) { prompt('Copy this bookmarklet:', t.copy); }
+          } else navigate(t.u);
+        };
         list.appendChild(el);
       });
     }
-    const CHEATS = {
-      kahoot: { i: '📝', items: [ { n: 'Kahoot Winner', d: 'Auto-answer kahoot challenges', tag: 'open', u: 'https://theusaf.org/kahoot-winner/' } ] },
-      blooket: { i: '🔰', items: [
-        { n: 'AIO GUI bookmark', d: 'All-in-one cheat — drag/copy to bookmarks bar, run while playing', tag: 'copy',
-          copy: "javascript:(function(){var s=document.createElement('script');s.src='https://aetheris.win/assets/games/blooketcheat.js?'+Date.now();document.body.appendChild(s);})();" },
-        { n: 'Blooket Cheats GUI', d: 'Community cheat hub for game modes & tokens', tag: 'open', u: 'https://05konz.github.io/Blooket-Cheats/' },
-      ] },
-    };
-    function renderCheats() {
-      const list = document.getElementById('cheat-list');
+    fillList('calc-list', CALCS, 'open');
+    fillList('study-list', STUDY, 'open');
+    fillList('bm-list', BMS, 'copy');
+    fillList('tool-list', TOOLS, 'open');
+
+    // ── History & Saved pages (shared localStorage with main app) ────
+    function timeAgo(ts) {
+      const s = Math.floor((Date.now() - ts) / 1000);
+      if (s < 60) return 'just now';
+      if (s < 3600) return Math.floor(s / 60) + 'm ago';
+      if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+      return Math.floor(s / 86400) + 'd ago';
+    }
+    function renderHistory() {
+      const list = document.getElementById('history-list');
       if (!list) return;
-      Object.entries(CHEATS).forEach(([key, g]) => {
-        const head = document.createElement('div');
-        head.className = 'nt-section-head';
-        head.style.fontSize = '.85rem';
-        head.textContent = `${g.i} ${key}`;
-        list.appendChild(head);
-        g.items.forEach(it => {
-          const el = document.createElement('div');
-          el.className = 'cheat-item';
-          el.innerHTML = `<div class="cheat-icon">${g.i}</div><div><h3 class="cheat-name">${esc(it.n)}</h3><p class="cheat-desc">${esc(it.d)}</p></div><span class="copy-tag">${esc(it.tag)}</span>`;
-          el.onclick = async () => {
-            if (it.tag === 'copy') {
-              try { await navigator.clipboard.writeText(it.copy); const tag = el.querySelector('.copy-tag'); tag.textContent = 'copied ✓'; setTimeout(() => tag.textContent = 'copy', 1400); } catch (e) { prompt('Copy this bookmarklet:', it.copy); }
-            } else navigate(it.u);
-          };
-          list.appendChild(el);
-        });
+      let items = [];
+      try { items = JSON.parse(localStorage.getItem('absent_history') || '[]'); } catch (e) {}
+      list.innerHTML = '';
+      if (!items.length) { list.innerHTML = '<p class="nt-empty">No history yet — browse something and it shows up here.</p>'; return; }
+      items.forEach(it => {
+        let host = it.u; try { host = new URL(it.u).hostname; } catch (e) {}
+        const el = document.createElement('div');
+        el.className = 'tool-item';
+        el.innerHTML = `<div class="tool-icon">🕘</div><div style="min-width:0"><h3 class="tool-name">${esc(host)}</h3><p class="tool-desc">${esc(it.u)}</p></div><span class="copy-tag">${timeAgo(it.t)}</span>`;
+        el.onclick = () => navigate(it.u);
+        list.appendChild(el);
       });
     }
-    loadGames(); renderTools(); renderCheats();
+    document.getElementById('history-clear').onclick = () => { localStorage.setItem('absent_history', '[]'); renderHistory(); };
+    function renderBookmarks() {
+      const list = document.getElementById('bookmark-list');
+      if (!list) return;
+      let items = [];
+      try { items = JSON.parse(localStorage.getItem('absent_bookmarks') || '[]'); } catch (e) {}
+      list.innerHTML = '';
+      if (!items.length) { list.innerHTML = '<p class="nt-empty">Nothing saved yet. Double-click the ★ button on the side belt while a page is open.</p>'; return; }
+      items.forEach((it, idx) => {
+        let host = it.u; try { host = new URL(it.u).hostname; } catch (e) {}
+        const el = document.createElement('div');
+        el.className = 'tool-item';
+        el.innerHTML = `<div class="tool-icon">★</div><div style="min-width:0"><h3 class="tool-name">${esc(it.t || host)}</h3><p class="tool-desc">${esc(it.u)}</p></div><button class="ghost-btn" data-x="${idx}">✕ remove</button>`;
+        el.onclick = (e) => {
+          if (e.target.dataset.x !== undefined) {
+            items.splice(idx, 1);
+            localStorage.setItem('absent_bookmarks', JSON.stringify(items));
+            renderBookmarks();
+            return;
+          }
+          navigate(it.u);
+        };
+        list.appendChild(el);
+      });
+    }
+    loadGames();
 
     function navigate(url) {
       if (window.parent && window.parent !== window) {
@@ -1468,41 +1500,36 @@
       try { return JSON.parse(localStorage.getItem('absent_shortcuts') || 'null') || DEFAULT_SHORTCUTS; }
       catch { return DEFAULT_SHORTCUTS; }
     }
-    function saveShortcuts(list) { localStorage.setItem('absent_shortcuts', JSON.stringify(list)); }
     function renderShortcuts() {
       const container = document.getElementById('shortcuts');
       container.innerHTML = '';
       getShortcuts().forEach((s, i) => {
         const el = document.createElement('div');
         el.className = 'shortcut';
-        el.style.animationDelay = (i * 0.04 + 0.04) + 's';
-        // Use inline SVG if available (default shortcuts), else fall back to <img> for user-added favicons
-        const iconHtml = s.svg
-          ? `<svg viewBox="${s.viewBox || '0 0 24 24'}" fill="currentColor" stroke="none" class="shortcut-svg">${s.svg}</svg>`
-          : `<img src="${s.icon}" onerror="this.style.display='none'">`;
         el.innerHTML = `
-          <div class="shortcut-icon">${iconHtml}</div>
-          <span class="shortcut-label">${s.label}</span>`;
-        el.onclick = () => navigate(s.url);
+          <div class="shortcut-box"><svg viewBox="${s.viewBox || '0 0 24 24'}" fill="currentColor" stroke="none" >${s.svg}</svg></div>
+          <div class="shortcut-label">${esc(s.label)}</div>`;
+        el.querySelector('.shortcut-box').onclick = () => navigate(s.url);
         container.appendChild(el);
       });
+      const add = document.createElement('div');
+      add.className = 'shortcut shortcut-add';
+      add.innerHTML = `<div class="shortcut-box">+</div><div class="shortcut-label">Add</div>`;
+      add.querySelector('.shortcut-box').onclick = () => document.getElementById('addModal').classList.remove('hidden');
+      container.appendChild(add);
     }
     renderShortcuts();
-    const closeModal = () => document.getElementById('addModal').classList.add('hidden');
+    function closeModal() { document.getElementById('addModal').classList.add('hidden'); }
     document.getElementById('cancelAdd').onclick = closeModal;
     document.getElementById('cancelAdd2').onclick = closeModal;
-    document.getElementById('addModal').onclick = e => {
-      if (e.target === document.getElementById('addModal')) closeModal();
-    };
     document.getElementById('confirmAdd').onclick = () => {
       const label = document.getElementById('newLabel').value.trim();
       let url = document.getElementById('newUrl').value.trim();
       if (!label || !url) return;
       if (!/^https?:\/\//.test(url)) url = 'https://' + url;
-      const icon = `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=64`;
       const list = getShortcuts();
-      list.push({ label, url, icon });
-      saveShortcuts(list);
+      list.push({ label, url, viewBox: '0 0 24 24', svg: '<circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/>' });
+      localStorage.setItem('absent_shortcuts', JSON.stringify(list));
       closeModal();
       document.getElementById('newLabel').value = '';
       document.getElementById('newUrl').value = '';
@@ -1760,9 +1787,250 @@
             return sharedConnection;
         }
 
+        // ════════════════════════════════════════════════════════════════
+        // ABSENT X — cloak / cursor / history / bookmarks / belt / toast
+        // ════════════════════════════════════════════════════════════════
+        const svgUri = (s) => 'data:image/svg+xml;utf8,' + encodeURIComponent(s);
+        const DAGGER_ICON = svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#000"/><text x="32" y="47" font-size="42" text-anchor="middle" fill="#60a5fa" font-family="serif">\u2020</text></svg>');
+        const CLOAKS = {
+            google:  { t: 'Google', icon: svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>') },
+            classes: { t: 'Classes', icon: svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="9" fill="#0f9d58"/><rect x="11" y="15" width="26" height="19" rx="2" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="24" cy="23" r="3.2" fill="#fff"/><path d="M17 34v-4.6c0-1.8 1.5-3.2 3.3-3.2h7.4c1.8 0 3.3 1.4 3.3 3.2V34" fill="#fff"/></svg>') },
+            drive:   { t: 'My Drive - Google Drive', icon: svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#ffc107" d="M17 6h14l14 24H31z"/><path fill="#2196f3" d="M17 6 3 30l7 12 14-24z"/><path fill="#4caf50" d="M10 42h28l7-12H17z"/></svg>') },
+            docs:    { t: 'Untitled document - Google Docs', icon: svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect x="10" y="4" width="28" height="40" rx="4" fill="#4285f4"/><path d="M16 17h16M16 23h16M16 29h16M16 35h10" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>') },
+            newtab:  { t: 'New Tab', icon: svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#3c4043"/><circle cx="24" cy="24" r="8.5" fill="#8ab4f8"/></svg>') },
+        };
+        function store(key, fallback) {
+            try { return JSON.parse(localStorage.getItem(key) || 'null') ?? fallback; } catch (e) { return fallback; }
+        }
+        function toast(msg) {
+            let el = document.getElementById('absent-toast');
+            if (!el) { el = document.createElement('div'); el.id = 'absent-toast'; document.body.appendChild(el); }
+            el.textContent = msg; el.classList.add('show');
+            clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 1700);
+        }
+        // ── History engine ───────────────────────────────────────────────
+        function recordHistory(url) {
+            if (!url || url.startsWith('blob:')) return;
+            const list = store('absent_history', []);
+            if (list[0] && list[0].u === url) return;
+            list.unshift({ u: url, t: Date.now() });
+            localStorage.setItem('absent_history', JSON.stringify(list.slice(0, 300)));
+        }
+        // ── Bookmarks engine ─────────────────────────────────────────────
+        function bookmarkActive() {
+            const tab = getActiveTab();
+            const url = tab && tab.url && !tab.url.startsWith('blob:') ? tab.url : null;
+            if (!url) { toast('Open a site first, then tap \u2605 to bookmark it'); return; }
+            const list = store('absent_bookmarks', []);
+            if (list.some(b => b.u === url)) { toast('Already bookmarked'); return; }
+            list.unshift({ u: url, t: tab.title || url, at: Date.now() });
+            localStorage.setItem('absent_bookmarks', JSON.stringify(list.slice(0, 200)));
+            toast('\u2605 Bookmarked');
+        }
+        // ── Cloaking engine ──────────────────────────────────────────────
+        function applyCloak(name, customTitle, customIcon) {
+            let title, icon;
+            if (name === 'custom') {
+                title = customTitle || 'Home';
+                icon = customIcon || CLOAKS.newtab.icon;
+                if (customIcon && !/^(data:|https?:)/.test(customIcon)) icon = CLOAKS.newtab.icon;
+            } else {
+                const c = CLOAKS[name] || null;
+                title = c ? c.t : 'ABSENT';
+                icon = c ? c.icon : DAGGER_ICON;
+            }
+            document.title = title;
+            let link = document.querySelector('link[rel="icon"]');
+            if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
+            link.href = icon;
+            localStorage.setItem('absent_cloak', JSON.stringify({ name, title, icon }));
+            toast(name === 'off' ? 'Cloak off' : 'Cloaked as \u201C' + title + '\u201D');
+        }
+        function restoreCloak() {
+            const c = store('absent_cloak', null);
+            if (c && c.name && c.name !== 'off') {
+                document.title = c.title || 'ABSENT';
+                let link = document.querySelector('link[rel="icon"]');
+                if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
+                link.href = c.icon || DAGGER_ICON;
+            }
+        }
+        function launchAboutBlank() {
+            const c = store('absent_cloak', { title: 'New Tab', icon: CLOAKS.newtab.icon });
+            const win = window.open('about:blank', '_blank');
+            if (!win) { toast('Popup blocked \u2014 allow popups, then retry'); return; }
+            const doc = win.document;
+            doc.open();
+            doc.write('<!DOCTYPE html><html><head><title>' + (c.title || 'New Tab') + '</title>' +
+                '<link rel="icon" href="' + (c.icon || CLOAKS.newtab.icon) + '">' +
+                '<style>html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#000}iframe{border:0;width:100%;height:100%}</style>' +
+                '</head><body><iframe src="' + location.href + '"></iframe></body></html>');
+            doc.close();
+            sessionStorage.setItem('absent_ab_done', '1');
+            toast('Launched in about:blank');
+        }
+        // ── Cursor engine (fixes the stuck crosshair + real cursor pack) ─
+        const CURSOR_SVGS = {
+            dagger:    (c) => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="3.4" r="2.4" fill="' + c + '"/><rect x="6.5" y="7" width="15" height="2.8" rx="1.4" fill="' + c + '"/><path d="M14 10.8 16.3 13 15.2 24 14 27.4 12.8 24 11.7 13Z" fill="' + c + '"/></svg>',
+            cross:     (c) => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><path d="M14 4.5v19M4.5 14h19" stroke="' + c + '" stroke-width="3.2" stroke-linecap="round"/></svg>',
+            crosshair: (c) => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="7.5" fill="none" stroke="' + c + '" stroke-width="2"/><path d="M14 2.5v5M14 20.5v5M2.5 14h5M20.5 14h5" stroke="' + c + '" stroke-width="2" stroke-linecap="round"/></svg>',
+            dot:       (c) => '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="4" fill="' + c + '"/></svg>',
+        };
+        function cursorCss(name) {
+            const fn = CURSOR_SVGS[name];
+            if (!fn) return '';
+            const accent = (getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#60a5fa').trim();
+            return 'url("data:image/svg+xml;utf8,' + encodeURIComponent(fn(accent)) + '") 14 14, auto';
+        }
+        function injectCursorInto(doc) {
+            try {
+                if (!doc || !doc.documentElement) return;
+                doc.documentElement.style.cursor = document.documentElement.style.getPropertyValue('--absent-cursor') || '';
+            } catch (e) {}
+        }
+        function applyCursor(name) {
+            const html = document.documentElement;
+            const css = cursorCss(name);
+            html.style.cursor = css;
+            if (css) html.style.setProperty('--absent-cursor', css);
+            else html.style.removeProperty('--absent-cursor');
+            document.querySelectorAll('#proxy-app iframe').forEach(f => { try { injectCursorInto(f.contentDocument); } catch (e) {} });
+            try {
+                tabs.forEach(tab => {
+                    const isNt = !tab.url || tab.url === 'NT.html' || (tab.url && tab.url.startsWith('blob:'));
+                    if (isNt && tab.frame.frame.contentWindow) {
+                        tab.frame.frame.contentWindow.postMessage({ type: 'ABSENT_NT_CURSOR', cursor: name || 'default' }, '*');
+                    }
+                });
+            } catch (e) {}
+        }
+        // Follow-mouse for the optional crosshair overlay
+        window.addEventListener('mousemove', (e) => {
+            const el = document.getElementById('absent-crosshair');
+            if (el && el.classList.contains('on')) {
+                el.style.left = e.clientX + 'px';
+                el.style.top = e.clientY + 'px';
+            }
+        });
+        // Inject cursor into same-origin game frames whenever they load
+        window.addEventListener('load', (e) => {
+            const t = e.target;
+            if (t && t.tagName === 'IFRAME') { try { injectCursorInto(t.contentDocument); } catch (err) {} }
+        }, true);
+        // Sweep sweep: scramjet frames can dodge load events — re-assert periodically
+        setInterval(() => {
+            const prop = document.documentElement.style.getPropertyValue('--absent-cursor');
+            if (!prop) return;
+            document.querySelectorAll('#proxy-app iframe').forEach(f => {
+                try { const de = f.contentDocument && f.contentDocument.documentElement; if (de && de.style.cursor !== prop) de.style.cursor = prop; } catch (e) {}
+            });
+        }, 1500);
+        // ── Look engine (accent / font / background) ─────────────────────
+        function applyLook() {
+            const html = document.documentElement;
+            const accent = localStorage.getItem('absent_accent');
+            if (accent) html.style.setProperty('--accent', accent); else html.style.removeProperty('--accent');
+            const font = localStorage.getItem('absent_font');
+            if (font === 'system') html.style.setProperty('--font', "system-ui, -apple-system, 'Segoe UI', sans-serif");
+            else if (font) html.style.setProperty('--font', "'" + font + "', monospace");
+            else html.style.removeProperty('--font');
+            const bg = localStorage.getItem('absent_bgurl');
+            if (bg) html.style.setProperty('--bg-image', 'url("' + bg + '")');
+            else html.style.removeProperty('--bg-image');
+            try { applyCursor(localStorage.getItem('absent_cursor') || 'default'); } catch (e) {}
+            try { sendThemeToNtTabs(); } catch (e) {}
+        }
+        // ── Belt + settings wiring ───────────────────────────────────────
+        function openNtView(view) {
+            const tab = getActiveTab();
+            const isNt = tab && (!tab.url || tab.url === 'NT.html' || (tab.url && tab.url.startsWith('blob:')));
+            if (isNt && tab.frame.frame.contentWindow) {
+                try { tab.frame.frame.contentWindow.postMessage({ type: 'ABSENT_NT_VIEW', view }, '*'); } catch (e) {}
+            } else {
+                const t = createTab(true);
+                if (t) setTimeout(() => {
+                    try { t.frame.frame.contentWindow.postMessage({ type: 'ABSENT_NT_VIEW', view }, '*'); } catch (e) {}
+                }, 800);
+            }
+        }
+        function initAbsentX() {
+            restoreCloak();
+            applyLook();
+            // Settings tabs
+            document.querySelectorAll('.absent-set-tab').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.absent-set-tab').forEach(b => b.classList.toggle('on', b === btn));
+                    document.querySelectorAll('.absent-panel').forEach(p => p.classList.toggle('on', p.id === btn.dataset.panel));
+                });
+            });
+            // Belt
+            const B = (id, fn) => { const el = document.getElementById(id); if (el) el.onclick = fn; };
+            B('belt-home',    () => openNtView('home'));
+            B('belt-games',   () => openNtView('games'));
+            B('belt-tools',   () => openNtView('tools'));
+            B('belt-hist',    () => openNtView('history'));
+            B('belt-marks',   () => openNtView('bookmarks'));
+            B('belt-cloak',   () => launchAboutBlank());
+            B('belt-settings',() => openSettings());
+            B('belt-panic',   () => panicNow());
+            const star = document.getElementById('belt-marks');
+            if (star) star.addEventListener('dblclick', bookmarkActive);
+            // Cloak panel
+            const cloakSel = document.getElementById('cloak-select');
+            const titleIn  = document.getElementById('cloak-title-input');
+            const iconIn   = document.getElementById('cloak-icon-input');
+            const savedCloak = store('absent_cloak', null);
+            if (savedCloak && savedCloak.name) cloakSel.value = savedCloak.name;
+            document.getElementById('cloak-apply-btn').onclick = () => applyCloak(cloakSel.value, titleIn.value.trim(), iconIn.value.trim());
+            document.getElementById('cloak-reset-btn').onclick = () => { cloakSel.value = 'off'; applyCloak('off'); };
+            document.getElementById('cloak-ab-launch').onclick = () => launchAboutBlank();
+            const autoAb = document.getElementById('cloak-auto-ab');
+            autoAb.checked = localStorage.getItem('absent_auto_ab') === '1';
+            autoAb.addEventListener('change', () => {
+                localStorage.setItem('absent_auto_ab', autoAb.checked ? '1' : '0');
+                if (autoAb.checked) toast('Will open in about:blank on your next click');
+            });
+            // Look panel
+            const accentIn = document.getElementById('accent-color');
+            accentIn.value = localStorage.getItem('absent_accent') || '#60a5fa';
+            accentIn.addEventListener('input', () => { localStorage.setItem('absent_accent', accentIn.value); applyLook(); });
+            document.getElementById('accent-reset').onclick = () => { localStorage.removeItem('absent_accent'); accentIn.value = '#60a5fa'; applyLook(); };
+            const fontSel = document.getElementById('font-select');
+            fontSel.value = localStorage.getItem('absent_font') || 'JetBrains Mono';
+            fontSel.addEventListener('change', () => { localStorage.setItem('absent_font', fontSel.value); applyLook(); });
+            const bgIn = document.getElementById('bg-url-input');
+            document.getElementById('bg-url-apply').onclick = () => {
+                const v = bgIn.value.trim();
+                if (!/^https?:\/\//.test(v)) { toast('Paste a direct image URL (https://…)'); return; }
+                localStorage.setItem('absent_bgurl', v); applyLook(); toast('Background updated');
+            };
+            document.getElementById('bg-clear').onclick = () => { localStorage.removeItem('absent_bgurl'); bgIn.value = ''; applyLook(); toast('Background cleared'); };
+            // Cursor panel
+            const curSel = document.getElementById('cursor-select');
+            curSel.value = localStorage.getItem('absent_cursor') || 'default';
+            curSel.addEventListener('change', () => { localStorage.setItem('absent_cursor', curSel.value); applyCursor(curSel.value); toast('Cursor: ' + curSel.value); });
+            // Auto about:blank on first click
+            if (localStorage.getItem('absent_auto_ab') === '1' && !sessionStorage.getItem('absent_ab_done')) {
+                const fire = () => { window.removeEventListener('click', fire, true); launchAboutBlank(); };
+                window.addEventListener('click', fire, true);
+            }
+        }
+
         async function initializeBrowser() {
             const root = document.getElementById("proxy-app");
             root.innerHTML = `
+                <div id="absent-belt">
+                    <span class="belt-logo">†</span>
+                    <button id="belt-home" title="Home"><i class="fa-solid fa-house"></i></button>
+                    <button id="belt-games" title="Games"><i class="fa-solid fa-gamepad"></i></button>
+                    <button id="belt-tools" title="Toolbox"><i class="fa-solid fa-toolbox"></i></button>
+                    <button id="belt-hist" title="History"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                    <button id="belt-marks" title="Bookmarks"><i class="fa-solid fa-star"></i></button>
+                    <div class="belt-sep"></div>
+                    <button id="belt-cloak" title="Cloak (about:blank)"><i class="fa-solid fa-ghost"></i></button>
+                    <button id="belt-settings" title="Settings"><i class="fa-solid fa-gear"></i></button>
+                    <button id="belt-panic" class="danger" title="PANIC — leave now"><i class="fa-solid fa-triangle-exclamation"></i></button>
+                </div>
                 <div class="browser-container">
                     <div class="browser-tabs" id="tabs-container"></div>
                     <div class="proxy-nav">
@@ -1975,6 +2243,7 @@
 
         initTheme();
         initCrosshair();
+        initAbsentX();
 
             elements.skipBtn.onclick = () => {
                 const tab = getActiveTab();
@@ -2032,6 +2301,7 @@
 
             frame.addEventListener("urlchange", (e) => {
                 tab.url = e.url;
+                try { recordHistory(e.url); } catch (_) {}
 
                 if (!tab._navigating) {
                     tab.historyStack = tab.historyStack.slice(0, tab.historyIndex + 1);

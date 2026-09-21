@@ -1,10 +1,10 @@
 <div align="center">
 
-# ◈ ABSENT
+# † ABSENT
 
-**A fast, fully-static web proxy. No backend. No build step. Deploy it anywhere in one click.**
+**A fast, fully-static web proxy that looks and feels like a real browser. No backend. No build step. Deploy it anywhere in one click.**
 
-ABSENT runs 100% in your browser — [Scramjet](https://github.com/MercuryWorkshop/scramjet) + [Epoxy transport](https://github.com/MercuryWorkshop/epoxy-transport) over WISP, with **200+ self-hosted games**, built-in tools & cheats, a theme engine, an ad-blocker, multi-tab browsing, a **panic key**, and automatic low-latency server switching baked in.
+ABSENT runs 100% in your browser — [Scramjet](https://github.com/MercuryWorkshop/scramjet) + [Epoxy transport](https://github.com/MercuryWorkshop/epoxy-transport) over WISP — wrapped in an Opera GX / Arc-style browser shell with **200+ self-hosted games**, a study toolbox, **tab cloaking**, cursor packs, a theme engine, history & bookmarks, multi-tab browsing, a **panic key**, and automatic low-latency server switching baked in.
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/UnblockableMan/absent)
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/UnblockableMan/absent)
@@ -62,18 +62,19 @@ Any static file server works — there is genuinely nothing to build.
 ## ✨ Features
 
 - **◈ Fully static** — Scramjet + bare-mux + Epoxy/WISP all loaded client-side. The host serves plain files; the proxy never touches your server.
-- **🗂 Multi-tab browsing** — real proxy tabs with per-tab history, split views and an inline New Tab page.
-- **🚨 Panic key** — click *Proxy Settings → Panic Key*, press your combo (e.g. `Ctrl+Shift+X`, or plain `Escape`), set a redirect URL (e.g. Google Classroom), enable it — and the moment you hit that combo the whole tab is *replaced* with your URL. A red **PANIC NOW** button also lives in the tab bar.
+- **🪟 Browser shell** — Opera GX / Arc-style UI: rounded tabs, utility bar and a **† tool-belt rail** (Home · Games · Toolbox · History · Saved · Cloak · Settings · Panic) always one click away.
+- **🏠 New Tab = home menu** — the † dagger title, the tool belt below it, a live search bar and a footer that rotates your sayings.
+- **🕵 Tab cloaking** — disguise the tab as Google / Classroom / Drive / Docs / New Tab, or set a custom title + favicon. **About:blank cloak** launches ABSENT inside a blank window (auto-launch on first click supported).
+- **🖱 Cursor packs** — swap your cursor for a **dagger †**, cross, crosshair or dot — everywhere, including inside games. Plus a follow-mouse crosshair overlay with 12 styles for FPS aim.
+- **🗂 Multi-tab browsing** — real proxy tabs with per-tab history and an inline New Tab page.
+- **🚨 Panic key** — press your combo (e.g. `Ctrl+Shift+X`) and the whole tab is instantly *replaced* with your URL (e.g. Google Classroom). A red **PANIC NOW** button also lives on the belt.
 - **🎮 200+ games, self-hosted** — full Cartel game catalog bundled in (`assets/html/main/` + featured fullscreen loaders), zero external game portals, with thumbnails and instant search.
-- **🧰 Tools** — Code Editor, HTML/Website Embedders, History Flooder, Azahar (3DS), Play.JS (PS2), Voxiles — all proxied.
-- **🎯 Crosshair overlay** — 12 styles, always-on-top while you play.
-- **💥 Cheats** — Kahoot & Blooket helpers, one-click bookmarklets.
-- **🎨 Themes** — four palettes (Abyss Blue, Graphite, Charcoal Gold, Midnight Orange) synced live into every tab.
+- **🧰 Study toolbox** — the Toolbox menu bundles calculators (Desmos, GeoGebra, Wolfram, Symbolab), study helpers, one-click bookmarklets and utilities (Code Editor, Embedders, History Flooder, Azahar, Play.JS, Voxiles).
+- **🕘 History & ★ Saved** — every page you visit is recorded locally; double-tap the ★ belt button to bookmark the current page.
+- **🎨 Way more customization** — 4 theme palettes, custom accent color, 5 UI fonts, custom background image, live-synced into every tab.
 - **🔗 Quick links** — editable shortcut tiles on the New Tab page (YouTube, GitHub, Discord, Twitter, Reddit, Instagram by default).
 - **📡 WISP server manager** — ships with public servers, auto-pings all of them and switches to the lowest-latency one. Add your own `wss://…/wisp/` endpoint any time.
 - **🛡 Built-in adblock** — the service worker drops requests to 25+ ad/tracker networks before they leave the page.
-- **🎨 Theming** — dark terminal aesthetic with accent colors, custom backgrounds and live theme sync into proxied tabs.
-- **🔒 Cloak-ready** — search-engine picker (DDG / Brave / Bing / Yahoo), clean titles and no branding fingerprints.
 
 ---
 
@@ -81,7 +82,7 @@ Any static file server works — there is genuinely nothing to build.
 
 ```text
 absent/
-├── index.html      ← the entire app (UI + tabs + games/tools/cheats + panic + themes)
+├── index.html      ← the entire app (browser shell + tabs + games + toolbox + cloak + cursors + panic)
 ├── games.json      ← game catalog (auto-generated)
 ├── assets/html/    ← 200+ self-hosted games
 ├── fullscreen/     ← featured fullscreen game loaders
@@ -110,6 +111,7 @@ To use **your own** server: open **Proxy Settings → Custom Server**, paste `ws
 
 - [Scramjet](https://github.com/MercuryWorkshop/scramjet), [bare-mux](https://github.com/MercuryWorkshop/bare-mux), [Epoxy](https://github.com/MercuryWorkshop/epoxy-transport) — **Mercury Workshop**
 - Game catalog & tools: **Cartel** by UnblockableMan
+- UI inspiration: Opera GX, Arc & the DayDream X project
 - ABSENT build: **UnblockableMan**
 
 ## ⚠️ Disclaimer
