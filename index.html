@@ -41,10 +41,6 @@
 
         body {
             background-color: var(--bg);
-            background-image:
-                radial-gradient(circle at top left,  #020617 0, #020617 35%, rgba(2,6,23,0) 60%),
-                radial-gradient(circle at top right, #020617 0, #020617 35%, rgba(2,6,23,0) 60%),
-                linear-gradient(#020617, #000000);
             color: var(--text-primary);
             font-family: var(--font);
             display: flex;
@@ -80,12 +76,10 @@
             --grid-glow: rgba(255, 255, 255, 0.03);
             background-image:
                 linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-                radial-gradient(circle at 50% 50%, var(--grid-glow), transparent 55%);
+                linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
             background-size:
                 var(--grid-size) var(--grid-size),
-                var(--grid-size) var(--grid-size),
-                900px 900px;
+                var(--grid-size) var(--grid-size);
         }
         /* ════════════════════════════════════════
            PROXY BROWSER — integrated CSS
@@ -943,6 +937,12 @@
                         <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text-dim);margin:10px 2px 0;cursor:pointer">
                             <input type="checkbox" id="panic-enabled" style="accent-color:var(--accent)"> Enable panic key (combo, e.g. Ctrl+Shift+X)
                         </label>
+                        <div class="section-title" style="margin-top:20px"><i class="fa-solid fa-lock"></i>Toolbox Lock</div>
+                        <div class="custom-input-group">
+                            <input type="password" id="toolspass-input" placeholder="New toolbox password" spellcheck="false" autocomplete="new-password">
+                            <button id="toolspass-save" title="Save password"><i class="fa-solid fa-floppy-disk"></i></button>
+                        </div>
+                        <p class="absent-hint">Protects the Toolbox (cheat folder) in the home menu. Default: 4349. Unlocks for the whole browser session — clear site data to reset.</p>
                         <div class="custom-input-group" style="margin-top:10px">
                             <button id="panic-now-btn" style="width:100%;background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.35);color:#ff6b6b;padding:9px;border-radius:8px;font-family:inherit;cursor:pointer;letter-spacing:.12em;font-weight:700">⚠ PANIC NOW</button>
                         </div>
@@ -951,11 +951,12 @@
                     <div class="absent-panel" id="panel-about">
                         <div class="section-title"><i class="fa-solid fa-circle-info"></i>About</div>
                         <p class="absent-hint">
-                            <b style="color:var(--text-primary)">ABSENT</b> — a fast, static web proxy with a full browser experience:
-                            multi-tab browsing, games portal, study toolbox, cloaking, themes, cursors and a panic key.
-                            No backend, no build step — deploy anywhere.<br><br>
-                            Engine: Scramjet · Wisp · Epoxy · bare-mux. UI inspired by Opera GX &amp; Arc-style browsers.<br><br>
-                            MIT licensed. Use responsibly and in line with your school/work policies.
+                            <b style="color:var(--text-primary)">ABSENT v4.0</b> — the dagger browser: multi-tab proxy, games portal,
+                            password-locked study toolbox, cloaking, themes, cursors and a panic key.<br><br>
+                            Engine: Scramjet · Wisp · Epoxy · bare-mux. Shell inspired by Opera GX &amp; Arc.
+                            Base built on a rebranded DayDream X — AGPL-3.0, credit to its authors.<br><br>
+                            Runs fully static, or with node for a built-in wisp server (node index.js).
+                            Use responsibly and in line with your school/work policies.
                         </p>
                     </div>
                 </div>
@@ -992,10 +993,6 @@
       overflow-x: hidden;
       overflow-y: auto;
       background-color: var(--bg);
-      background-image:
-        radial-gradient(circle at top left,  #020617 0, #020617 35%, rgba(2,6,23,0) 60%),
-        radial-gradient(circle at top right, #020617 0, #020617 35%, rgba(2,6,23,0) 60%),
-        linear-gradient(#020617, #000000);
       font-family: var(--font);
       color: var(--text-primary);
       position: relative;
@@ -1019,9 +1016,8 @@
       content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -2;
       background-image:
         linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-        radial-gradient(circle at 50% 50%, var(--grid-glow), transparent 55%);
-      background-size: var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size), 900px 900px;
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size);
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -1061,7 +1057,7 @@
     /* ══════════ TOOL BELT ══════════ */
     .tool-belt {
       display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: center;
-      background: linear-gradient(180deg, #10131d, #0a0d15);
+      background: #0d1017;
       border: 1px solid var(--border); border-radius: 999px; padding: 8px 16px 8px 12px;
       box-shadow: 0 6px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
       margin: 10px auto 26px;
@@ -1138,7 +1134,7 @@
     .game-letter {
       width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
       font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 2rem; color: var(--accent);
-      background: linear-gradient(160deg, rgba(96,165,250,.12), rgba(96,165,250,.03));
+      background: rgba(96,165,250,.08);
     }
     .game-name { font-family: var(--font); font-size: .74rem; color: var(--text-primary); padding: 8px 10px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .tool-item, .cheat-item {
@@ -1155,6 +1151,30 @@
       text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border);
       padding: 4px 10px; border-radius: 999px; flex-shrink: 0;
     }
+    /* ══════════ TOOLBOX FOLDERS ══════════ */
+    .nt-folder { border: 1px solid var(--border); border-radius: 14px; background: var(--card-bg); margin: 0 0 12px; overflow: hidden; }
+    .nt-folder summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 9px; padding: 12px 16px; font-family: 'Montserrat', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); user-select: none; transition: background .15s ease; }
+    .nt-folder summary::-webkit-details-marker { display: none; }
+    .nt-folder summary::after { content: "\25B8"; margin-left: auto; color: var(--text-dim); transition: transform .15s ease; font-size: .85rem; }
+    .nt-folder[open] summary::after { transform: rotate(90deg); }
+    .nt-folder summary:hover { background: rgba(255,255,255,.04); }
+    .nt-folder .nt-list { padding: 2px 12px 12px; }
+    /* ══════════ TOOLBOX LOCK ══════════ */
+    .nt-lock { display: none; position: fixed; inset: 0; z-index: 90; align-items: center; justify-content: center; background: rgba(0,0,0,.72); backdrop-filter: blur(6px); }
+    .nt-lock.on { display: flex; }
+    .nt-lock-box { width: min(320px, 86vw); background: #0d1017; border: 1px solid var(--border); border-radius: 16px; padding: 26px 24px 22px; text-align: center; animation: fadeIn .25s ease; }
+    .nt-lock-logo { font-size: 2.4rem; color: var(--accent); font-family: serif; line-height: 1; text-shadow: 0 0 22px var(--accent-glow); margin-bottom: 8px; }
+    .nt-lock-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-primary); }
+    .nt-lock-sub { font-family: var(--font); font-size: .7rem; color: var(--text-dim); margin: 6px 0 16px; }
+    .nt-lock-box input { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-primary); font-family: var(--font); font-size: 1rem; letter-spacing: .3em; text-align: center; padding: 10px; border-radius: 10px; outline: none; }
+    .nt-lock-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .nt-lock-err { font-family: var(--font); font-size: .7rem; color: #ff6b6b; min-height: 16px; margin-top: 6px; }
+    .nt-lock-row { display: flex; gap: 8px; margin-top: 8px; }
+    .nt-lock-row button { flex: 1; font-family: var(--font); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; padding: 9px 0; border-radius: 9px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-dim); transition: all .15s ease; }
+    .nt-lock-row button:hover { color: var(--text-primary); background: rgba(255,255,255,.05); }
+    .nt-lock-row #nt-lock-go { background: var(--accent); border-color: var(--accent); color: #020617; font-weight: 700; }
+    @keyframes ntshake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
+    .nt-lock-box.shake { animation: ntshake .3s ease; }
     .nt-empty { font-family: var(--font); font-size: .8rem; color: var(--text-dim); padding: 18px 4px; }
     .ghost-btn {
       font-family: var(--font); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
@@ -1232,14 +1252,10 @@
     </div>
     <div class="nt-section" id="nt-tools">
       <div class="nt-section-head">🧰 Toolbox</div>
-      <div class="nt-subhead">🧮 Calculators</div>
-      <div class="nt-list" id="calc-list"></div>
-      <div class="nt-subhead">📚 Study Helpers</div>
-      <div class="nt-list" id="study-list"></div>
-      <div class="nt-subhead">🧷 Quick Bookmarklets</div>
-      <div class="nt-list" id="bm-list"></div>
-      <div class="nt-subhead">🔧 Utilities</div>
-      <div class="nt-list" id="tool-list"></div>
+      <details class="nt-folder" open><summary>📁 Calculators</summary><div class="nt-list" id="calc-list"></div></details>
+      <details class="nt-folder" open><summary>📁 Study Helpers</summary><div class="nt-list" id="study-list"></div></details>
+      <details class="nt-folder" open><summary>📁 Quick Bookmarklets</summary><div class="nt-list" id="bm-list"></div></details>
+      <details class="nt-folder" open><summary>📁 Utilities</summary><div class="nt-list" id="tool-list"></div></details>
     </div>
     <div class="nt-section" id="nt-history">
       <div class="nt-section-head">🕘 History <span class="spacer"></span><button class="ghost-btn" id="history-clear">Clear all</button></div>
@@ -1248,6 +1264,19 @@
     <div class="nt-section" id="nt-bookmarks">
       <div class="nt-section-head">★ Saved <span class="spacer"></span><span style="font-family:var(--font);font-size:.66rem;color:var(--text-dim);letter-spacing:.06em">double-click ★ on the side belt to save a page</span></div>
       <div class="nt-list" id="bookmark-list"></div>
+    </div>
+  </div>
+  <div class="nt-lock" id="nt-lock">
+    <div class="nt-lock-box" id="nt-lock-box">
+      <div class="nt-lock-logo">†</div>
+      <div class="nt-lock-title">toolbox locked</div>
+      <div class="nt-lock-sub">this folder holds the cheats — enter the password</div>
+      <input type="password" id="nt-lock-pass" inputmode="numeric" autocomplete="off" placeholder="password" spellcheck="false">
+      <div class="nt-lock-err" id="nt-lock-err"></div>
+      <div class="nt-lock-row">
+        <button id="nt-lock-go">unlock</button>
+        <button id="nt-lock-no">cancel</button>
+      </div>
     </div>
   </div>
   <footer class="nt-footer"><span id="nt-phrase">w isaac</span></footer>
@@ -1304,7 +1333,8 @@
         applyNtCursor(localStorage.getItem('absent_cursor') || 'default');
       }
       if (e.data && e.data.type === 'ABSENT_NT_CURSOR') applyNtCursor(e.data.cursor || 'default');
-      if (e.data && e.data.type === 'ABSENT_NT_VIEW' && e.data.view) ntSwitch(e.data.view);
+      if (e.data && e.data.type === 'ABSENT_NT_PASS' && e.data.ok) { try { sessionStorage.setItem('absent_tools_ok', '1'); } catch (err) {} }
+      if (e.data && e.data.type === 'ABSENT_NT_VIEW' && e.data.view) gateView(e.data.view);
     });
     if (window.parent && window.parent !== window) {
       window.parent.postMessage({ type: 'ABSENT_NT_READY' }, '*');
@@ -1322,7 +1352,58 @@
       if (name === 'bookmarks') renderBookmarks();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    document.querySelectorAll('.belt-slot').forEach(c => c.addEventListener('click', () => ntSwitch(c.dataset.nt)));
+    document.querySelectorAll('.belt-slot').forEach(c => c.addEventListener('click', () => gateView(c.dataset.nt)));
+
+    // ── Toolbox lock (password folder) ───────────────────────────────
+    function getToolsPass() {
+      try { return localStorage.getItem('absent_toolspass') || '4349'; } catch (e) { return '4349'; }
+    }
+    function toolsOk() {
+      try { return sessionStorage.getItem('absent_tools_ok') === '1'; } catch (e) { return false; }
+    }
+    function gateView(name) {
+      if (name === 'tools' && !toolsOk()) { openLock(); return; }
+      ntSwitch(name);
+    }
+    function openLock() {
+      const ov = document.getElementById('nt-lock');
+      if (!ov) { ntSwitch('tools'); return; }
+      ov.classList.add('on');
+      const err = document.getElementById('nt-lock-err');
+      if (err) err.textContent = '';
+      const inp = document.getElementById('nt-lock-pass');
+      if (inp) { inp.value = ''; setTimeout(() => { try { inp.focus(); } catch (e) {} }, 60); }
+    }
+    function closeLock() {
+      const ov = document.getElementById('nt-lock');
+      if (ov) ov.classList.remove('on');
+    }
+    function tryUnlock() {
+      const inp = document.getElementById('nt-lock-pass');
+      if (!inp) return;
+      const v = (inp.value || '').trim();
+      if (v === getToolsPass()) {
+        try { sessionStorage.setItem('absent_tools_ok', '1'); } catch (e) {}
+        try { window.parent.postMessage({ type: 'ABSENT_NT_UNLOCK' }, '*'); } catch (e) {}
+        closeLock();
+        ntSwitch('tools');
+      } else {
+        const err = document.getElementById('nt-lock-err');
+        if (err) err.textContent = 'wrong password';
+        const box = document.getElementById('nt-lock-box');
+        if (box) { box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake'); }
+        inp.value = '';
+        try { inp.focus(); } catch (e) {}
+      }
+    }
+    (function wireLock() {
+      const go = document.getElementById('nt-lock-go');
+      const no = document.getElementById('nt-lock-no');
+      const inp = document.getElementById('nt-lock-pass');
+      if (go) go.addEventListener('click', tryUnlock);
+      if (no) no.addEventListener('click', () => { closeLock(); ntSwitch('home'); });
+      if (inp) inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryUnlock(); });
+    })();
 
     // ── Footer phrase rotator ────────────────────────────────────────
     const PHRASES = ['w isaac', 'isaac the goat', 'brooklyn be good', 'absent 4 life', 'no se curly'];
@@ -1589,6 +1670,12 @@
             }
             if (event.data.type === 'ABSENT_NT_READY') {
                 sendThemeToNtTabs();
+                let passOk = false;
+                try { passOk = sessionStorage.getItem('absent_tools_ok') === '1'; } catch (e) {}
+                try { if (event.source) event.source.postMessage({ type: 'ABSENT_NT_PASS', ok: passOk }, '*'); } catch (e) {}
+            }
+            if (event.data.type === 'ABSENT_NT_UNLOCK') {
+                try { sessionStorage.setItem('absent_tools_ok', '1'); } catch (e) {}
             }
         });
 
@@ -2184,6 +2271,19 @@
             document.getElementById('panic-quick-btn').onclick = panicNow;
             registerPanic();
         }
+        function initToolboxLock() {
+            const inp = document.getElementById('toolspass-input');
+            const btn = document.getElementById('toolspass-save');
+            if (!inp || !btn) return;
+            btn.onclick = () => {
+                const v = (inp.value || '').trim();
+                if (!v) { toast('toolbox password cannot be empty'); return; }
+                localStorage.setItem('absent_toolspass', v);
+                inp.value = '';
+                toast('toolbox lock updated — cheats protected');
+            };
+        }
+        initToolboxLock();
         initPanicUI();
         // ── Theme engine (aetheris palettes) ──────────────────────────────
         function applyTheme(name) {
