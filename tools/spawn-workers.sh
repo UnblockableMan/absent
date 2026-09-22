@@ -9,7 +9,7 @@
 #
 #  One-time setup:
 #    export CLOUDFLARE_API_TOKEN=your-token    # "Edit Cloudflare Workers" template
-#    (or run once: npx wrangler login)
+#    (or run once: npx --yes wrangler login)
 # ══════════════════════════════════════════════════════════════════
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -20,7 +20,7 @@ command -v npx >/dev/null 2>&1 || { echo "[!] node/npm not found — install nod
 if [ "${1:-}" = "--delete" ]; then
   NAME="${2:?usage: --delete absent-xxxxx}"
   echo "[*] deleting worker: $NAME"
-  printf 'y\n' | npx wrangler delete --name "$NAME" 2>&1 | tail -2
+  printf 'y\n' | npx --yes wrangler delete --name "$NAME" 2>&1 | tail -2
   if [ -f "$LINKS" ]; then
     grep -v "/$NAME\." "$LINKS" > "$LINKS.tmp" 2>/dev/null && mv "$LINKS.tmp" "$LINKS" || true
   fi
@@ -32,7 +32,7 @@ if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
   echo "[!] CLOUDFLARE_API_TOKEN is not set."
   echo "    Fix:  export CLOUDFLARE_API_TOKEN=your-token"
   echo "    (create it: Cloudflare dashboard -> My Profile -> API Tokens -> 'Edit Cloudflare Workers' template)"
-  echo "    Or log in once instead:  npx wrangler login"
+  echo "    Or log in once instead:  npx --yes wrangler login"
   exit 1
 fi
 
@@ -58,9 +58,9 @@ gen_name() {
 for i in $(seq 1 "$COUNT"); do
   NAME="$(gen_name)"
   if grep -q "/$NAME\." "$LINKS" 2>/dev/null; then i=$((i-1)); continue; fi
-  if [ "$DRY" = "1" ]; then echo "  [dry] would deploy: npx wrangler deploy --name $NAME"; continue; fi
+  if [ "$DRY" = "1" ]; then echo "  [dry] would deploy: npx --yes wrangler deploy --name $NAME"; continue; fi
   echo "[${i}/${COUNT}] deploying ${NAME} ..."
-  OUT=$(npx wrangler deploy --name "$NAME" 2>&1) || { echo "$OUT" | tail -5; echo "[!] deploy failed for $NAME — skipping"; continue; }
+  OUT=$(npx --yes wrangler deploy --name "$NAME" 2>&1) || { echo "$OUT" | tail -5; echo "[!] deploy failed for $NAME — skipping"; continue; }
   URL=$(echo "$OUT" | grep -o "https://${NAME}[^ ]*workers\.dev" | head -1 || true)
   if [ -n "$URL" ]; then
     echo "    ✅ $URL"

@@ -951,7 +951,7 @@
                     <div class="absent-panel" id="panel-about">
                         <div class="section-title"><i class="fa-solid fa-circle-info"></i>About</div>
                         <p class="absent-hint">
-                            <b style="color:var(--text-primary)">ABSENT v4.1</b> — the dagger browser: multi-tab proxy, games portal,
+                            <b style="color:var(--text-primary)">ABSENT v4.2</b> — the dagger browser: multi-tab proxy, games portal,
                             password-locked cheat toolbox (35+ tools), cloaking, themes, cursors and a panic key.<br><br>
                             Engine: Scramjet · Wisp · Epoxy · bare-mux. Shell inspired by Opera GX &amp; Arc.
                             Base built on a rebranded DayDream X — AGPL-3.0, credit to its authors.<br><br>
@@ -1232,6 +1232,7 @@
       <button class="belt-slot" data-nt="tools"><i class="fa-solid fa-toolbox"></i><span class="slot-label">Toolbox</span></button>
       <button class="belt-slot" data-nt="history"><i class="fa-solid fa-clock-rotate-left"></i><span class="slot-label">History</span></button>
       <button class="belt-slot" data-nt="bookmarks"><i class="fa-solid fa-star"></i><span class="slot-label">Saved</span></button>
+      <button class="belt-slot" data-nt="mirrors"><i class="fa-solid fa-link"></i><span class="slot-label">Mirrors</span></button>
     </nav>
     <form class="search-wrap" id="searchForm">
       <div class="search-box">
@@ -1267,6 +1268,10 @@
     <div class="nt-section" id="nt-bookmarks">
       <div class="nt-section-head">★ Saved <span class="spacer"></span><span style="font-family:var(--font);font-size:.66rem;color:var(--text-dim);letter-spacing:.06em">double-click ★ on the side belt to save a page</span></div>
       <div class="nt-list" id="bookmark-list"></div>
+    </div>
+    <div class="nt-section" id="nt-mirrors">
+      <div class="nt-section-head">🔗 Mirrors <span class="spacer"></span><span style="font-family:var(--font);font-size:.66rem;color:var(--text-dim);letter-spacing:.06em">blocked? tap a link to hop — opens in a new tab</span></div>
+      <div class="nt-list" id="mirror-list"></div>
     </div>
   </div>
   <div class="nt-lock" id="nt-lock">
@@ -1353,6 +1358,7 @@
       document.body.classList.toggle('nt-sub', name !== 'home');
       if (name === 'history') renderHistory();
       if (name === 'bookmarks') renderBookmarks();
+      if (name === 'mirrors') renderMirrors();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     document.querySelectorAll('.belt-slot').forEach(c => c.addEventListener('click', () => gateView(c.dataset.nt)));
@@ -1409,6 +1415,47 @@
     })();
 
     // ── Footer phrase rotator ────────────────────────────────────────
+    // == Mirrors - backup links (hop when one gets blocked) ==
+    let MIRROR_LINKS = []; try { MIRROR_LINKS = JSON.parse(atob('WyJodHRwczovL2Fic2VudC1yNXd3OS5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC14MjRxay5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1veGk4YS5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1teGQzeS5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1zam00ai5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1qcTN3Zi5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC14bDk0Zy5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC01ZDM4Zy5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC0yNXBiNy5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC14dDl6OC5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC13bTY3OS5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC12cmI4Ni5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1meG9rYi5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1rMXFvcS5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1zZGc0ei5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC04dG8zYy5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1oeTZvOS5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1qNWl0Yi5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiIsICJodHRwczovL2Fic2VudC1henF0by5vY2N1bHRjb250YWlubWVudGNvYWxpdGlvbi53b3JrZXJzLmRldiJd')); } catch (e) {}
+    function mirrorShort(u) {
+      try { return new URL(u).hostname.split('.')[0]; } catch (e) { return u; }
+    }
+    function renderMirrors() {
+      const list = document.getElementById('mirror-list');
+      if (!list) return;
+      list.innerHTML = '';
+      if (!MIRROR_LINKS.length) {
+        list.innerHTML = '<p class="nt-empty">no mirrors yet - grab some from the Google Doc below.</p>';
+      } else {
+        MIRROR_LINKS.forEach(u => {
+          const el = document.createElement('div');
+          el.className = 'tool-item';
+          el.innerHTML = '<div class="tool-icon">🔗</div><div style="min-width:0"><h3 class="tool-name">' + esc(mirrorShort(u)) + '</h3><p class="tool-desc">' + esc(u) + '</p></div><span class="ghost-btn mirror-copy">copy</span>';
+          el.onclick = () => window.open(u, '_blank');
+          const cp = el.querySelector('.mirror-copy');
+          cp.onclick = (e) => {
+            e.stopPropagation();
+            const done = () => { cp.textContent = 'copied ✓'; setTimeout(() => { cp.textContent = 'copy'; }, 1400); };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(u).then(done).catch(() => {});
+            } else {
+              const ta = document.createElement('textarea');
+              ta.value = u; document.body.appendChild(ta); ta.select();
+              try { document.execCommand('copy'); done(); } catch (err) {}
+              document.body.removeChild(ta);
+            }
+          };
+          list.appendChild(el);
+        });
+      }
+      const DOC_URL = 'https://docs.google.com/document/d/1h7Pa1D5CoTZ2AFcFhjJaM24G8HeXf9W1d_wRhFeCMIQ/edit?usp=sharing';
+      const doc = document.createElement('div');
+      doc.className = 'tool-item';
+      doc.innerHTML = '<div class="tool-icon">📄</div><div style="min-width:0"><h3 class="tool-name">more links — Google Doc</h3><p class="tool-desc">u gotta be signed in with ur APS / school account to open it</p></div><span class="copy-tag">open ↗</span>';
+      doc.onclick = () => window.open(DOC_URL, '_blank');
+      list.appendChild(doc);
+    }
+
     const PHRASES = ['w isaac', 'isaac the goat', 'brooklyn be good', 'absent 4 life', 'no se curly'];
     let _pi = 0;
     setInterval(() => {
@@ -2081,6 +2128,7 @@
             B('belt-hist',    () => openNtView('history'));
             B('belt-marks',   () => openNtView('bookmarks'));
             B('belt-cloak',   () => launchAboutBlank());
+            B('belt-mirrors', () => openNtView('mirrors'));
             B('belt-settings',() => openSettings());
             B('belt-panic',   () => panicNow());
             const star = document.getElementById('belt-marks');
@@ -2138,6 +2186,7 @@
                     <button id="belt-marks" title="Bookmarks"><i class="fa-solid fa-star"></i></button>
                     <div class="belt-sep"></div>
                     <button id="belt-cloak" title="Cloak (about:blank)"><i class="fa-solid fa-ghost"></i></button>
+                    <button id="belt-mirrors" title="Mirrors - backup links"><i class="fa-solid fa-link"></i></button>
                     <button id="belt-settings" title="Settings"><i class="fa-solid fa-gear"></i></button>
                     <button id="belt-panic" class="danger" title="PANIC — leave now"><i class="fa-solid fa-triangle-exclamation"></i></button>
                 </div>

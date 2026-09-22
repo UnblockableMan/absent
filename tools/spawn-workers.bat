@@ -27,7 +27,7 @@ if not defined CLOUDFLARE_API_TOKEN (
   echo [!] CLOUDFLARE_API_TOKEN is not set.
   echo     Fix:   set CLOUDFLARE_API_TOKEN=paste-your-token
   echo     ^(create it: Cloudflare dashboard - My Profile - API Tokens - "Edit Cloudflare Workers" template^)
-  echo     Or log in once instead:   npx wrangler login
+  echo     Or log in once instead:   npx --yes wrangler login
   pause & exit /b 1
 )
 
@@ -41,12 +41,12 @@ if not exist tools\links.txt type nul > tools\links.txt
 for /l %%i in (1,1,%COUNT%) do (
   set "N=absent-!RANDOM!!RANDOM!"
   echo [%%i/%COUNT%] deploying !N! ...
-  call npx wrangler deploy --name !N!
+  call npx --yes wrangler deploy --name !N!
   findstr /c:"!N!." tools\links.txt >nul 2>nul || echo !N! >> tools\links.txt
 )
 
 echo.
 echo Done - copy the https://absent-xxxxx.YOURSUB.workers.dev links above.
 echo They are also listed in tools\links.txt
-echo Blocked later? Delete one to free a slot:   npx wrangler delete --name absent-xxxxx
+echo Blocked later? Delete one to free a slot:   npx --yes wrangler delete --name absent-xxxxx
 pause
