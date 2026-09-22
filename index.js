@@ -34,7 +34,7 @@ wisp.options.dns_method = "resolve";
 wisp.options.dns_servers = ["1.1.1.3", "1.0.0.3"];
 wisp.options.dns_result_order = "ipv4first";
 wisp.options.wisp_version = 2;
-wisp.options.wisp_motd = "ABSENT wisp server";
+wisp.options.wisp_motd = "absent wisp server";
 
 try {
   app.use(express.json());
@@ -77,7 +77,7 @@ try {
 ██╔══██║██╔══██╗╚════██║╚════██║██╔══╝  ██║╚██╗██║   ██║
 ██║  ██║██████╔╝███████║███████║███████╗██║ ╚████║   ██║
 ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝
-  t h e   d a g g e r   b r o w s e r   ·   v 4 . 0
+  g o n e   ·   u n s e e n   ·   u n b l o c k e d   ·   v 6 . 0
 `;
 
     console.log(chalk.hex("#60a5fa")(startupText));
