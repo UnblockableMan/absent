@@ -111,6 +111,39 @@ The node server (a rebranded DayDream X base) serves the same UI **plus** a real
 
 ---
 
+## 🔄 Infinite Links — the Worker Farm (free)
+
+School blocked your link? Spawn more. Cloudflare's **free** plan runs up to **100 workers per account**, and every worker gets its own `absent-xxxxx.<your-sub>.workers.dev` link serving the exact same ABSENT. One account is enough — no team required.
+
+**One-time setup (2 minutes):**
+
+1. Make a free [Cloudflare](https://dash.cloudflare.com/sign-up) account (no card needed).
+2. Top-right profile icon → **My Profile → API Tokens → Create Token** → use the **"Edit Cloudflare Workers"** template → Create → copy the token.
+
+**Spawn links — Mac / Linux / Git Bash:**
+
+```bash
+export CLOUDFLARE_API_TOKEN=paste-your-token
+bash tools/spawn-workers.sh 15      # 15 fresh links, saved to tools/links.txt
+```
+
+**Spawn links — Windows (plain cmd):**
+
+```bat
+set CLOUDFLARE_API_TOKEN=paste-your-token
+tools\spawn-workers.bat 15
+```
+
+**Everyday upkeep:**
+
+- Link gets blocked → `bash tools/spawn-workers.sh --delete absent-xxxxx` frees the slot, then spawn a fresh one.
+- The **first** deploy uploads the whole site (a few minutes). After that Cloudflare skips unchanged files, so each extra worker is quick.
+- `tools/links.txt` collects your links and is **gitignored** — your list never goes public.
+- Free limits: ~100 workers and 100k requests/day per account — plenty for a school.
+- ⚠️ If your school blocks **all** of `*.workers.dev` at once, the upgrade is the wildcard move: a cheap domain on Cloudflare with a `*.yourdomain.com` worker route — then every subdomain you invent is a fresh link.
+
+---
+
 ## ✨ Features
 
 - **◈ Fully static — or one-command node** — Scramjet + bare-mux + Epoxy/WISP all loaded client-side. Serve plain files from any host, or `node index.js` for the rebranded DayDream X Express base with a **built-in WISP server** at `wss://your-host/wisp/`.
