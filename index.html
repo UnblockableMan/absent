@@ -815,6 +815,7 @@
                     <button class="absent-set-tab" data-panel="panel-look">Look</button>
                     <button class="absent-set-tab" data-panel="panel-cursor">Cursor</button>
                     <button class="absent-set-tab" data-panel="panel-panic">Panic</button>
+                    <button class="absent-set-tab" data-panel="panel-data">Data</button>
                     <button class="absent-set-tab" data-panel="panel-about">About</button>
                 </div>
                 <div class="settings-content">
@@ -947,15 +948,25 @@
                             <button id="panic-now-btn" style="width:100%;background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.35);color:#ff6b6b;padding:9px;border-radius:8px;font-family:inherit;cursor:pointer;letter-spacing:.12em;font-weight:700">⚠ PANIC NOW</button>
                         </div>
                     </div>
+                    <!-- DATA -->
+                    <div class="absent-panel" id="panel-data">
+                        <div class="section-title"><i class="fa-solid fa-database"></i>Backup &amp; Restore</div>
+                        <p class="absent-hint">Export everything (history, bookmarks, shortcuts, themes, settings) to a file — restore it on any mirror.</p>
+                        <div style="display:flex;gap:10px;margin-top:8px">
+                            <button id="absent-export" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-primary);font-family:inherit;cursor:pointer;letter-spacing:.08em;font-weight:700">⬇ EXPORT</button>
+                            <button id="absent-import" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-primary);font-family:inherit;cursor:pointer;letter-spacing:.08em;font-weight:700">⬆ IMPORT</button>
+                        </div>
+                        <input type="file" id="absent-import-file" accept="application/json" style="display:none">
+                    </div>
                     <!-- ABOUT -->
                     <div class="absent-panel" id="panel-about">
                         <div class="section-title"><i class="fa-solid fa-circle-info"></i>About</div>
                         <p class="absent-hint">
-                            <b style="color:var(--text-primary)">ABSENT v4.3</b> — the dagger browser: multi-tab proxy, games portal
-                            (v3-style shelves, Roblox + 400 games), a Spotify app, password-locked toolbox
-                            (40+ tools), cloaking, themes, cursors and a panic key.<br><br>
+                            <b style="color:var(--text-primary)">ABSENT v5.0</b> — the dagger browser: multi-tab proxy, 500+ games on bold
+                            shelves, built-in apps (Spotify player, Roblox, YouTube, Twitch, Android), a password-locked
+                            toolbox (40+ tools), cloaking, themes, cursors, live online presence and a panic key.<br><br>
                             Engine: Scramjet · Wisp · Epoxy · bare-mux. Shell inspired by Opera GX &amp; Arc.
-                            Base built on a rebranded DayDream X — AGPL-3.0, credit to its authors.<br><br>
+                            Base components under AGPL-3.0 — see LICENSE.<br><br>
                             🎬 TikTok — <b style="color:var(--text-primary)">@absent.prxy</b><br>
                             🔒 License — proprietary: copying, altering or re-uploading ABSENT without the owner's
                             written permission is not allowed (see LICENSE).<br><br>
@@ -1159,7 +1170,19 @@
       background: linear-gradient(135deg, rgba(96,165,250,.10), rgba(0,0,0,.25));
     }
     .game-name { font-family: var(--font); font-size: .72rem; color: var(--text-primary); padding: 8px 10px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* ══════════ APPS DESKTOP ══════════ */
+    .apps-grid { display: flex; flex-wrap: wrap; gap: 14px; }
+    .app-card { width: 106px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 9px; cursor: pointer; transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+    .app-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 26px rgba(0,0,0,.5); }
+    .app-icon { width: 52px; height: 52px; border-radius: 13px; object-fit: cover; background: #0b1220; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--accent); }
+    .app-name { font-family: var(--font); font-size: .66rem; color: var(--text-primary); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
     /* ══════════ SPOTIFY APP ══════════ */
+    .spotify-player-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
+    .spotify-player-bar { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--border); font-family: var(--font); font-size: .64rem; color: var(--text-dim); letter-spacing: .08em; }
+    .spotify-player-dot { width: 8px; height: 8px; border-radius: 50%; background: #1db954; box-shadow: 0 0 10px rgba(29,185,84,.6); flex: 0 0 auto; }
+    .spotify-frame-box { position: relative; height: 620px; background: #000; }
+    .spotify-frame-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .spotify-frame-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-family: var(--font); font-size: .72rem; pointer-events: none; letter-spacing: .1em; }
     .spotify-hero { display: flex; align-items: center; gap: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
     .spotify-badge { width: 50px; height: 50px; border-radius: 50%; background: #1db954; color: #052e14; display: flex; align-items: center; justify-content: center; font-size: 1.55rem; flex: 0 0 auto; box-shadow: 0 0 18px rgba(29,185,84,.35); }
     .spotify-info { min-width: 0; }
@@ -1214,6 +1237,11 @@
     .ghost-btn:hover { color: #ff6b6b; border-color: rgba(255,107,107,.4); }
     /* ══════════ FOOTER (rotating phrases) ══════════ */
     .nt-footer { position: fixed; bottom: 12px; left: 0; right: 0; text-align: center; pointer-events: none; z-index: 15; }
+    .nt-online { display: inline-flex; align-items: center; gap: 6px; margin-left: 14px; opacity: .5; transition: opacity .3s ease; }
+    .nt-online.on { opacity: 1; }
+    .online-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,.7); display: inline-block; }
+    .content::before { content: ''; position: fixed; top: -180px; left: 50%; transform: translateX(-50%); width: 720px; height: 420px; background: radial-gradient(closest-side, var(--accent-glow), transparent 70%); opacity: .14; filter: blur(40px); pointer-events: none; z-index: -1; }
+    .content::after { content: ''; position: fixed; bottom: -220px; right: -140px; width: 520px; height: 420px; background: radial-gradient(closest-side, var(--accent-glow), transparent 70%); opacity: .1; filter: blur(50px); pointer-events: none; z-index: -1; }
     .nt-footer span {
       font-family: var(--font); font-size: .72rem; letter-spacing: .22em; color: var(--text-dim);
       opacity: .6; display: inline-block; transition: opacity .35s ease, transform .35s ease;
@@ -1256,6 +1284,7 @@
       <span class="buckle">!</span>
       <button class="belt-slot active" data-nt="home"><i class="fa-solid fa-house"></i><span class="slot-label">Home</span></button>
       <button class="belt-slot" data-nt="games"><i class="fa-solid fa-gamepad"></i><span class="slot-label">Games</span></button>
+      <button class="belt-slot" data-nt="apps"><i class="fa-solid fa-table-cells"></i><span class="slot-label">Apps</span></button>
       <button class="belt-slot" data-nt="tools"><i class="fa-solid fa-toolbox"></i><span class="slot-label">Toolbox</span></button>
       <button class="belt-slot" data-nt="history"><i class="fa-solid fa-clock-rotate-left"></i><span class="slot-label">History</span></button>
       <button class="belt-slot" data-nt="bookmarks"><i class="fa-solid fa-star"></i><span class="slot-label">Saved</span></button>
@@ -1298,15 +1327,27 @@
       <div class="nt-section-head">★ Saved <span class="spacer"></span><span style="font-family:var(--font);font-size:.66rem;color:var(--text-dim);letter-spacing:.06em">double-click ★ on the side belt to save a page</span></div>
       <div class="nt-list" id="bookmark-list"></div>
     </div>
+    <div class="nt-section" id="nt-apps">
+      <div class="nt-section-head">🚀 Apps</div>
+      <div class="apps-grid" id="apps-grid"></div>
+      <p class="nt-empty" style="margin-top:12px">apps open through the tunnel — sign in with your own accounts</p>
+    </div>
     <div class="nt-section" id="nt-spotify">
       <div class="nt-section-head">🎧 Spotify</div>
       <div class="spotify-hero">
         <div class="spotify-badge"><i class="fa-brands fa-spotify"></i></div>
         <div class="spotify-info">
-          <h3>Spotify web player</h3>
-          <p>music · playlists · podcasts — streamed through the tunnel. sign in with your own account.</p>
+          <h3>Spotify — built-in app</h3>
+          <p>full web player embedded right here through the tunnel. log in with your own account.</p>
         </div>
-        <button class="spotify-go" id="spotify-launch">open app</button>
+        <button class="spotify-go" id="spotify-launch">open in tab</button>
+      </div>
+      <div class="spotify-player-wrap">
+        <div class="spotify-player-bar"><span class="spotify-player-dot"></span><span id="spotify-player-state">player not loaded</span><span class="spacer"></span><button class="ghost-btn" id="spotify-reload">reload</button><button class="ghost-btn" id="spotify-pop">pop out</button></div>
+        <div class="spotify-frame-box">
+          <iframe id="spotify-frame" allow="autoplay; encrypted-media; fullscreen; clipboard-read; clipboard-write" referrerpolicy="no-referrer"></iframe>
+          <div class="spotify-frame-hint" id="spotify-hint">loading the player through the tunnel…</div>
+        </div>
       </div>
       <div class="nt-list" id="spotify-quick"></div>
     </div>
@@ -1328,7 +1369,7 @@
       </div>
     </div>
   </div>
-  <footer class="nt-footer"><span id="nt-phrase">w isaac</span></footer>
+  <footer class="nt-footer"><span id="nt-phrase">w isaac</span><span class="nt-online" id="nt-online"><span class="online-dot"></span>connecting…</span></footer>
   <div class="modal-overlay hidden" id="addModal">
     <div class="modal">
       <div class="modal-header">
@@ -1400,6 +1441,7 @@
       if (name === 'history') renderHistory();
       if (name === 'bookmarks') renderBookmarks();
       if (name === 'mirrors') renderMirrors();
+      if (name === 'spotify') loadSpotifyPlayer();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     document.querySelectorAll('.belt-slot').forEach(c => c.addEventListener('click', () => gateView(c.dataset.nt)));
@@ -1518,12 +1560,11 @@
       try { games = await (await fetch(NT_BASE + 'games.json')).json(); } catch (e) {}
       const slot = [...document.querySelectorAll('.belt-slot')].find(c => c.dataset.nt === 'games');
       if (slot && games.length) slot.querySelector('.slot-label').append(' · ' + games.length);
-      const ORDER = ['featured', 'popular', 'multiplayer', 'emulator', 'horror'];
-      const LABELS = { featured: 'Featured', popular: 'Popular', multiplayer: 'Multiplayer', emulator: 'Emulators', horror: 'Horror' };
-      const groups = [];
-      ORDER.forEach(k => { const list = games.filter(g => g.g === k); if (list.length) groups.push({ key: k, name: LABELS[k], list }); });
-      const rest = games.filter(g => !ORDER.includes(g.g));
-      if (rest.length) groups.push({ key: 'all', name: 'All Games', list: rest });
+      const PREF = ['featured', 'popular', 'multiplayer', 'emulator', 'horror', 'media'];
+      const LABELS = { featured: 'Featured', popular: 'Popular', multiplayer: 'Multiplayer', emulator: 'Emulators', horror: 'Horror', media: 'Media', games: 'More Games' };
+      let keys = [...new Set(games.map(g => (g.g || 'games').toLowerCase()))].filter(k => k !== 'all');
+      keys.sort((a, b) => (PREF.includes(a) ? PREF.indexOf(a) : 50) - (PREF.includes(b) ? PREF.indexOf(b) : 50) || a.localeCompare(b));
+      const groups = keys.map(k => ({ key: k, name: LABELS[k] || k[0].toUpperCase() + k.slice(1), list: games.filter(g => (g.g || 'games').toLowerCase() === k) })).filter(gr => gr.list.length);
       let q = '';
       let activeGroup = 'all';
       const chipsEl = document.getElementById('game-chips');
@@ -1703,6 +1744,55 @@
         list.appendChild(el);
       });
     }
+    // ── Apps desktop (icons from DayDreamX / Froggie assets, rebranded) ──
+    function loadSpotifyPlayer() {
+      const f = document.getElementById('spotify-frame');
+      if (!f || f.dataset.loaded) return;
+      f.dataset.loaded = '1';
+      f.src = NT_BASE + 'scramjet/' + encodeURIComponent('https://open.spotify.com/');
+      f.addEventListener('load', () => {
+        const hint = document.getElementById('spotify-hint');
+        if (hint) hint.style.display = 'none';
+        const st = document.getElementById('spotify-player-state');
+        if (st) st.textContent = 'player loaded — sign in inside';
+      });
+    }
+    const spReload = document.getElementById('spotify-reload');
+    if (spReload) spReload.onclick = () => { const f = document.getElementById('spotify-frame'); if (f && f.dataset.loaded) { f.dataset.loaded = ''; loadSpotifyPlayer(); } };
+    const spPop = document.getElementById('spotify-pop');
+    if (spPop) spPop.onclick = () => window.parent.postMessage({ type: 'navigate', url: 'https://open.spotify.com/' }, '*');
+    const APPS = [
+      { n: 'Spotify', icon: 'assets/img/apps/spotify.png', act: 'spotify' },
+      { n: 'YouTube', icon: 'assets/img/apps/yt.png',      u: 'https://youtube.com' },
+      { n: 'Twitch',  icon: 'assets/img/apps/twitch.png',  u: 'https://twitch.tv' },
+      { n: 'Roblox',  icon: 'assets/img/apps/roblox.png',  u: 'https://api.v6.wiki/' },
+      { n: 'Android', icon: 'assets/img/apps/nowgg.png',   u: 'https://nowgg.lol/hub' },
+      { n: 'Discord', fa: 'fa-brands fa-discord',          u: 'https://discord.com' },
+    ];
+    const appsGrid = document.getElementById('apps-grid');
+    if (appsGrid) APPS.forEach(a => {
+      const el = document.createElement('div');
+      el.className = 'app-card';
+      el.innerHTML = (a.icon ? `<img class="app-icon" loading="lazy" src="${NT_BASE + a.icon}" alt="">` : `<div class="app-icon"><i class="${a.fa}"></i></div>`) + `<div class="app-name">${esc(a.n)}</div>`;
+      el.onclick = () => { if (a.act === 'spotify') { gateView('spotify'); loadSpotifyPlayer(); } else navigate(a.u); };
+      appsGrid.appendChild(el);
+    });
+
+    // ── Live presence (users online via websocket) ────────────────────
+    (function () {
+      const el = () => document.getElementById('nt-online');
+      let ws = null, tries = 0, timer = null;
+      function set(n) { const e = el(); if (e) { e.textContent = n + ' online'; e.classList.add('on'); } }
+      function connect() {
+        try { ws = new WebSocket('wss://absent-presence.occultcontainmentcoalition.workers.dev/ws'); } catch (e) { return; }
+        ws.onmessage = (ev) => { try { const d = JSON.parse(ev.data); if (typeof d.online === 'number') set(d.online); } catch (_) {} };
+        ws.onopen = () => { tries = 0; };
+        ws.onclose = () => { tries = Math.min(tries + 1, 5); timer = setTimeout(connect, 3000 * tries); };
+        ws.onerror = () => { try { ws.close(); } catch (_) {} };
+      }
+      connect();
+      window.addEventListener('beforeunload', () => { clearTimeout(timer); try { if (ws) ws.close(); } catch (_) {} });
+    })();
     loadGames();
 
     function navigate(url) {
@@ -2446,6 +2536,36 @@
         }
         initToolboxLock();
         initPanicUI();
+        function initDataTools() {
+            const ex = document.getElementById('absent-export');
+            const im = document.getElementById('absent-import');
+            const file = document.getElementById('absent-import-file');
+            if (!ex || !im || !file) return;
+            ex.onclick = () => {
+                const dump = {};
+                for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith('absent_')) dump[k] = localStorage.getItem(k); }
+                const blob = new Blob([JSON.stringify(dump, null, 1)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob); a.download = 'absent-backup.json'; a.click();
+                setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+                toast('backup downloaded — keep it safe');
+            };
+            im.onclick = () => file.click();
+            file.onchange = () => {
+                const f = file.files && file.files[0]; if (!f) return;
+                const r = new FileReader();
+                r.onload = () => {
+                    try {
+                        const dump = JSON.parse(String(r.result)); let n = 0;
+                        Object.entries(dump).forEach(([k, v]) => { if (typeof k === 'string' && k.startsWith('absent_')) { localStorage.setItem(k, String(v)); n++; } });
+                        toast('restored ' + n + ' keys — reloading');
+                        setTimeout(() => location.reload(), 900);
+                    } catch (e) { toast('invalid backup file'); }
+                };
+                r.readAsText(f); file.value = '';
+            };
+        }
+        initDataTools();
         // ── Theme engine (aetheris palettes) ──────────────────────────────
         function applyTheme(name) {
             if (name) document.documentElement.setAttribute('data-theme', name);

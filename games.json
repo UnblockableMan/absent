@@ -1218,21 +1218,9 @@
   "g": "featured"
  },
  {
-  "n": "Bank",
-  "u": "fullscreen/bank.html",
-  "t": null,
-  "g": "featured"
- },
- {
   "n": "Bart",
   "u": "fullscreen/bart.html",
   "t": null,
-  "g": "featured"
- },
- {
-  "n": "Bhop",
-  "u": "fullscreen/bhop.html",
-  "t": "assets/img/main/bhop.jpg",
   "g": "featured"
  },
  {
@@ -1256,12 +1244,6 @@
  {
   "n": "Case",
   "u": "fullscreen/case.html",
-  "t": null,
-  "g": "featured"
- },
- {
-  "n": "Clash",
-  "u": "fullscreen/clash.html",
   "t": null,
   "g": "featured"
  },
@@ -1290,20 +1272,8 @@
   "g": "featured"
  },
  {
-  "n": "Frag",
-  "u": "fullscreen/frag.html",
-  "t": null,
-  "g": "featured"
- },
- {
   "n": "Gabe",
   "u": "fullscreen/gabe.html",
-  "t": null,
-  "g": "featured"
- },
- {
-  "n": "Granny2",
-  "u": "fullscreen/granny2.html",
   "t": null,
   "g": "featured"
  },
@@ -1320,32 +1290,14 @@
   "g": "featured"
  },
  {
-  "n": "Repo",
-  "u": "fullscreen/repo.html",
-  "t": "assets/img/main/repo.jpg",
-  "g": "featured"
- },
- {
   "n": "Sdk",
   "u": "fullscreen/sdk.html",
   "t": null,
   "g": "featured"
  },
  {
-  "n": "Slope",
-  "u": "fullscreen/slope.html",
-  "t": "assets/img/main/slope.jpg",
-  "g": "featured"
- },
- {
   "n": "Snow",
   "u": "fullscreen/snow.html",
-  "t": null,
-  "g": "featured"
- },
- {
-  "n": "Ultra",
-  "u": "fullscreen/ultra.html",
   "t": null,
   "g": "featured"
  },
@@ -2409,6 +2361,36 @@
   "n": "Google Snake (Scratch)",
   "u": "https://scratch.mit.edu/projects/1283303860/embed",
   "t": null,
+  "g": "games"
+ },
+ {
+  "n": "Eaglercraft v1.8",
+  "u": "https://mcv18.netlify.app/",
+  "t": "assets/img/ddxg/eaglr.png",
+  "g": "popular"
+ },
+ {
+  "n": "Eaglercraft v1.5.2",
+  "u": "https://mcv152.netlify.app/",
+  "t": "assets/img/ddxg/eaglr.png",
+  "g": "popular"
+ },
+ {
+  "n": "Basketbros.io",
+  "u": "https://kdata1.com/2023/03/stickslasher/",
+  "t": "assets/img/ddxg/basketbrosio.png",
+  "g": "games"
+ },
+ {
+  "n": "Last train home",
+  "u": "https://html-classic.itch.zone/html/3300759/CraterWeb/index.html",
+  "t": "assets/img/ddxg/lasttrainhome.png",
+  "g": "horror"
+ },
+ {
+  "n": "DriftR",
+  "u": "https://html-classic.itch.zone/html/3300759/CraterWeb/index.html",
+  "t": "assets/img/ddxg/driftr.png",
   "g": "games"
  }
 ]

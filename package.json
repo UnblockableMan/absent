@@ -1,7 +1,7 @@
 {
   "name": "absent",
   "description": "ABSENT - the dagger browser: unblocked games, toolbox and proxy (rebranded DayDream X base)",
-  "version": "4.3.0",
+  "version": "5.0.0",
   "type": "module",
   "engines": {
     "npm": ">=7.0.0",
