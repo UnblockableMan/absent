@@ -1392,6 +1392,12 @@
   "g": "featured"
  },
  {
+  "n": "Roblox",
+  "u": "https://api.v6.wiki/",
+  "t": null,
+  "g": "popular"
+ },
+ {
   "n": "1v1.LOL",
   "u": "https://1v1.lol/",
   "t": "assets/img/ddx/1v1lol.png",
@@ -1500,14 +1506,14 @@
   "g": "games"
  },
  {
-  "n": "Eaglercraft v1.8",
-  "u": "https://mcv18.netlify.app/",
+  "n": "Minecraft 1.8.8",
+  "u": "https://eaglercraft.com/play?joinServer=wss://mc.arch.lol&version=1.8.8",
   "t": "assets/img/ddx/eaglr.png",
   "g": "popular"
  },
  {
-  "n": "Eaglercraft v1.5.2",
-  "u": "https://mcv152.netlify.app/",
+  "n": "Minecraft (Default)",
+  "u": "https://eaglercraft.com/play",
   "t": "assets/img/ddx/eaglr.png",
   "g": "popular"
  },
@@ -2316,7 +2322,7 @@
   "g": "horror"
  },
  {
-  "n": "I\u0337\u0350\u031a\u0310\u033c\u0327\u0353 \u0336\u0346\u0358\u0300\u0343\u031a\u031c\u0347\u0320\u0328a\u0338\u0351\u0308\u0348\u031cm\u0337\u0304\u0341\u0341\u030f\u0355 \u0334\u031a\u0358\u0350\u0308\u0305\u0322\u0327n\u0336\u030c\u030a\u0316\u0348\u0318\u0327o\u0337\u0311\u035c\u0328\u0329t\u0335\u0346\u0312\u031b\u0348\u0326\u032d\u0353 \u0336\u0357\u035d\u032e\u0347\u0329\u0333\u0359w\u0336\u030d\u033f\u0357\u0342\u0357\u0327\u0316\u031c\u034eh\u0335\u030d\u031d\u0327\u033ba\u0334\u0304\u0332\u032f\u0323t\u0336\u0308\u030b\u0344\u030f\u0306\u033a\u0325\u032a\u0356\u032a \u0334\u034c\u0307\u030c\u0306\u034b\u0331r\u0336\u033f\u0342\u0317e\u0334\u0301\u0346\u033d\u030c\u032dm\u0337\u030f\u031a\u031b\u0340\u0304\u032f\u0322a\u0338\u0309\u0352\u033c\u032ai\u0337\u033f\u034a\u030c\u0344\u031b\u0327n\u0334\u033d\u030e\u030e\u0324\u031cs\u0336\u0310\u0306\u0342\u0307\u0344\u0319\u033b\u0345\u0336\u0311\u030c\u035d\u0356\u032e\u0322\u032a",
+  "n": "I̷̧̼͓͐̐̚ ̶̨̜͇̠͆̀̓͘̚a̸͈̜͑̈m̷͕̄́́̏ ̴̢̧͐̈̅̚͘ņ̶̖͈̘̌̊ǫ̷̩̑͜t̵̛͈̦̭͓͆̒ ̶̮͇̩̳͙͗͝w̶̧̖̜͎̍̿͗͂͗ḩ̵̝̻̍ā̴̲̯̣ẗ̶̺̥̪͖̪̋̈́̏̆ ̴̱͌̇̌̆͋r̶̗̿͂ḙ̴́͆̽̌m̷̢̛̯̏̀̄̚ả̸̼̪͒i̷̧̛̿͊̌̈́n̴̤̜̽̎̎s̶̶̢̙̻͖̮̪̐̆͂̇̈́̑̌͝ͅ",
   "u": "https://html-classic.itch.zone/html/2479198/index.html",
   "t": "assets/img/ddx/iamnotwhatremains.gif",
   "g": "games"
@@ -2373,6 +2379,36 @@
   "n": "Human or Not?",
   "u": "https://humanornot.so/",
   "t": "assets/img/ddx/human.png",
+  "g": "games"
+ },
+ {
+  "n": "8 Ball Pool (Scratch)",
+  "u": "https://scratch.mit.edu/projects/1291919322/embed",
+  "t": null,
+  "g": "games"
+ },
+ {
+  "n": "FNAF (Scratch)",
+  "u": "https://scratch.mit.edu/projects/1287361673/embed",
+  "t": null,
+  "g": "games"
+ },
+ {
+  "n": "Geometry Dash (Scratch)",
+  "u": "https://scratch.mit.edu/projects/1282825077/embed",
+  "t": null,
+  "g": "games"
+ },
+ {
+  "n": "Geometry Dash Subzero (Scratch)",
+  "u": "https://scratch.mit.edu/projects/1288073971/embed",
+  "t": null,
+  "g": "games"
+ },
+ {
+  "n": "Google Snake (Scratch)",
+  "u": "https://scratch.mit.edu/projects/1283303860/embed",
+  "t": null,
   "g": "games"
  }
 ]

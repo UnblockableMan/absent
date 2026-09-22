@@ -2,13 +2,13 @@
 
 <img src="docs/screenshots/home.png" alt="ABSENT — home" width="900">
 
-# † ABSENT
+# ! ABSENT
 
 **A fast web proxy that looks and feels like a real browser — dagger-branded, flat-designed, and built on a fully rebranded [DayDream X](https://github.com/NxroProxy/DayDreamX) base. Run it static — or with node for a built-in WISP server.**
 
-ABSENT v4.1 runs 100% in your browser — [Scramjet](https://github.com/MercuryWorkshop/scramjet) + [Epoxy transport](https://github.com/MercuryWorkshop/epoxy-transport) over WISP — wrapped in an Opera GX / Arc-style browser shell with **396 games**, a **password-locked cheat toolbox (35+ tools)**, **tab cloaking**, cursor packs, a theme engine, history & bookmarks, multi-tab browsing, a **panic key**, and automatic low-latency server switching baked in.
+ABSENT v4.3 runs 100% in your browser — [Scramjet](https://github.com/MercuryWorkshop/scramjet) + [Epoxy transport](https://github.com/MercuryWorkshop/epoxy-transport) over WISP — wrapped in an Opera GX / Arc-style browser shell with **400+ games** on v3-style shelf rows (incl. **Roblox**), a **Spotify app**, a **password-locked toolbox (40+ tools)**, **tab cloaking**, cursor packs, a theme engine, history & bookmarks, multi-tab browsing, a **panic key**, and automatic low-latency server switching baked in.
 
-[![Version](https://img.shields.io/badge/version-4.1-60a5fa?style=flat-square)](https://github.com/UnblockableMan/absent)
+[![Version](https://img.shields.io/badge/version-4.3-60a5fa?style=flat-square)](https://github.com/UnblockableMan/absent)
 [![License](https://img.shields.io/badge/license-proprietary-red?style=flat-square)](#-license)
 [![TikTok](https://img.shields.io/badge/TikTok-%40absent.prxy-black?style=flat-square&logo=tiktok)](https://www.tiktok.com/@absent.prxy)
 

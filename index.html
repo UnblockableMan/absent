@@ -806,7 +806,7 @@
         <div class="wisp-settings-modal hidden" id="wisp-settings-modal">
             <div class="proxy-wisp-card">
                 <div class="proxy-wisp-header">
-                    <h2><span style="font-size:1.15rem;line-height:1">†</span> ABSENT Settings</h2>
+                    <h2><span style="font-size:1.15rem;line-height:1">!</span> ABSENT Settings</h2>
                     <button class="close-btn" id="close-wisp-modal"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="absent-set-tabs" id="absent-set-tabs">
@@ -951,8 +951,9 @@
                     <div class="absent-panel" id="panel-about">
                         <div class="section-title"><i class="fa-solid fa-circle-info"></i>About</div>
                         <p class="absent-hint">
-                            <b style="color:var(--text-primary)">ABSENT v4.2</b> — the dagger browser: multi-tab proxy, games portal,
-                            password-locked cheat toolbox (35+ tools), cloaking, themes, cursors and a panic key.<br><br>
+                            <b style="color:var(--text-primary)">ABSENT v4.3</b> — the dagger browser: multi-tab proxy, games portal
+                            (v3-style shelves, Roblox + 400 games), a Spotify app, password-locked toolbox
+                            (40+ tools), cloaking, themes, cursors and a panic key.<br><br>
                             Engine: Scramjet · Wisp · Epoxy · bare-mux. Shell inspired by Opera GX &amp; Arc.
                             Base built on a rebranded DayDream X — AGPL-3.0, credit to its authors.<br><br>
                             🎬 TikTok — <b style="color:var(--text-primary)">@absent.prxy</b><br>
@@ -974,7 +975,7 @@
   <title>ABSENT</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000'/%3E%3Ctext x='32' y='47' font-size='42' text-anchor='middle' fill='%2360a5fa' font-family='serif'%3E%E2%80%A0%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Montserrat:wght@700;900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -1045,13 +1046,16 @@
     }
     .absent-logo {
       font-size: clamp(3.2rem, 8vw, 5.4rem); color: var(--accent);
-      text-shadow: 0 0 30px var(--accent-glow), 0 0 80px var(--accent-glow);
-      margin-bottom: 2px; line-height: 1; font-family: serif;
+      filter: drop-shadow(0 0 26px var(--accent-glow)) drop-shadow(0 0 80px var(--accent-glow));
+      margin-bottom: 2px; line-height: 1;
     }
+    .absent-logo svg, .nt-lock-logo svg { display: block; width: 1em; height: 1em; }
     .absent-title {
-      font-family: 'Montserrat', sans-serif; font-weight: 900; letter-spacing: .16em;
+      font-family: 'Inter', 'Montserrat', sans-serif; font-weight: 800; letter-spacing: .1em;
       font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.1; margin-bottom: 4px;
       color: var(--text-primary); text-transform: uppercase;
+      background: linear-gradient(180deg, var(--text-primary) 25%, var(--accent));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
     .absent-tag {
       font-family: var(--font); font-size: .68rem; letter-spacing: .34em;
@@ -1060,7 +1064,7 @@
     /* ══════════ TOOL BELT ══════════ */
     .tool-belt {
       display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: center;
-      background: #0d1017;
+      background: rgba(13,16,23,.85); backdrop-filter: blur(14px);
       border: 1px solid var(--border); border-radius: 999px; padding: 8px 16px 8px 12px;
       box-shadow: 0 6px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
       margin: 10px auto 26px;
@@ -1077,7 +1081,7 @@
     }
     .belt-slot i { font-size: .78rem; }
     .belt-slot:hover { color: var(--text-primary); background: rgba(255,255,255,.06); border-color: var(--border); }
-    .belt-slot.active { color: #020617; background: var(--accent); border-color: var(--accent); font-weight: 700; }
+    .belt-slot.active { color: #020617; background: var(--accent); border-color: var(--accent); font-weight: 700; box-shadow: 0 0 22px var(--accent-glow); }
     .search-wrap { width: 100%; margin-bottom: 30px; }
     .search-box {
       display: flex; align-items: center; gap: 14px; width: 100%;
@@ -1113,7 +1117,7 @@
     .nt-section { display: none; width: 100%; max-width: 1060px; margin: 0 auto; padding: 0 20px 40px; text-align: left; }
     .nt-section.on { display: block; animation: fadeIn .3s ease; }
     .nt-section-head {
-      font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700;
+      font-family: 'Inter', 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 800; letter-spacing: .02em;
       color: var(--text-primary); margin: 4px 0 14px; display: flex; align-items: center; gap: 10px;
     }
     .nt-section-head .spacer { flex: 1; }
@@ -1127,19 +1131,42 @@
       font-family: var(--font); font-size: .9rem; padding: 11px 14px; border-radius: 12px; margin-bottom: 16px; outline: none;
     }
     .nt-search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-    .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 14px; }
-    .game-card {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
-      cursor: pointer; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-    }
-    .game-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
-    .game-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: #0b1220; }
+    ::-webkit-scrollbar { width: 9px; height: 9px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.14); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    /* v3-inspired game shelves — horizontal snap rows, no more grid */
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+    .chip { font-family: var(--font); font-size: .66rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-dim); background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; cursor: pointer; transition: all .15s ease; }
+    .chip:hover { color: var(--text-primary); border-color: var(--accent); }
+    .chip.on { color: #020617; background: var(--accent); border-color: var(--accent); font-weight: 700; box-shadow: 0 0 16px var(--accent-glow); }
+    .shelf { margin-bottom: 20px; }
+    .shelf-head { display: flex; align-items: center; gap: 10px; margin: 0 2px 10px; }
+    .shelf-title { font-family: 'Inter', 'Montserrat', sans-serif; font-weight: 800; font-size: .84rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-primary); }
+    .shelf-count { font-family: var(--font); font-size: .62rem; color: var(--text-dim); letter-spacing: .08em; }
+    .shelf-arrows { margin-left: auto; display: flex; gap: 6px; }
+    .shelf-btn { width: 26px; height: 26px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255,255,255,.03); color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: .8rem; line-height: 1; }
+    .shelf-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .shelf-row { display: flex; gap: 12px; overflow-x: auto; padding: 2px 2px 8px; scroll-snap-type: x proximity; scrollbar-width: none; -ms-overflow-style: none; }
+    .shelf-row::-webkit-scrollbar { display: none; }
+    .game-card { flex: 0 0 152px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; scroll-snap-align: start; transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+    .game-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 26px rgba(0,0,0,.5); }
+    .game-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: #0b1220; transition: transform .3s ease; }
+    .game-card:hover .game-thumb { transform: scale(1.08); }
     .game-letter {
-      width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 2rem; color: var(--accent);
-      background: rgba(96,165,250,.08);
+      width: 100%; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', 'Montserrat', sans-serif; font-weight: 800; font-size: 1.8rem; color: var(--accent);
+      background: linear-gradient(135deg, rgba(96,165,250,.10), rgba(0,0,0,.25));
     }
-    .game-name { font-family: var(--font); font-size: .74rem; color: var(--text-primary); padding: 8px 10px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .game-name { font-family: var(--font); font-size: .72rem; color: var(--text-primary); padding: 8px 10px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* ══════════ SPOTIFY APP ══════════ */
+    .spotify-hero { display: flex; align-items: center; gap: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+    .spotify-badge { width: 50px; height: 50px; border-radius: 50%; background: #1db954; color: #052e14; display: flex; align-items: center; justify-content: center; font-size: 1.55rem; flex: 0 0 auto; box-shadow: 0 0 18px rgba(29,185,84,.35); }
+    .spotify-info { min-width: 0; }
+    .spotify-info h3 { margin: 0 0 3px; font-family: 'Inter', 'Montserrat', sans-serif; font-weight: 800; font-size: .98rem; color: var(--text-primary); }
+    .spotify-info p { margin: 0; font-family: var(--font); font-size: .7rem; color: var(--text-dim); }
+    .spotify-go { margin-left: auto; flex: 0 0 auto; background: #1db954; border: none; color: #052e14; font-weight: 800; font-family: var(--font); font-size: .78rem; padding: 9px 16px; border-radius: 999px; cursor: pointer; }
+    .spotify-go:hover { filter: brightness(1.12); }
     .tool-item, .cheat-item {
       display: flex; align-items: center; gap: 14px; background: var(--card-bg); border: 1px solid var(--border);
       border-radius: 18px; padding: 14px 18px; cursor: pointer; transition: border-color .15s, background .15s;
@@ -1166,7 +1193,7 @@
     .nt-lock { display: none; position: fixed; inset: 0; z-index: 90; align-items: center; justify-content: center; background: rgba(0,0,0,.72); backdrop-filter: blur(6px); }
     .nt-lock.on { display: flex; }
     .nt-lock-box { width: min(320px, 86vw); background: #0d1017; border: 1px solid var(--border); border-radius: 16px; padding: 26px 24px 22px; text-align: center; animation: fadeIn .25s ease; }
-    .nt-lock-logo { font-size: 2.4rem; color: var(--accent); font-family: serif; line-height: 1; text-shadow: 0 0 22px var(--accent-glow); margin-bottom: 8px; }
+    .nt-lock-logo { font-size: 2.6rem; color: var(--accent); line-height: 1; filter: drop-shadow(0 0 20px var(--accent-glow)); margin-bottom: 8px; }
     .nt-lock-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-primary); }
     .nt-lock-sub { font-family: var(--font); font-size: .7rem; color: var(--text-dim); margin: 6px 0 16px; }
     .nt-lock-box input { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-primary); font-family: var(--font); font-size: 1rem; letter-spacing: .3em; text-align: center; padding: 10px; border-radius: 10px; outline: none; }
@@ -1221,18 +1248,19 @@
   <div class="nav-loader" id="loader"><div class="spinner"></div></div>
   <div class="content">
     <div class="hero-block">
-      <div class="absent-logo">†</div>
+      <div class="absent-logo"><svg viewBox="0 0 64 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="27.5" y="3" width="9" height="26" rx="4.5"/><circle cx="32" cy="34.5" r="2.9"/><rect x="30.2" y="37.2" width="3.6" height="5.6" rx="1.5"/><rect x="26" y="43.2" width="12" height="2.7" rx="1.35"/><path d="M32 60.5 L28.3 46 L35.7 46 Z"/></svg></div>
       <h1 class="absent-title">Absent</h1>
       <div class="absent-tag">gone · unseen · unblocked</div>
     </div>
     <nav class="tool-belt" id="tool-belt">
-      <span class="buckle">†</span>
+      <span class="buckle">!</span>
       <button class="belt-slot active" data-nt="home"><i class="fa-solid fa-house"></i><span class="slot-label">Home</span></button>
       <button class="belt-slot" data-nt="games"><i class="fa-solid fa-gamepad"></i><span class="slot-label">Games</span></button>
       <button class="belt-slot" data-nt="tools"><i class="fa-solid fa-toolbox"></i><span class="slot-label">Toolbox</span></button>
       <button class="belt-slot" data-nt="history"><i class="fa-solid fa-clock-rotate-left"></i><span class="slot-label">History</span></button>
       <button class="belt-slot" data-nt="bookmarks"><i class="fa-solid fa-star"></i><span class="slot-label">Saved</span></button>
       <button class="belt-slot" data-nt="mirrors"><i class="fa-solid fa-link"></i><span class="slot-label">Mirrors</span></button>
+      <button class="belt-slot" data-nt="spotify"><i class="fa-brands fa-spotify"></i><span class="slot-label">Spotify</span></button>
     </nav>
     <form class="search-wrap" id="searchForm">
       <div class="search-box">
@@ -1252,7 +1280,8 @@
     <div class="nt-section" id="nt-games">
       <div class="nt-section-head">🎮 Games</div>
       <input class="nt-search" id="game-search" placeholder="Search games..." spellcheck="false">
-      <div class="game-grid" id="game-grid"></div>
+      <div class="chip-row" id="game-chips"></div>
+      <div id="game-shelves"></div>
     </div>
     <div class="nt-section" id="nt-tools">
       <div class="nt-section-head">🧰 Toolbox</div>
@@ -1269,6 +1298,18 @@
       <div class="nt-section-head">★ Saved <span class="spacer"></span><span style="font-family:var(--font);font-size:.66rem;color:var(--text-dim);letter-spacing:.06em">double-click ★ on the side belt to save a page</span></div>
       <div class="nt-list" id="bookmark-list"></div>
     </div>
+    <div class="nt-section" id="nt-spotify">
+      <div class="nt-section-head">🎧 Spotify</div>
+      <div class="spotify-hero">
+        <div class="spotify-badge"><i class="fa-brands fa-spotify"></i></div>
+        <div class="spotify-info">
+          <h3>Spotify web player</h3>
+          <p>music · playlists · podcasts — streamed through the tunnel. sign in with your own account.</p>
+        </div>
+        <button class="spotify-go" id="spotify-launch">open app</button>
+      </div>
+      <div class="nt-list" id="spotify-quick"></div>
+    </div>
     <div class="nt-section" id="nt-mirrors">
       <div class="nt-section-head">🔗 Mirrors <span class="spacer"></span><span style="font-family:var(--font);font-size:.66rem;color:var(--text-dim);letter-spacing:.06em">blocked? tap a link to hop — opens in a new tab</span></div>
       <div class="nt-list" id="mirror-list"></div>
@@ -1276,7 +1317,7 @@
   </div>
   <div class="nt-lock" id="nt-lock">
     <div class="nt-lock-box" id="nt-lock-box">
-      <div class="nt-lock-logo">†</div>
+      <div class="nt-lock-logo"><svg viewBox="0 0 64 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="27.5" y="3" width="9" height="26" rx="4.5"/><circle cx="32" cy="34.5" r="2.9"/><rect x="30.2" y="37.2" width="3.6" height="5.6" rx="1.5"/><rect x="26" y="43.2" width="12" height="2.7" rx="1.35"/><path d="M32 60.5 L28.3 46 L35.7 46 Z"/></svg></div>
       <div class="nt-lock-title">toolbox locked</div>
       <div class="nt-lock-sub">this folder holds the cheats — enter the password</div>
       <input type="password" id="nt-lock-pass" inputmode="numeric" autocomplete="off" placeholder="password" spellcheck="false">
@@ -1471,28 +1512,62 @@
     }
     function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
     async function loadGames() {
-      const grid = document.getElementById('game-grid');
-      if (!grid) return;
+      const wrap = document.getElementById('game-shelves');
+      if (!wrap) return;
       let games = [];
       try { games = await (await fetch(NT_BASE + 'games.json')).json(); } catch (e) {}
       const slot = [...document.querySelectorAll('.belt-slot')].find(c => c.dataset.nt === 'games');
       if (slot && games.length) slot.querySelector('.slot-label').append(' · ' + games.length);
-      const render = (list) => {
-        grid.innerHTML = '';
-        list.forEach(g => {
-          const card = document.createElement('div');
-          card.className = 'game-card';
-          card.innerHTML = (g.t ? `<img class="game-thumb" loading="lazy" src="${esc(NT_BASE + g.t)}" alt="">` : `<div class="game-letter">${esc((g.n || '?')[0].toUpperCase())}</div>`) + `<div class="game-name">${esc(g.n)}</div>`;
-          card.onclick = () => openGame(g.u, true);
-          grid.appendChild(card);
+      const ORDER = ['featured', 'popular', 'multiplayer', 'emulator', 'horror'];
+      const LABELS = { featured: 'Featured', popular: 'Popular', multiplayer: 'Multiplayer', emulator: 'Emulators', horror: 'Horror' };
+      const groups = [];
+      ORDER.forEach(k => { const list = games.filter(g => g.g === k); if (list.length) groups.push({ key: k, name: LABELS[k], list }); });
+      const rest = games.filter(g => !ORDER.includes(g.g));
+      if (rest.length) groups.push({ key: 'all', name: 'All Games', list: rest });
+      let q = '';
+      let activeGroup = 'all';
+      const chipsEl = document.getElementById('game-chips');
+      const buildChips = () => {
+        if (!chipsEl) return;
+        chipsEl.innerHTML = '';
+        [{ key: 'all', name: 'All Games' }].concat(groups.filter(gr => gr.key !== 'all')).forEach(c => {
+          const b = document.createElement('button');
+          b.className = 'chip' + (activeGroup === c.key ? ' on' : '');
+          b.textContent = c.name;
+          b.onclick = () => { activeGroup = c.key; render(); };
+          chipsEl.appendChild(b);
         });
       };
-      render(games);
+      const render = () => {
+        buildChips();
+        wrap.innerHTML = '';
+        let shown = 0;
+        groups.forEach(gr => {
+          if (activeGroup !== 'all' && gr.key !== activeGroup) return;
+          const items = q ? gr.list.filter(g => g.n.toLowerCase().includes(q)) : gr.list;
+          if (!items.length) return;
+          shown += items.length;
+          const shelf = document.createElement('div');
+          shelf.className = 'shelf';
+          shelf.innerHTML = `<div class="shelf-head"><span class="shelf-title">${esc(gr.name)}</span><span class="shelf-count">${items.length}</span><span class="shelf-arrows"><button class="shelf-btn" data-d="-1" aria-label="scroll left">‹</button><button class="shelf-btn" data-d="1" aria-label="scroll right">›</button></span></div><div class="shelf-row"></div>`;
+          const row = shelf.querySelector('.shelf-row');
+          items.forEach(g => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = (g.t ? `<img class="game-thumb" loading="lazy" src="${esc(NT_BASE + g.t)}" alt="">` : `<div class="game-letter">${esc((g.n || '?')[0].toUpperCase())}</div>`) + `<div class="game-name">${esc(g.n)}</div>`;
+            card.onclick = () => openGame(g.u, !/^https?:/.test(g.u));
+            row.appendChild(card);
+          });
+          shelf.querySelectorAll('.shelf-btn').forEach(b => {
+            b.onclick = () => row.scrollBy({ left: Number(b.dataset.d) * Math.max(320, row.clientWidth * 0.8), behavior: 'smooth' });
+          });
+          wrap.appendChild(shelf);
+        });
+        if (!shown) wrap.innerHTML = '<p class="nt-empty">no games match that search</p>';
+      };
+      render();
       const input = document.getElementById('game-search');
-      input.addEventListener('input', () => {
-        const q = input.value.trim().toLowerCase();
-        render(q ? games.filter(g => g.n.toLowerCase().includes(q)) : games);
-      });
+      input.addEventListener('input', () => { q = input.value.trim().toLowerCase(); render(); });
     }
     // ── Toolbox (calculators · study helpers · bookmarklets · utilities) ──
     const CALCS = [
@@ -1531,18 +1606,22 @@
         copy: "javascript:(function(){var d=document.documentElement;d.style.filter='invert(1) hue-rotate(180deg)';d.querySelectorAll('img,video').forEach(function(el){el.style.filter='invert(1) hue-rotate(180deg)'});})();void 0" },
     ];
     const TOOLS = [
-      { n: 'Code Editor',      d: 'Write and run code in your browser',   i: '⌨️', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3@latest/assets/html/other/runner.html' },
-      { n: 'HTML Embedder',    d: 'Embed any webpage as HTML',            i: '🧩', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3@latest/assets/html/other/embed.html' },
-      { n: 'Website Embedder', d: 'Embed websites in about:blank',        i: '🪟', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3@latest/assets/html/other/embed2.html' },
-      { n: 'History Flooder',  d: 'Flood your browser history',           i: '🌊', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3@latest/assets/html/other/history.html' },
+      { n: 'Code Editor',      d: 'Write and run code in your browser',   i: '⌨️', u: 'assets/html/other/runner.html', local: 1 },
+      { n: 'HTML Embedder',    d: 'Embed any webpage as HTML',            i: '🧩', u: 'assets/html/other/embed.html', local: 1 },
+      { n: 'Website Embedder', d: 'Embed websites in about:blank',        i: '🪟', u: 'assets/html/other/embed2.html', local: 1 },
+      { n: 'History Flooder',  d: 'Flood your browser history',           i: '🌊', u: 'assets/html/other/history.html', local: 1 },
+      { n: 'MP3 / MP4 Player', d: 'Play your own music and videos',       i: '🎵', u: 'assets/html/other/mp3.html', local: 1 },
+      { n: 'Windows XP',       d: 'The full XP desktop in your browser',  i: '🖥️', u: 'assets/html/other/winxp.html', local: 1 },
+      { n: 'Cloudmoon',        d: 'Cloud gaming right in the tab',        i: '☁️', u: 'assets/html/other/cloudmoon.html', local: 1 },
+      { n: 'GUST',             d: 'Search the web through the storm',     i: '🌪️', u: 'assets/html/other/gust.html', local: 1 },
       { n: 'Photopea',         d: 'Free Photoshop in your browser',       i: '🖌️', u: 'https://www.photopea.com/' },
       { n: 'TinyWow',          d: 'PDF, video & image tools, all free',   i: '🗃️', u: 'https://tinywow.com/' },
       { n: 'Temp Mail',        d: 'Disposable inbox for signups',         i: '📧', u: 'https://temp-mail.org/' },
       { n: 'Speed Test',       d: 'Check the network in one second',      i: '⚡', u: 'https://fast.com/' },
       { n: 'Monkeytype',       d: 'Fast and clean typing practice',       i: '🐒', u: 'https://monkeytype.com/' },
-      { n: 'Azahar',           d: '3DS Emulator',                         i: '🎮', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3/assets/html/other/azahar/index.html' },
-      { n: 'Play.JS',          d: 'PS2 Emulator',                         i: '🕹️', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3/assets/html/other/playjs/index.html' },
-      { n: 'Voxiles',          d: 'Voxel sandbox game',                   i: '⛏️', u: 'https://quantil.jsdelivr.net/gh/s0n-1m-cr1n3/sc13nc3/assets/html/other/voxiles/index.html' },
+      { n: 'Azahar',           d: '3DS Emulator',                         i: '🎮', u: 'assets/html/other/azahar/index.html', local: 1 },
+      { n: 'Play.JS',          d: 'PS2 Emulator',                         i: '🕹️', u: 'assets/html/other/playjs/index.html', local: 1 },
+      { n: 'Voxiles',          d: 'Voxel sandbox game',                   i: '⛏️', u: 'assets/html/other/voxiles/index.html', local: 1 },
     ];
     function fillList(id, items, kind) {
       const list = document.getElementById(id);
@@ -1555,7 +1634,8 @@
           if (t.copy) {
             try { await navigator.clipboard.writeText(t.copy); const tag = el.querySelector('.copy-tag'); tag.textContent = 'copied ✓'; setTimeout(() => tag.textContent = 'copy', 1400); }
             catch (e) { prompt('Copy this bookmarklet:', t.copy); }
-          } else navigate(t.u);
+          } else if (t.local) { window.parent.postMessage({ type: 'open-local', url: NT_BASE + t.u }, '*'); }
+          else navigate(t.u);
         };
         list.appendChild(el);
       });
@@ -1564,6 +1644,15 @@
     fillList('study-list', STUDY, 'open');
     fillList('bm-list', BMS, 'copy');
     fillList('tool-list', TOOLS, 'open');
+    // ── Spotify app (web player through the tunnel) ──────────────────
+    const SPOTIFY_QUICK = [
+      { n: 'Spotify Home',  d: "Your feed, playlists and picks",      i: '🏠', u: 'https://open.spotify.com/' },
+      { n: 'Search Music',  d: 'Find any song, artist or podcast',    i: '🔍', u: 'https://open.spotify.com/search/' },
+      { n: 'Top 50 Global', d: "Today's biggest hits, updated daily", i: '📈', u: 'https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M' },
+    ];
+    fillList('spotify-quick', SPOTIFY_QUICK, 'open');
+    const spLaunch = document.getElementById('spotify-launch');
+    if (spLaunch) spLaunch.onclick = () => navigate('https://open.spotify.com/');
 
     // ── History & Saved pages (shared localStorage with main app) ────
     function timeAgo(ts) {
@@ -1948,7 +2037,7 @@
         // ABSENT X — cloak / cursor / history / bookmarks / belt / toast
         // ════════════════════════════════════════════════════════════════
         const svgUri = (s) => 'data:image/svg+xml;utf8,' + encodeURIComponent(s);
-        const DAGGER_ICON = svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#000"/><text x="32" y="47" font-size="42" text-anchor="middle" fill="#60a5fa" font-family="serif">\u2020</text></svg>');
+        const DAGGER_ICON = svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#000"/><g fill="#60a5fa"><rect x="28" y="7" width="8" height="23" rx="4"/><circle cx="32" cy="34.5" r="2.7"/><rect x="30.3" y="37" width="3.4" height="5.2" rx="1.4"/><rect x="26.6" y="42.6" width="10.8" height="2.5" rx="1.25"/><path d="M32 57 L28.4 45.2 L35.6 45.2 Z"/></g></svg>');
         const CLOAKS = {
             google:  { t: 'Google', icon: svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>') },
             classes: { t: 'Classes', icon: svgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="9" fill="#0f9d58"/><rect x="11" y="15" width="26" height="19" rx="2" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="24" cy="23" r="3.2" fill="#fff"/><path d="M17 34v-4.6c0-1.8 1.5-3.2 3.3-3.2h7.4c1.8 0 3.3 1.4 3.3 3.2V34" fill="#fff"/></svg>') },
@@ -2178,7 +2267,7 @@
             const root = document.getElementById("proxy-app");
             root.innerHTML = `
                 <div id="absent-belt">
-                    <span class="belt-logo">†</span>
+                    <span class="belt-logo">!</span>
                     <button id="belt-home" title="Home"><i class="fa-solid fa-house"></i></button>
                     <button id="belt-games" title="Games"><i class="fa-solid fa-gamepad"></i></button>
                     <button id="belt-tools" title="Toolbox"><i class="fa-solid fa-toolbox"></i></button>
