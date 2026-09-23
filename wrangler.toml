@@ -4,3 +4,19 @@ compatibility_date = "2025-09-01"
 
 [assets]
 directory = "."
+
+# Bind all 33 subdomains to this single repository project
+[[routes]]
+pattern = "math.occultcontainmentcoalition.workers.dev/*"
+
+[[routes]]
+pattern = "absent.occultcontainmentcoalition.workers.dev/*"
+
+[[routes]]
+pattern = "school.occultcontainmentcoalition.workers.dev/*"
+
+[[routes]]
+pattern = "larplarpsahur.occultcontainmentcoalition.workers.dev/*"
+
+[[routes]]
+pattern = "absent-*.occultcontainmentcoalition.workers.dev/*"
