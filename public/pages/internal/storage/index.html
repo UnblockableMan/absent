@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>storage — absent</title>
+<link rel="icon" type="image/svg+xml" href="/public/absent-favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-body: #050505; --text-primary: #ebebeb; --text-muted: #8c8c8c; --text-faint: #737373;
+  --bg-surface-0: #060606; --bg-surface-2: #0e0e0e; --bg-surface-4: #141414;
+  --border-subtle: #ffffff0d; --border-faint: #ffffff1c;
+  --absent-accent: #edf2f7; --absent-accent-dim: #66737e;
+  --danger: #8b0000;
+  --radius-item: 10px; --radius-tooltip: 8px;
+  --font: 'Lexend', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg-body); color: var(--text-primary); font-family: var(--font);
+  text-transform: lowercase; min-height: 100vh; padding: 32px 24px;
+}
+body::before {
+  content: ""; position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 50%, #05050580 0, var(--bg-body) 80%),
+    linear-gradient(#1b1b1b 1px, transparent 0),
+    linear-gradient(90deg, #1b1b1b 1px, transparent 0);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  pointer-events: none; z-index: 0;
+}
+body > * { position: relative; z-index: 1; }
+.shell { max-width: 900px; margin: 0 auto; }
+.head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+.head-left { display: flex; align-items: center; gap: 12px; color: var(--absent-accent); }
+.head-left svg { width: 22px; height: 22px; }
+.head-left .wordmark { font-size: 13px; font-weight: 700; letter-spacing: .24em; }
+.head-title { font-size: 11px; letter-spacing: .22em; color: var(--absent-accent-dim); }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.stat { background: var(--bg-surface-0); border: 1px solid var(--border-subtle); border-radius: var(--radius-item); padding: 16px; }
+.stat-label { font-size: 10px; letter-spacing: .2em; color: var(--absent-accent-dim); text-transform: uppercase; margin-bottom: 6px; }
+.stat-value { font-size: 20px; font-weight: 300; color: var(--absent-accent); }
+.stat-sub { font-size: 10px; color: var(--text-faint); margin-top: 4px; }
+
+.storage-bar { height: 4px; background: var(--bg-surface-2); border-radius: 2px; overflow: hidden; margin-bottom: 4px; }
+.storage-fill { height: 100%; background: var(--absent-accent); transition: width .22s; }
+
+.section { background: var(--bg-surface-0); border: 1px solid var(--border-subtle); border-radius: var(--radius-item); padding: 20px; margin-bottom: 16px; }
+.section-title { font-size: 10px; font-weight: 600; letter-spacing: .24em; color: var(--absent-accent-dim); text-transform: uppercase; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+.section-actions { display: flex; gap: 8px; }
+.section-actions button { font-size: 10px; letter-spacing: .14em; background: none; border: 1px solid var(--border-faint); border-radius: 6px; color: var(--absent-accent-dim); padding: 5px 10px; cursor: pointer; font-family: var(--font); text-transform: lowercase; transition: all .14s; }
+.section-actions button:hover { border-color: var(--absent-accent); color: var(--absent-accent); }
+.section-actions button.danger:hover { border-color: var(--danger); color: var(--danger); }
+
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 600; letter-spacing: .18em; color: var(--absent-accent-dim); text-transform: uppercase; border-bottom: 1px solid var(--border-subtle); }
+td { padding: 10px; border-bottom: 1px solid var(--border-subtle); color: var(--text-muted); font-family: ui-monospace, Menlo, monospace; font-size: 11px; max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-surface-2); }
+.key { color: var(--absent-accent); }
+.val { color: var(--text-faint); }
+.empty { text-align: center; padding: 24px; color: var(--text-faint); font-size: 11px; letter-spacing: .18em; }
+
+.back { display: inline-block; margin-top: 12px; font-size: 11px; letter-spacing: .14em; color: var(--absent-accent-dim); text-decoration: none; border: 1px solid var(--border-faint); border-radius: var(--radius-tooltip); padding: 8px 14px; transition: all .14s; }
+.back:hover { background: var(--bg-surface-4); border-color: var(--absent-accent); color: var(--absent-accent); }
+
+@media (max-width: 640px) { .stats { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="head">
+    <div class="head-left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="2.5"/>
+        <ellipse cx="12" cy="12" rx="10" ry="4.5"/>
+        <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/>
+        <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(120 12 12)"/>
+      </svg>
+      <span class="wordmark">absent</span>
+    </div>
+    <div class="head-title">storage manager</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">local storage</div><div class="stat-value" id="stat-local">0 kb</div><div class="stat-sub" id="stat-local-keys">0 keys</div></div>
+    <div class="stat"><div class="stat-label">session storage</div><div class="stat-value" id="stat-session">0 kb</div><div class="stat-sub" id="stat-session-keys">0 keys</div></div>
+    <div class="stat"><div class="stat-label">cookies</div><div class="stat-value" id="stat-cookies">0 kb</div><div class="stat-sub" id="stat-cookies-count">0 items</div></div>
+  </div>
+
+  <div class="storage-bar"><div class="storage-fill" id="storage-fill" style="width:0%"></div></div>
+  <div style="font-size:10px;color:var(--text-faint);letter-spacing:.14em;margin-bottom:24px;" id="storage-hint">calculating…</div>
+
+  <div class="section">
+    <div class="section-title"><span>local storage</span><div class="section-actions"><button onclick="exportStore('local')">export</button><button class="danger" onclick="clearStore('local')">clear</button></div></div>
+    <table><thead><tr><th>key</th><th>value</th><th style="width:60px;">size</th></tr></thead><tbody id="local-body"></tbody></table>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span>session storage</span><div class="section-actions"><button onclick="exportStore('session')">export</button><button class="danger" onclick="clearStore('session')">clear</button></div></div>
+    <table><thead><tr><th>key</th><th>value</th><th style="width:60px;">size</th></tr></thead><tbody id="session-body"></tbody></table>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span>cookies</span><div class="section-actions"><button class="danger" onclick="clearCookies()">clear all</button></div></div>
+    <table><thead><tr><th>name</th><th>value</th></tr></thead><tbody id="cookie-body"></tbody></table>
+  </div>
+
+  <a class="back" href="/">return home</a>
+</div>
+
+<script>
+function fmtBytes(n) {
+  if (n < 1024) return n + ' b';
+  if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' kb';
+  return (n / 1024 / 1024).toFixed(2) + ' mb';
+}
+function storeSize(store) {
+  let total = 0;
+  for (const k in store) {
+    if (Object.prototype.hasOwnProperty.call(store, k)) {
+      total += (k.length + (store[k] || '').length) * 2;
+    }
+  }
+  return total;
+}
+function renderStore(store, tbodyId) {
+  const tbody = document.getElementById(tbodyId);
+  const keys = Object.keys(store);
+  if (!keys.length) { tbody.innerHTML = '<tr><td colspan="3" class="empty">empty</td></tr>'; return; }
+  tbody.innerHTML = keys.map(k => {
+    const v = store[k] || '';
+    const size = (k.length + v.length) * 2;
+    const display = v.length > 60 ? v.slice(0, 60) + '…' : v;
+    return `<tr><td class="key" title="${k.replace(/"/g,'&quot;')}">${k}</td><td class="val" title="${v.replace(/"/g,'&quot;')}">${display}</td><td>${fmtBytes(size)}</td></tr>`;
+  }).join('');
+}
+function renderCookies() {
+  const tbody = document.getElementById('cookie-body');
+  const raw = document.cookie;
+  if (!raw) { tbody.innerHTML = '<tr><td colspan="2" class="empty">empty</td></tr>'; return; }
+  const items = raw.split(';').map(s => s.trim()).filter(Boolean);
+  tbody.innerHTML = items.map(item => {
+    const eq = item.indexOf('=');
+    const name = eq > -1 ? item.slice(0, eq) : item;
+    const val = eq > -1 ? item.slice(eq + 1) : '';
+    return `<tr><td class="key">${name}</td><td class="val">${val}</td></tr>`;
+  }).join('');
+}
+function update() {
+  const localSize = storeSize(localStorage);
+  const sessionSize = storeSize(sessionStorage);
+  const cookieSize = new Blob([document.cookie]).size;
+  document.getElementById('stat-local').textContent = fmtBytes(localSize);
+  document.getElementById('stat-local-keys').textContent = localStorage.length + ' keys';
+  document.getElementById('stat-session').textContent = fmtBytes(sessionSize);
+  document.getElementById('stat-session-keys').textContent = sessionStorage.length + ' keys';
+  document.getElementById('stat-cookies').textContent = fmtBytes(cookieSize);
+  document.getElementById('stat-cookies-count').textContent = document.cookie.split(';').filter(Boolean).length + ' items';
+  const total = localSize + sessionSize;
+  const quota = 5 * 1024 * 1024;
+  const pct = Math.min(100, (total / quota) * 100);
+  document.getElementById('storage-fill').style.width = pct.toFixed(1) + '%';
+  document.getElementById('storage-hint').textContent = `using ${fmtBytes(total)} of ${fmtBytes(quota)} (${pct.toFixed(1)}%)`;
+  renderStore(localStorage, 'local-body');
+  renderStore(sessionStorage, 'session-body');
+  renderCookies();
+}
+function exportStore(which) {
+  const store = which === 'local' ? localStorage : sessionStorage;
+  const data = {};
+  for (const k in store) if (Object.prototype.hasOwnProperty.call(store, k)) data[k] = store[k];
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `absent-${which}-storage-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function clearStore(which) {
+  if (!confirm(`clear all ${which} storage? this cannot be undone.`)) return;
+  (which === 'local' ? localStorage : sessionStorage).clear();
+  update();
+}
+function clearCookies() {
+  if (!confirm('clear all cookies? this cannot be undone.')) return;
+  document.cookie.split(';').forEach(c => {
+    const name = c.split('=')[0].trim();
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+  });
+  update();
+}
+update();
+setInterval(update, 5000);
+</script>
+</body>
+</html>

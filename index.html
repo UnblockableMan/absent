@@ -548,6 +548,8 @@ body.gv-full #game-viewer{background:#000;}
       <button class="nav-btn" data-view="tools"><i class="fa-solid fa-toolbox"></i><span class="nav-label">Toolbox</span></button>
       <button class="nav-btn" data-view="history"><i class="fa-solid fa-clock-rotate-left"></i><span class="nav-label">History</span></button>
       <button class="nav-btn" data-view="mirrors"><i class="fa-solid fa-link"></i><span class="nav-label">Mirrors</span></button>
+      <button class="nav-btn" data-view="storage"><i class="fa-solid fa-database"></i><span class="nav-label">Storage</span></button>
+      <button class="nav-btn" data-view="about"><i class="fa-solid fa-circle-info"></i><span class="nav-label">About</span></button>
     </nav>
     <div class="header-right">
       <span id="nt-online"><span class="dot"></span><span id="nt-online-n">— online</span></span>
@@ -1848,6 +1850,12 @@ function renderMirrors() {
 
 /* ── views router ── */
 function navTo(name) {
+    // External (in-page-directory) views — open in a new tab so the SPA shell is preserved.
+    if (name === 'storage') { window.open('/internal/storage/', '_blank'); return; }
+    if (name === 'about')   { window.open('/internal/about/',   '_blank'); return; }
+    if (name === 'changelog'){ window.open('/internal/changelog/','_blank'); return; }
+    if (name === 'legal')   { window.open('/internal/legal/',   '_blank'); return; }
+
     document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'view-' + name));
     document.querySelectorAll('#main-nav .nav-btn').forEach(b => b.classList.toggle('on', b.dataset.view === name));
     if (name === 'history') renderHistory();

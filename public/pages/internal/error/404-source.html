@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — absent</title>
+<link rel="icon" type="image/svg+xml" href="/public/absent-favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-body: #050505; --text-primary: #ebebeb; --text-muted: #8c8c8c; --text-faint: #737373;
+  --bg-surface-2: #0e0e0e; --bg-surface-4: #141414;
+  --border-faint: #ffffff1c;
+  --absent-accent: #edf2f7; --absent-accent-dim: #66737e;
+  --radius-tooltip: 8px;
+  --font: 'Lexend', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { background: var(--bg-body); color: var(--text-primary); font-family: var(--font); text-transform: lowercase; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; text-align: center; }
+body::before {
+  content: ""; position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 50%, #05050580 0, var(--bg-body) 80%),
+    linear-gradient(#1b1b1b 1px, transparent 0),
+    linear-gradient(90deg, #1b1b1b 1px, transparent 0);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  pointer-events: none; z-index: 0;
+}
+body > * { position: relative; z-index: 1; }
+.wrap { max-width: 420px; }
+.mark { color: var(--absent-accent); margin-bottom: 20px; }
+.mark svg { width: 40px; height: 40px; }
+.code { font-size: 72px; font-weight: 200; letter-spacing: .1em; color: var(--absent-accent); line-height: 1; margin-bottom: 8px; }
+.code span { color: var(--absent-accent-dim); }
+.msg { font-size: 12px; letter-spacing: .24em; color: var(--absent-accent-dim); margin-bottom: 32px; }
+.home-link { display: inline-block; background: var(--bg-surface-2); border: 1px solid var(--border-faint); border-radius: var(--radius-tooltip); color: var(--absent-accent); padding: 12px 28px; font-size: 11px; letter-spacing: .24em; text-decoration: none; transition: background .16s, border-color .16s; }
+.home-link:hover { background: var(--bg-surface-4); border-color: var(--absent-accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="2.5"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4.5"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(120 12 12)"/>
+    </svg>
+  </div>
+  <div class="code">4<span>0</span>4</div>
+  <div class="msg">this page does not exist</div>
+  <a class="home-link" href="/">return home</a>
+</div>
+</body>
+</html>

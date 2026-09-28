@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>legal — absent</title>
+<link rel="icon" type="image/svg+xml" href="/public/absent-favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-body: #050505; --text-primary: #ebebeb; --text-muted: #8c8c8c; --text-faint: #737373;
+  --bg-surface-0: #060606; --bg-surface-4: #141414;
+  --border-subtle: #ffffff0d; --border-faint: #ffffff1c;
+  --absent-accent: #edf2f7; --absent-accent-dim: #66737e;
+  --radius-item: 10px; --radius-tooltip: 8px;
+  --font: 'Lexend', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { background: var(--bg-body); color: var(--text-primary); font-family: var(--font); text-transform: lowercase; display: flex; align-items: flex-start; justify-content: center; min-height: 100vh; padding: 40px 24px; }
+body::before {
+  content: ""; position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 50%, #05050580 0, var(--bg-body) 80%),
+    linear-gradient(#1b1b1b 1px, transparent 0),
+    linear-gradient(90deg, #1b1b1b 1px, transparent 0);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  pointer-events: none; z-index: 0;
+}
+body > * { position: relative; z-index: 1; }
+.shell { width: 100%; max-width: 560px; background: var(--bg-surface-0); border: 1px solid var(--border-subtle); border-radius: var(--radius-item); padding: 32px 28px; }
+.mark { display: flex; align-items: center; gap: 10px; color: var(--absent-accent); margin-bottom: 24px; }
+.mark svg { width: 22px; height: 22px; }
+.mark .wordmark { font-size: 13px; font-weight: 700; letter-spacing: .24em; }
+h1 { font-size: 12px; font-weight: 600; letter-spacing: .24em; color: var(--absent-accent); text-transform: uppercase; margin-bottom: 24px; }
+h2 { font-size: 11px; font-weight: 600; letter-spacing: .18em; color: var(--absent-accent); text-transform: uppercase; margin: 20px 0 8px; }
+p { font-size: 12px; line-height: 1.8; color: var(--text-muted); margin-bottom: 10px; }
+a { color: var(--absent-accent-dim); text-decoration: none; border-bottom: 1px solid var(--border-faint); transition: color .14s, border-color .14s; }
+a:hover { color: var(--absent-accent); border-bottom-color: var(--absent-accent); }
+.back { display: inline-block; margin-top: 20px; font-size: 11px; letter-spacing: .14em; color: var(--absent-accent-dim); text-decoration: none; border: 1px solid var(--border-faint); border-radius: var(--radius-tooltip); padding: 8px 14px; transition: all .14s; }
+.back:hover { background: var(--bg-surface-4); border-color: var(--absent-accent); color: var(--absent-accent); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="2.5"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4.5"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/>
+      <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(120 12 12)"/>
+    </svg>
+    <span class="wordmark">absent</span>
+  </div>
+  <h1>legal</h1>
+  <h2>license</h2>
+  <p>absent is licensed under the GNU AGPLv3. original branding and creator terms are documented in the <a href="https://github.com/absurdaltacc/absurdaltacc.github.io/blob/main/ABSENT-CREATOR-TERMS.md" target="_blank" rel="noopener">creator terms</a>.</p>
+  <h2>attribution</h2>
+  <p>absent is maintained by viroda1 and unblcokableman. upstream-derived code and bundled components remain governed by their existing licenses.</p>
+  <h2>usage</h2>
+  <p>you may not use the absent name, logo, creator names, or original absent artwork to imply endorsement, sponsorship, or an official release without permission from the creators. preserve attribution and license notices when sharing the project.</p>
+  <a class="back" href="/">return home</a>
+</div>
+</body>
+</html>

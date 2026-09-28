@@ -100,6 +100,7 @@ The server binds `PORT` (default `8080`). Opening the site served by node auto-r
 | 💾 **Data tools** | export / import everything as json |
 | 🛠️ **Devtools** | one-tap Eruda injection into any page |
 | 🧪 **Stealth launcher** | `class.html` — a fake Classroom page; joining a "class" with a code boots the site from a mirror in a new tab |
+| 📄 **Internal pages** | `/internal/about/`, `/internal/changelog/`, `/internal/legal/`, `/internal/storage/` — standalone lowercase Lexend-styled pages with grid backdrop; reachable directly or via the in-app menu |
 
 ---
 
